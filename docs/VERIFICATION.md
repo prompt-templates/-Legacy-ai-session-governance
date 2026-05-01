@@ -2,7 +2,7 @@
 
 This document keeps the detailed claim mapping and platform compatibility checks referenced by README files.
 
-Verification date baseline: 2026-03-26 (UTC); v3.0 baseline confirmed 2026-04-25
+Verification date baseline: 2026-03-26 (UTC); v3.0.3 baseline confirmed 2026-05-01
 
 ## Claim-to-mechanism mapping
 
@@ -29,6 +29,8 @@ Verification date baseline: 2026-03-26 (UTC); v3.0 baseline confirmed 2026-04-25
 | Re-install backup list completeness | AGENTS.md §5a step 9 covers `dev/SESSION_STATE_DETAIL.md` + `dev/PROJECT_MASTER_SPEC.md` (v3.0-rc.2 hotfix) | Yes (v3.0-rc.2) |
 | Release-doc sync governance | dev/DOC_SYNC_CHECKLIST.md `Release published` row; AGENTS.md §3c Machine Verification doc-sync clause; R29 regression series | Yes (v3.0.1) |
 | Release-lifecycle 4-phase gate | AGENTS.md §3c Phase 1–4 (pre-release / execution / post-cleanup / observability); R30 regression series enforces governance text presence | Yes (v3.0.2) |
+| SESSION_LOG entry-size cap | AGENTS.md §4 entry format (≤110 hard cap incl. verbatim handoff block); R-checks #167 (per-entry awk scan) + #168/#169 (rule grep parity); dev/SESSION_STATE_DETAIL.md as overflow escape valve | Yes (v3.0.3) |
+| Reply Behavior governance | AGENTS.md §11a (5 mandatory rules: judgement-first / choice format ≤3 + recommendation / ambiguity ≤3 hypotheses + ≤3 questions / fact verification UNVERIFIED ≠ NA / plain-language surface text); marker line MANDATORY REPLY DISCIPLINE; R-checks #170-175 enforce AGENTS / INIT mirror parity | Yes (v3.0.3) |
 
 ## Platform compatibility verified
 
@@ -42,7 +44,7 @@ Verification date baseline: 2026-03-26 (UTC); v3.0 baseline confirmed 2026-04-25
 
 - Latest QA pointer: [docs/qa/LATEST.md](qa/LATEST.md)
 - Current detailed report: [docs/qa/QA_REGRESSION_REPORT.md](qa/QA_REGRESSION_REPORT.md)
-- Latest run snapshot (UTC): 2026-04-26, 255 automated checks (166 main + 89 legacy auto-chain), 255 pass, 0 fail; includes Phase 1 legacy quarantine + Phase 2 L4 reduction + v3.0-rc.2 §5a backup hotfix + v3.0.1 release-doc sync R29 series (12 checks) + v3.0.2 release-lifecycle 4-phase governance R30 series (6 checks)
+- Latest run snapshot (UTC): 2026-05-01, 264 automated checks (175 main + 89 legacy auto-chain), 264 pass, 0 fail; includes Phase 1 legacy quarantine + Phase 2 L4 reduction + v3.0-rc.2 §5a backup hotfix + v3.0.1 release-doc sync R29 series (12 checks) + v3.0.2 release-lifecycle 4-phase governance R30 series (6 checks) + v3.0.3 §4 entry-size cap (3 checks: #167-169) + §11a Reply Behavior (6 checks: #170-175)
 - **Run automated checks:** `bash docs/qa/run_checks.sh` (from project root)
 
 ## Not yet verified

@@ -1,15 +1,15 @@
 # QA Regression Report
 
-Date: 2026-04-25 (UTC)
-Scope: v3.0 GA + v3.0.1 root-fix — Phase 1 legacy quarantine, Phase 2 AGENTS.md L4 reduction, §5a backup-list completeness hotfix, release-doc sync governance + R29 regression series, on top of v2.8 baseline
+Date: 2026-05-01 (UTC)
+Scope: v3.0.3 GA — §4 entry-size cap consolidation (≤110 hard cap incl. verbatim handoff block + STATE_DETAIL escape valve + R-checks #167-169) + §11a Reply Behavior governance (5 mandatory rules: judgement-first / choice format / ambiguity / fact verification / plain-language surface text + R-checks #170-175 + new marker MANDATORY REPLY DISCIPLINE), on top of v3.0.2 baseline
 
 ## Summary
 
-- Total checks: 255 — 166 main (`docs/qa/run_checks.sh`) + 89 legacy auto-chain (`docs/qa/legacy_checks.sh`)
-- Pass: 255
+- Total checks: 264 — 175 main (`docs/qa/run_checks.sh`) + 89 legacy auto-chain (`docs/qa/legacy_checks.sh`)
+- Pass: 264
 - Fail: 0
-- Sandbox install QC: 3 HIGH-risk scenarios PASS (re-install with user overflow files / §5a pwd≠git-root mismatch / §4 closeout end-to-end)
-- Matrix QC audit (10-dim) on sandbox: PASS (LOW finding from v3.0-rc.1 resolved by v3.0-rc.2)
+- Per-entry size scan: 10/10 SESSION_LOG entries ≤110 cap (historical entry Claude_20260425_1017 refactored 127→72; detail relocated to dev/SESSION_STATE_DETAIL.md)
+- Matrix QC audit (10-dim) pre-release: PARTIAL — 5 findings (HIGH×2 README Snapshot drift + MEDIUM×1 safeguards row + LOW×2); HIGH+MEDIUM resolved by this release's doc-sync
 
 **Run automated checks:** `bash docs/qa/run_checks.sh` (from project root, ~10 seconds, auto-chains legacy)
 
@@ -269,7 +269,7 @@ Changes: §1 Verbatim block "last occurring" precision + "does not substitute" s
 | (132) ≤200-line archive target in AGENTS.md | `grep -c "200 lines" AGENTS.md` | 1 | PASS |
 | (133) ≤200-line archive target in INIT.md | `grep -c "200 lines" INIT.md` | 1 | PASS |
 | (134) Quarterly archive format in AGENTS.md | `grep -c "SESSION_LOG_YYYY_QN" AGENTS.md` | 1 | PASS |
-| (135) Quarterly archive format in INIT.md | `grep -c "SESSION_LOG_YYYY_QN" INIT.md` | 1 | PASS |
+| (135) Quarterly archive format in INIT.md | `grep -c "SESSION_LOG_YYYY_QN" INIT.md` | 2 | PASS |
 | (136) Never-delete hard rule in AGENTS.md | `grep -c "Never delete session entries" AGENTS.md` | 1 | PASS |
 | (137) Never-delete hard rule in INIT.md | `grep -c "Never delete session entries" INIT.md` | 1 | PASS |
 | (138) §4a in CONDITIONAL markers in AGENTS.md | `grep -c "CONDITIONAL.*§4a" AGENTS.md` | 1 | PASS |

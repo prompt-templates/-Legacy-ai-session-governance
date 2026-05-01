@@ -507,7 +507,7 @@ Filename enforcement: path must be exactly `dev/PROJECT_MASTER_SPEC.md`. Do not 
 ---
 
 ## 11) Output Contract
-Every AI response in CHANGE or PERSIST phase must include at minimum: What was done; Why it was done that way; Verification results; Next-step recommendations (if any). Responses that contain only clarifying questions, status updates, or simple information lookups are not bound by this contract but should remain clear and useful.
+Every AI response in CHANGE or PERSIST phase must include at minimum: What was done; Why it was done that way; Verification results (using §11a rule 4 markers — confirmed facts as facts, unconfirmed as `UNVERIFIED`, distinct from `NA`); Next-step recommendations (if any). Responses that contain only clarifying questions, status updates, or simple information lookups are not bound by this contract but should remain clear and useful.
 
 ---
 
@@ -636,6 +636,8 @@ Rule if exists: skip, do not overwrite.
 
 ```
 # Session Log
+<!-- Entry size cap: ≤110 lines per `## YYYY-MM-DD` block (incl. verbatim handoff); per §4 relocate detail to `dev/SESSION_STATE_DETAIL.md` or `docs/releases/<version>.md` if exceeded -->
+<!-- Archive: per §4a, entries move to `dev/archive/SESSION_LOG_YYYY_QN.md` when file > 400 lines OR oldest entry > 30 days -->
 
 ## <YYYY-MM-DD>
 - **ID:** <AgentName>_<YYYYMMDD>_<HHMM>

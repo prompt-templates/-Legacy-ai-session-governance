@@ -49,6 +49,7 @@
 | **工作日志自动维护** | 工作日志随时间增长到数千行，占用 AI 每次启动的 context — 收尾时由 AI 按触发条件自动整理旧记录，保持启动上下文精简 |
 | **QC 失败处理** | AI 静默重试或放弃失败的测试 — 测试或构建失败时，AI 必须报告失败内容、诊断原因，并等待用户指示，而非自动重试 |
 | **收尾误触保护** | 「好了谢谢」之类的日常用语意外触发完整 session closeout — 当语意模糊时，AI 会先确认是否真的要结束工作阶段 |
+| **回复行为治理** | AI 用假装开放题反问推回用户、选项夹差选项充数、过量澄清问题、未核对 facts 当已核对写、surface text 用 `§` codes 做句子主语 — §11a（v3.0.3）令 5 条 reply rules mandatory：judgement-first、≤3 options + 推荐、≤3 假设 + ≤3 问题、`UNVERIFIED` 与 `NA` 区分、surface text 用人话 |
 
 ### :small_blue_diamond: SESSION_LOG.md 怎么保持精简
 
@@ -71,6 +72,7 @@
 
 | 版本 | 变更内容 | 对你的意义 |
 |---|---|---|
+| **v3.0.3** | (1) **§4 entry-size cap** — SESSION_LOG 每条 entry 上限 ≤110 行（含 verbatim handoff block），release-class detail 关到 `dev/SESSION_STATE_DETAIL.md`，从根源防止 log 膨胀。(2) **§11a Reply Behavior** — AI 每次 reply 必跟 5 条 mandatory rules：judgement-first（不伪装开放题反问）、choice format（≤3 options + 推荐带可验证依据）、ambiguity handling（≤3 假设 + ≤3 问题 per round）、fact verification（`UNVERIFIED` 与 `NA` 区分）、plain-language surface text（surface 不用 `§` codes 做主语）。9 条新 R-checks（#167-175）做 AGENTS / INIT mirror parity + 新 marker line MANDATORY REPLY DISCIPLINE。 | 长期项目 active SESSION_LOG 保持精简（release-class entry 100+ 行不再霸占 startup reads）。AI 回复更果断易读 — 减少「你觉得呢」循环、未核对 facts 标示清楚、surface text 不需要 reader 懂 § code 才看得明。两条 rules 经 INIT.md 推到所有用户 install。 |
 | **v3.0**（含 v3.0.1 / v3.0.2 patches） | 治理文档大幅精简：AGENTS.md 从 734 行缩减至 504 行（−31.3%），所有规则完整保留；每 session 启动的系统 prompt token 成本下降约 15.6%。Legacy quarantine 机制把 89 条历史防漂移检查隔离到自动 chain 的第二层 harness — 主检查套件变轻，但 release 时禁止 bypass legacy，历史保险不会无声丢失。v3.0.1 加入 release 后文档同步治理（R29 系列检查），防止 README / index.html 漂走。v3.0.2 把 release / merge gate 扩充为 4 阶段生命周期（发前验证 / 发 release / 发后执手尾 / 观察期），加 R30 系列 enforcement。已创建 `dev/SESSION_STATE_DETAIL.md` 或 `dev/PROJECT_MASTER_SPEC.md` 的用户 re-install 时也会被自动备份，升级路径数据安全。 | 系统 prompt 中的治理文本变少 → 规则遵守率提升（业界数据：短规则约 89% vs 冗长约 35%）；release 后相关文件漂走会自动 catch（README、release notes、公开页 stat counter 同步）；本地文件在升级时被保留；跨 LLM 通用兼容（Claude Code、Claude Cowork、OpenAI Codex CLI、Gemini CLI 与 Web LLMs）— 零 hook 依赖。 |
 | **v2.8** | 强化 INIT-only 封装边界：移除 `INIT.md` 与 README 对内部维护工具的引用，并新增回归检查，若 INIT 指向未附带文件即判定失败。 | 避免仅提供 `INIT.md` 的安装场景出错，并可自动拦截后续封装边界漂移。 |
 | **v2.7** | 完成交接与日志膨胀治理升级，并用 30 组增长场景完成验证。交接输出更稳定精简，日志增大时旧内容会自动移出启动主路径。 | 启动更快、context 浪费更少，同时保留关键交接信息。压力场景下启动 payload 最高减少 **16,096 tokens**，且所有测试场景都保持必要交接字段完整。 |
@@ -346,9 +348,9 @@ AI 自动处理并合并已有的 `AGENTS.md`、`CLAUDE.md`、`GEMINI.md`。
 - [docs/VERIFICATION.md](docs/VERIFICATION.md)
 - 最新 QA 回归验收报告： [docs/qa/LATEST.md](docs/qa/LATEST.md)
 
-截至 2026-04-26（v3.0.2）的摘要如下：
-- AGENTS/INIT 规则同步：已验证（255 项自动化回归 — 166 主 + 89 legacy auto-chain）
-- AGENTS.md L4 精简：734 → 504 行（−31.3%），所有规则与 218 个 grep-anchor 完整保留（212 baseline + R29×12 release-doc sync + R30×6 release-lifecycle 4-phase enforcement）
+截至 2026-05-01（v3.0.3）的摘要如下：
+- AGENTS/INIT 规则同步：已验证（264 项自动化回归 — 175 主 + 89 legacy auto-chain）
+- AGENTS.md L4 精简：734 → 521 行（−29.0%），所有规则与 227 个 grep-anchor 完整保留（212 baseline + R29×12 release-doc sync + R30×6 release-lifecycle 4-phase + entry-cap×3 + reply-behavior×6）
 - Sandbox 安装实战验收：3 个 HIGH 风险场景 PASS（含 user 自建文件的 re-install / §5a `pwd ≠ git root` mismatch / §4 closeout 端到端）
 - Matrix QC 10 维审计（sandbox install）：PASS（rc.1 的 LOW finding 已由 rc.2 hotfix 解除）
 - 交接效率验证：仍有效（v2.7 的 30 组场景矩阵；在保留必要交接字段下，启动 payload 明显下降）

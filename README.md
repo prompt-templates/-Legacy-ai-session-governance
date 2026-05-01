@@ -49,6 +49,7 @@ It also catches a few common AI mistakes:
 | **Session log maintenance** | Session history growing to thousands of lines and consuming AI context window — during closeout, AI applies built-in trigger rules to archive old entries and keep startup context lean |
 | **QC fail-path** | AI silently retrying or abandoning failed tests — when tests or builds fail, AI must report what failed, diagnose the cause, and wait for user direction instead of auto-retrying |
 | **Closeout ambiguity guard** | Accidentally triggering full session closeout with casual remarks like "thanks, that's all I needed" — AI confirms session-end intent when the expression is ambiguous |
+| **Reply behavior governance** | AI replying with disguised open questions, padding choice lists with bad options, asking too many clarifying questions, presenting unverified facts as confirmed, or using internal `§` codes as sentence subjects — §11a (v3.0.3) makes 5 rules mandatory: judgement-first, ≤3 options + recommendation, ≤3 hypotheses + ≤3 questions per round, `UNVERIFIED` distinct from `NA`, plain-language surface text |
 
 ### :small_blue_diamond: How SESSION_LOG.md stays manageable
 
@@ -71,6 +72,7 @@ If you already have a large session log, it is trimmed automatically on the firs
 
 | Version | What changed | Why it matters |
 |---|---|---|
+| **v3.0.3** | (1) **§4 entry-size cap** — every SESSION_LOG entry hard-capped at ≤110 lines (including verbatim handoff block); release-class detail relocates to `dev/SESSION_STATE_DETAIL.md` per new escape valve. (2) **§11a Reply Behavior** — five mandatory reply rules every AI must follow: judgement-first (no disguised open questions), choice format (≤3 options + recommendation backed by evidence), ambiguity handling (≤3 hypotheses + ≤3 questions per round), fact verification (`UNVERIFIED` distinct from `NA`), plain-language surface text (no internal `§` codes as sentence subjects). 9 new regression checks (#167-175) enforce AGENTS/INIT mirror parity + new marker line MANDATORY REPLY DISCIPLINE. | Active SESSION_LOG stays compact on long-running projects (no more 100+ line release entries crowding the active file at startup). AI replies become more decisive and easier to read — fewer "what do you think?" loops, clearer fact-verification state, surface text understandable without governance domain knowledge. Both rules ship via INIT.md so all installs benefit. |
 | **v3.0** (incl. v3.0.1 / v3.0.2 patches) | Major governance-file slim-down: AGENTS.md cut from 734 to 504 lines (−31.3%) while preserving every rule; system-prompt token cost per session boot down ~15.6%. A legacy quarantine moves 89 historical drift-defense checks into an auto-chained second harness — the main check suite stays lean but bypassing legacy is forbidden during release verification. v3.0.1 added release-doc sync governance (R29-series checks) preventing README/index.html drift. v3.0.2 expanded the release/merge gate into a 4-phase lifecycle (pre-release verification / release execution / post-release cleanup / observability) with R30-series enforcement. Users who created `dev/SESSION_STATE_DETAIL.md` or `dev/PROJECT_MASTER_SPEC.md` are properly backed up on re-install (data-safe upgrade path). | Less governance text in every system prompt → higher rule-adherence rate (industry data: short rules ~89% vs verbose ~35%). Release-related drift is automatically caught (READMEs, release notes, public site stat counters all stay in sync). Existing local notes are preserved on upgrade. Cross-LLM compatibility maintained across Claude Code, Claude Cowork, OpenAI Codex CLI, Gemini CLI, and web LLMs — zero hook dependency. |
 | **v2.8** | Hardened the INIT-only packaging boundary: removed references to internal maintainer tooling from `INIT.md` and README, and added regression checks that fail if INIT points to non-installed files. | Prevents first-time install failures in user environments where only `INIT.md` is provided, and automatically catches future boundary drift. |
 | **v2.7** | Added a full anti-bloat upgrade for handoff and session history, validated across 30 growth scenarios. Handoff output is now consistently concise, and older log content is automatically moved out of the active startup path when history grows. | Faster startup and lower context waste without losing key handoff information. In stress scenarios, startup payload was reduced by up to **16,096 tokens**, while all required handoff fields remained intact across all test scenarios. |
@@ -342,9 +344,9 @@ Full verification details:
 - [docs/VERIFICATION.md](docs/VERIFICATION.md)
 - Latest QA regression report: [docs/qa/LATEST.md](docs/qa/LATEST.md)
 
-Snapshot status (as of 2026-04-26 — v3.0.2):
-- AGENTS/INIT rule parity: verified (255-check automated regression — 166 main + 89 legacy auto-chain)
-- AGENTS.md L4 reduction: 734 → 504 lines (−31.3%), with all rules and 218 grep-anchors preserved (212 baseline + R29×12 release-doc sync + R30×6 release-lifecycle 4-phase enforcement)
+Snapshot status (as of 2026-05-01 — v3.0.3):
+- AGENTS/INIT rule parity: verified (264-check automated regression — 175 main + 89 legacy auto-chain)
+- AGENTS.md L4 reduction: 734 → 521 lines (−29.0%), with all rules and 227 grep-anchors preserved (212 baseline + R29×12 release-doc sync + R30×6 release-lifecycle 4-phase + entry-cap×3 + reply-behavior×6)
 - Sandbox install QC: 3 HIGH-risk scenarios PASS (re-install with user overflow files / §5a `pwd ≠ git root` mismatch / §4 closeout end-to-end)
 - Matrix QC audit (10-dimension) on sandbox install: PASS (LOW finding from rc.1 resolved by rc.2 hotfix)
 - Handoff efficiency validation: still valid (30-scenario matrix from v2.7; required handoff fields preserved while startup payload decreased)

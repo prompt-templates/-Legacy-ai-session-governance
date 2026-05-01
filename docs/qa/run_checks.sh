@@ -189,7 +189,7 @@ check "131" "30-day trigger INIT" "1" "$(grep -c 'dated more than 30 days ago' $
 check "132" "200-line target AGENTS" "1" "$(grep -c '200 lines' $A)"
 check "133" "200-line target INIT" "1" "$(grep -c '200 lines' $I)"
 check "134" "Quarterly format AGENTS" "1" "$(grep -c 'SESSION_LOG_YYYY_QN' $A)"
-check "135" "Quarterly format INIT" "1" "$(grep -c 'SESSION_LOG_YYYY_QN' $I)"
+check "135" "Quarterly format INIT" "2" "$(grep -c 'SESSION_LOG_YYYY_QN' $I)"
 check "136" "Never delete AGENTS" "1" "$(grep -c 'Never delete session entries' $A)"
 check "137" "Never delete INIT" "1" "$(grep -c 'Never delete session entries' $I)"
 check "138" "§4a in CONDITIONAL AGENTS" "1" "$(grep 'CONDITIONAL' $A | grep -c '§4a')"
@@ -268,7 +268,7 @@ check "R29-05" "docs/releases/${LATEST_STABLE_TAG}.md release notes file exists"
 check_gte "R29-06" "docs/qa/LATEST.md references latest stable tag" "1" "$(grep -c "$LATEST_STABLE_TAG" docs/qa/LATEST.md)"
 # index.html stat counter must reflect total checks (main + legacy);
 # value is hardcoded against current run total so any harness check change forces an update.
-EXPECTED_INDEX_COUNTER="255"
+EXPECTED_INDEX_COUNTER="264"
 check "R29-07" "docs/site/index.html stat counter = $EXPECTED_INDEX_COUNTER" "1" "$(grep -c "data-target=\"$EXPECTED_INDEX_COUNTER\"" docs/site/index.html)"
 check "R29-08" "DOC_SYNC_CHECKLIST has Release published row" "1" "$(grep -c 'Release published' dev/DOC_SYNC_CHECKLIST.md)"
 # README must mention latest stable tag in ≥2 places (version-table row + Snapshot/text body) — guards against
