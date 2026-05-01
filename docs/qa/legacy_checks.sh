@@ -137,12 +137,13 @@ else
 fi
 check "R27-09" "session_log_maintenance self-test matrix (skip if python unavailable)" "0" "$selftest_rc"
 
-if [ -n "$PYTHON_BIN" ] && [ -f docs/qa/session_log_maintenance.py ] && $PYTHON_BIN docs/qa/session_log_maintenance.py --check --session-log dev/SESSION_LOG.md >/dev/null 2>&1; then
-  check_exec_rc=0
-elif [ -z "$PYTHON_BIN" ]; then
-  check_exec_rc=0
+if [ -z "$PYTHON_BIN" ] || [ ! -f docs/qa/session_log_maintenance.py ]; then
+  check_exec_rc=0  # skip — python or script unavailable
 else
+  set +e
+  $PYTHON_BIN docs/qa/session_log_maintenance.py --check --session-log dev/SESSION_LOG.md >/dev/null 2>&1
   check_exec_rc=$?
+  set -e
 fi
 check "R27-10" "session_log_maintenance check command executable (0 or 2, skip if python unavailable)" "1" "$([ $check_exec_rc -eq 0 -o $check_exec_rc -eq 2 ] && echo 1 || echo 0)"
 check "R27-11" "README EN hides internal maintenance script" "0" "$(grep -c 'session_log_maintenance.py' README.md)"

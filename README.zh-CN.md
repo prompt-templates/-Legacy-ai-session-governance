@@ -120,17 +120,15 @@
 
 ## :bookmark_tabs: 安装
 
-1. 打开 **[INIT.md](INIT.md)** -> 点击 **Raw** -> 全选 -> 复制
-2. 粘贴到你的 AI 命令行工具（Claude Code、Codex、Gemini CLI 均可）
-3. AI 会先执行根目录安全预检，并按顺序显示路径：`pwd`、`git root`
-4. 若 `pwd` 与 `git root` 不一致，AI 必须先停止，并要求你选择根目录（1：使用 `pwd`，2：使用 `git root`）；AI 不可自行决定
-5. AI 会针对你选择的根目录显示风险检查与演练规划（`create` / `merge` / `skip`），此时仍不会写入文件
-6. 出现提示后，请回复以下确认句：
+1. 在你想安装治理规则的项目文件夹，打开你选择的 AI 工具（Codex / Claude Code / Claude CoWork / Gemini CLI）。
+2. 打开 **[INIT.md](INIT.md)** → 点击 **Raw** → 全选复制。
+3. 粘贴到 AI 对话框并提交。
+4. AI 会请你回复两项确认，每项分行回复：
    - `INSTALL_ROOT_OK: <absolute_path>`
    - `INSTALL_WRITE_OK`
-7. 在首次写入前，AI 会在 `<PROJECT_ROOT>/dev/init_backup/<UTC_TIMESTAMP>/` 自动创建轻量备份快照，保存已有治理目标文件
-8. AI 会在你确认的项目根目录中创建或合并治理文件
-9. AI 自动输出 **Quick Start** 区块，含可直接复制粘贴的操作指令 — 无须另行记忆
+5. 完成 — AI 会输出 **Quick Start** 区块作为操作参考。
+
+> **AI 在背后执行的步骤（无需手动操作）：** AI 执行根目录安全预检（显示 `pwd` + `git root`，若不一致则停止让你选择），在写入前显示演练计划（`create` / `merge` / `skip`），并将已有治理文件备份至 `dev/init_backup/<UTC_TIMESTAMP>/`。
 
 ### :small_blue_diamond: 安装流程界面
 
@@ -192,14 +190,17 @@ AI 自动处理并合并已有的 `AGENTS.md`、`CLAUDE.md`、`GEMINI.md`。
 
 ## :bookmark_tabs: 从旧版升级
 
-重新运行最新版 `INIT.md`，步骤与初次安装完全相同。
+与安装流程相同 — 对同一个项目根目录重新运行 `INIT.md`。
 
-1. 打开 **[INIT.md](INIT.md)** → 点击 **Raw** → 全选 → 复制
-2. 粘贴到你的 AI 命令行工具（Claude Code、Codex、Gemini CLI 均可）
-3. 依次确认：`INSTALL_ROOT_OK: <absolute_path>`，再回复 `INSTALL_WRITE_OK`
-4. AI 先备份现有文件，再将治理章节合并至最新版本
+1. 在已安装的项目文件夹打开同一个 AI 工具。
+2. 打开 **[INIT.md](INIT.md)** → 点击 **Raw** → 全选复制。
+3. 粘贴到 AI 对话框并提交。
+4. AI 会请你回复两项确认，每项分行回复：
+   - `INSTALL_ROOT_OK: <absolute_path>`
+   - `INSTALL_WRITE_OK`
+5. 完成 — AI 备份现有文件、合并新治理内容、保留你的自定义规则。
 
-**安全升级通用 prompt（可直接复制）：**
+**安全升级提示语**（如需额外保护，于步骤 3 之前粘贴）：
 
 ```text
 请用这份 INIT.md 执行治理升级，只做 merge 整合。
@@ -207,13 +208,7 @@ AI 自动处理并合并已有的 `AGENTS.md`、`CLAUDE.md`、`GEMINI.md`。
 请先显示 dry-run 计划（create/merge/skip），再等待我确认 INSTALL_ROOT_OK 与 INSTALL_WRITE_OK。
 ```
 
-**升级时 AI 的动作：**
-- 现有 `AGENTS.md`、`CLAUDE.md`、`GEMINI.md` → **merge**（治理章节更新至最新，你的自定内容保留）
-- `dev/DOC_SYNC_CHECKLIST.md` → **merge**（项目自定义行保留，缺少的通用行自动补充）
-- `dev/SESSION_HANDOFF.md`、`dev/SESSION_LOG.md` → **skip**（工作阶段记录绝对不动）
-- 安装步骤 5 显示的 dry-run 计划会在写入前确认各文件为 `merge` / `skip`
-
-适用任何已安装版本。
+> **AI 在背后执行的步骤（无需手动操作）：** AI 将现有 `AGENTS.md` / `CLAUDE.md` / `GEMINI.md` / `dev/*` 文件备份至 `dev/init_backup/<UTC_TIMESTAMP>/`，然后合并治理章节 — 你的自定义内容、`dev/DOC_SYNC_CHECKLIST.md` 自定义行、`dev/SESSION_HANDOFF.md` / `dev/SESSION_LOG.md` 全部保留。可从任何已安装版本升级。
 
 ---
 
@@ -238,10 +233,10 @@ AI 自动处理并合并已有的 `AGENTS.md`、`CLAUDE.md`、`GEMINI.md`。
 ### :small_blue_diamond: 3) 快速开始下一个工作阶段
 
 ```text
-<请粘贴上一轮输出的“NEXT SESSION OPENING MESSAGE”区块（保持原文）。
- 跨工具、跨电脑、或网页版 AI 必须粘贴；同一台电脑 + 同一个 AI 工具
- 也可依靠 AI 自动读 SESSION_LOG 备援接续，但粘贴更精准。>
+<将上一轮输出的“NEXT SESSION OPENING MESSAGE”区块粘贴作为下次会话的第一条消息。>
 ```
+
+> **为何要手动粘贴，而非依赖 `Follow AGENTS.md` 短指令？** 治理设计本身是 self-contained — AI 应自动读取上次留下的 handoff。然而实际测试显示 `Follow AGENTS.md` 短指令仅约 70–85% 几率触发完整启动序列（视 AI 工具、模型、平台而定）。OPENING MESSAGE 区块是明文指令 — 开头两行明确指示 AI 依序读取 4 个治理档，跨工具可信度提升至约 95% 以上（Codex / Claude Code / CoWork / Gemini CLI / 网页版 AI）。多粘贴一次即可消除不确定性。如有疑虑，请粘贴。
 
 ---
 

@@ -103,41 +103,45 @@ Selection rule: randomize across styles uniformly. Cross-session memory of the p
 
 Boot Visual Cue - Style A
 ```text
-    ) ) )
-   ( ( (
-  _______
- |       |
- |  ( )  |
- |_______|
-   \___/
+              ✧
+         ─ ─ ☀ ─ ─
+              ✦
 
- ☕  booting up...
+           ╱╲    ╱╲
+          ╱  ╲  ╱  ╲
+         ╱    ╲╱    ╲
+        ━━━━━━━━━━━━━━
+
+   ✨ a new day · ready to build
 ```
 
 Boot Visual Cue - Style B
 ```text
-      /^\
-     /___\
-    |=   =|
-    |  ^  |
-    |_____|
-     / | \
-    /  |  \
+              ⚓
+            ╱│╲
+           ╱ │ ╲
+          ╱  │  ╲
+         ╱___│___╲
+   ～～～～～～～～～～
+   ～～～～～～～～～～
 
- 🚀  launch checks complete...
+   🧭 course set · steady ahead
 ```
 
 Boot Visual Cue - Style C
 ```text
-  _____________
- |  _________  |
- | |         | |
- | |  READY  | |
- | |_________| |
- |_____________|
-    /_/   \_\
+       ✦
+                ✧
 
- 🧠  context loaded.
+            ●
+            │
+       ●────●────●
+            │
+            ●
+
+       ✧                ✦
+
+   🌌 charted · context loaded
 ```
 
 ---
@@ -362,7 +366,7 @@ Supplementary rules:
    - Key files changed in this session
    - Known risks / blockers / cautions
    - Validation status + `Post-startup first action:` (executed only after §1 startup complete, not before)
-3. Closeout response = exactly 3 sections in order: Section 1 `SESSION CLOSEOUT SUMMARY`; Section 2 `NEXT SESSION OPENING MESSAGE` as single fenced `text` block (paste this as the first message of your next AI session); Section 3 `CLOSEOUT VISUAL CUE` (one random style from set below). The Section 2 heading was renamed from `NEXT SESSION HANDOFF PROMPT (COPY/PASTE)` (v3.0.3 and earlier) to `NEXT SESSION OPENING MESSAGE` (v3.0.4+) to make the use-site explicit; AI auto-reads `SESSION_LOG.md` fallback when paste is missing on the same machine, but cross-tool / cross-machine / web LLM handoffs require the paste.
+3. Closeout response = exactly 3 sections in order: Section 1 `SESSION CLOSEOUT SUMMARY`; Section 2 `NEXT SESSION OPENING MESSAGE` as single fenced `text` block (paste as your next session's first message); Section 3 `CLOSEOUT VISUAL CUE` (one random style from set below). The Section 2 heading was renamed from `NEXT SESSION HANDOFF PROMPT (COPY/PASTE)` (v3.0.3 and earlier) to `NEXT SESSION OPENING MESSAGE` (v3.0.4+) to make the use-site explicit.
 4. Randomization rule: within a single session, the Closeout Visual Cue must differ from the Boot Visual Cue displayed earlier in the same session. Across sessions, randomize uniformly — previous session's style is not tracked.
 5. Use separator lines between sections:
     - Major separator: `========================================`
@@ -376,9 +380,7 @@ SESSION CLOSEOUT SUMMARY
 
 ----------------------------------------
 NEXT SESSION OPENING MESSAGE
-(paste this as the first message of your next AI session.
- Same machine + same repo + same tool? Optional — AI auto-reads SESSION_LOG fallback.
- Cross-tool / cross-machine / web LLM? Required.)
+(paste as your next session's first message)
 ----------------------------------------
 <single fenced text block>
 
@@ -391,33 +393,39 @@ CLOSEOUT VISUAL CUE
 
 Closeout Visual Cue - Style A
 ```text
-  .  *    .   *
-    .   🌅  .
-  ~~~ ~~~ ~~~ ~~~
+              ☀
+         ─ ─ ─ ─ ─
 
-  shipped. chill time ✌️
+       ━━━━━━━━━━━━━
+    ～～～～～～～～～～
+    ～～～～～～～～～～
+
+   🌅 shipped · golden hour
 ```
 
 Closeout Visual Cue - Style B
 ```text
-      .      *
-   *     .      .
-       .-.
-      (   )
-       `-'
-  ~~~~~~~~~~~~~~~~
+       ✦        ✧
+                  🌙
 
-   🌙  shipped. good night.
+       ✧
+            ✦
+       ✦              ✧
+            ✧
+
+   🌙 logged off · sweet dreams
 ```
 
 Closeout Visual Cue - Style C
 ```text
-  \o/   \o/   \o/
-   |     |     |
-  / \   / \   / \
- ------------------
+                ⚑
+                │
+                │
+                │
+       ━━━━━━━━┷━━━━━━━━
+        ╱              ╲
 
-  🧭  shipped. next up.
+   🏁 shipped · onward
 ```
 
 ---
@@ -903,9 +911,7 @@ Then say: "Governance setup complete.
 
 3) Resume in another AI tool (after quota switch)
    ──────────────────────────────────────────────────
-   <Paste the NEXT SESSION OPENING MESSAGE block from the previous session, unchanged.
-    Required for cross-tool / cross-machine / web LLM handoffs. Same-machine + same-tool
-    can also rely on AI's automatic SESSION_LOG fallback, but pasting is more precise.>
+   <Paste the previous session's NEXT SESSION OPENING MESSAGE block as your first message.>
 
 ════════════════════════════════════════
 

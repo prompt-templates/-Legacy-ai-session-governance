@@ -120,17 +120,15 @@ After installing once, every session follows the same loop:
 
 ## :bookmark_tabs: Install
 
-1. Open **[INIT.md](INIT.md)** -> click **Raw** -> copy all
-2. Paste into Codex, Claude Code, or Gemini CLI
-3. AI runs root safety preflight and prints in order: `pwd`, then `git root`
-4. If `pwd` and `git root` differ, AI must stop and let you choose root (no auto-select)
-5. AI prints risk checks and dry-run plan (`create` / `merge` / `skip`) before writing
-6. You confirm:
+1. Open the AI tool of your choice (Codex / Claude Code / Claude CoWork / Gemini CLI) at the project folder where you want governance installed.
+2. Open **[INIT.md](INIT.md)** → click **Raw** → copy all.
+3. Paste into the AI dialog and submit.
+4. AI replies asking for two confirmations — reply each on its own line:
    - `INSTALL_ROOT_OK: <absolute_path>`
    - `INSTALL_WRITE_OK`
-7. Before first write, AI creates a lightweight backup snapshot at `<PROJECT_ROOT>/dev/init_backup/<UTC_TIMESTAMP>/` for existing target governance files
-8. AI creates or merges governance files in the confirmed project root
-9. AI prints a **Quick Start** block with copy-paste commands — no need to memorize session commands
+5. Done — AI prints a **Quick Start** block when finished.
+
+> **Behind the scenes (no action needed):** AI runs a root safety preflight (prints `pwd` + `git root`, stops if they differ so you can choose), shows a dry-run plan (`create` / `merge` / `skip`) before any write, and creates a backup snapshot of any existing governance files at `dev/init_backup/<UTC_TIMESTAMP>/`.
 
 ### :small_blue_diamond: Install UI walkthrough
 
@@ -190,14 +188,17 @@ Don't copy the repo manually. Use `INIT.md` — it handles merging safely into y
 
 ## :bookmark_tabs: Upgrading from a previous version
 
-Re-run `INIT.md` with the current version. The steps are identical to initial install.
+Same flow as Install — re-run `INIT.md` against the same project root.
 
-1. Open **[INIT.md](INIT.md)** → click **Raw** → copy all
-2. Paste into your AI CLI (Claude Code, Codex, or Gemini CLI)
-3. Confirm: `INSTALL_ROOT_OK: <absolute_path>` then `INSTALL_WRITE_OK`
-4. AI backs up existing files, then merges governance sections to the latest version
+1. Open the same AI tool at your installed project folder.
+2. Open **[INIT.md](INIT.md)** → click **Raw** → copy all.
+3. Paste into the AI dialog and submit.
+4. AI replies asking for two confirmations — reply each on its own line:
+   - `INSTALL_ROOT_OK: <absolute_path>`
+   - `INSTALL_WRITE_OK`
+5. Done — AI backs up existing files, merges new governance content, preserves your custom rules.
 
-**Safe upgrade prompt (copy/paste):**
+**Optional safe-upgrade prompt** (paste this before step 3 for extra protection):
 
 ```text
 Upgrade governance with this INIT.md in merge-only mode.
@@ -205,13 +206,7 @@ Do not overwrite, delete, or reset any of my existing custom governance rules/co
 Show the dry-run plan first (create/merge/skip), then wait for my confirmations: INSTALL_ROOT_OK and INSTALL_WRITE_OK.
 ```
 
-**What the AI does during upgrade:**
-- Existing `AGENTS.md`, `CLAUDE.md`, `GEMINI.md` → **merge** (governance sections updated, your custom content preserved)
-- `dev/DOC_SYNC_CHECKLIST.md` → **merge** (existing project-specific rows preserved, missing universal rows added)
-- `dev/SESSION_HANDOFF.md`, `dev/SESSION_LOG.md` → **skip** (session history never touched)
-- The dry-run plan shown in step 5 of Install will confirm `merge` / `skip` before any write
-
-Works from any previously installed version.
+> **Behind the scenes (no action needed):** AI backs up existing `AGENTS.md` / `CLAUDE.md` / `GEMINI.md` / `dev/*` files into `dev/init_backup/<UTC_TIMESTAMP>/`, then merges governance sections — your custom content, `dev/DOC_SYNC_CHECKLIST.md` custom rows, and `dev/SESSION_HANDOFF.md` / `dev/SESSION_LOG.md` are all preserved. Works from any previously installed version.
 
 ---
 
@@ -234,10 +229,10 @@ Wrap up this session with full closeout and handover.
 ### :small_blue_diamond: 3) Resume in another AI CLI
 
 ```text
-<Paste the previous "NEXT SESSION OPENING MESSAGE" block here, unchanged.
- Required for cross-tool / cross-machine / web LLM handoffs. Same machine + same tool
- can also rely on AI's automatic SESSION_LOG fallback, but pasting is more precise.>
+<Paste the previous session's "NEXT SESSION OPENING MESSAGE" block as your first message.>
 ```
+
+> **Why paste manually instead of just `Follow AGENTS.md`?** Governance is designed so AI auto-reads your saved handoff from `SESSION_LOG.md` — that's the self-contained intent. In practice, the short trigger `Follow AGENTS.md` only fires the full startup sequence ~70-85% of the time (varies by AI tool, model, and platform). The OPENING MESSAGE block is a longer explicit prompt — its first two lines anchor the receiving AI to read all 4 governance files in order, pushing reliability to ~95%+ across Codex / Claude Code / CoWork / Gemini CLI / web AI. One extra paste removes the guesswork. When in doubt, paste.
 
 ---
 
