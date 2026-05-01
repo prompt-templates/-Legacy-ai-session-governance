@@ -2,7 +2,7 @@
 
 This document keeps the detailed claim mapping and platform compatibility checks referenced by README files.
 
-Verification date baseline: 2026-03-26 (UTC); v3.0.5 baseline confirmed 2026-05-01
+Verification date baseline: 2026-03-26 (UTC); v3.0.6 baseline confirmed 2026-05-01 (incl. v3.0.6 supplement: README Recent releases cap + SVG alignment + LATEST_STABLE_TAG bump)
 
 ## Claim-to-mechanism mapping
 

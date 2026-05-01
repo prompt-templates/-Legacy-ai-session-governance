@@ -74,25 +74,15 @@
 
 ## :bookmark_tabs: 近期版本
 
+僅顯示最近 5 個版本 — 較舊版本詳見 [GitHub 完整 release 歷史](https://github.com/prompt-templates/ai-session-governance/releases)。
+
 | 版本 | 變更內容 | 對你的意義 |
 |---|---|---|
-| **v3.0.5** | 完整回覆協議現入治理，唔再係「universal subset」。回覆會先用 `🔎` 重點 bullet（≤3 行）、再交付清單、再正文。選擇題用一致格式 `🚀 *下一步揀一條*` + A/B/C + `💡 推薦`。多檔或治理改動觸發全圖優先計劃，5 個固定區段（END-STATE / DELIVERABLES / METRICS / ACCEPTANCE / GOAL LINK）+ 收尾句 — 唔再有「同意 A？同意 B？」逐項批准。代碼 / spec / 設定改動以補丁交付：精準 anchor 喺 code block 外、BEFORE / AFTER 兩個 code block 內只放 verbatim 文字、加 Changelog。數值答案展示四步。JSON 先定 schema。Mermaid 用 `flowchart TB` 加 `"..."` 包覆 text label。當兩條規則衝突時 AI 跟明文優先序（事實可驗收 > 穩定性 > 根因 > 完整性 > 最小改動），唔再隨機揀。 | 回覆體驗一致、可掃讀：頂置重點 → 清單 → 正文，surface text 唔再夾 `§` codes。非 trivial 工作嘅計劃永遠係全圖優先，所以你可以一眼 veto / 修改成個 plan，唔需逐項批准。Patch 易審可貼。仲裁規則令 AI 唔再為「diff 細啲」犧牲事實可驗收 — 事實可驗收永遠贏。 |
-| **v3.0.4** | 每次工作階段結束時 AI 給你的那段字條，現在標題改為「NEXT SESSION OPENING MESSAGE」，並在底下加一行提示「貼成你下次 AI 工作階段的第一條訊息」— 看到就知道要貼去哪。工作階段開始時 AI 會印一行 `Seed context: ...` 顯示用了哪個來源（你貼的、或者自動讀取上次留下的字條），讓你看清楚有冇接續到。README 不再只教安裝 + 開始，現在覆蓋完整每日流程（開始 → 工作 → 結束 → 下次接續），並附 4 個語言版本的視覺流程圖。release notes 改用新模板，每篇都先講「對你的意義」，不再像內部 changelog。 | 工作階段結尾不再困惑「這段字條要貼去哪」。AI 啟動時不用再猜「它有冇接續上次」。新用戶讀 README 就看到整個日常流程，不只是安裝。 |
+| **v3.0.6** | 收尾介面優化：6 款重新設計的工作階段啟動/收尾視覺、「貼上此區塊」說明從 3 行縮為 1 行、README 安裝/升級流程從 9 步縮為 5 步並加上「AI 背後執行」說明區塊。README 接續區段首次解釋為何手動貼上 OPENING MESSAGE 比 `Follow AGENTS.md` 更可靠（約 95% vs 約 70-85%）。修補既有 harness exit code 漏洞（R27-10）。 | 新用戶安裝流程大幅精簡。工作階段啟動/收尾畫面更美觀。「為何手動貼上」的解釋消除常見困惑。 |
+| **v3.0.5** | 完整回覆協議現入治理，不再只是「universal subset」。回覆會先用 `🔎` 重點 bullet（≤3 行）、再交付清單、再正文。選擇題用一致格式 `🚀 *下一步揀一條*` + A/B/C + `💡 推薦`。多檔或治理改動觸發全圖優先計劃，5 個固定區段（END-STATE / DELIVERABLES / METRICS / ACCEPTANCE / GOAL LINK）+ 收尾句 — 不再有「同意 A？同意 B？」逐項批准。代碼 / spec / 設定改動以補丁交付：精準 anchor 在 code block 外、BEFORE / AFTER 兩個 code block 內只放 verbatim 文字、加 Changelog。數值答案展示四步。JSON 先定 schema。Mermaid 用 `flowchart TB` 加 `"..."` 包覆 text label。當兩條規則衝突時 AI 依明文優先序（事實可驗收 > 穩定性 > 根因 > 完整性 > 最小改動），不再隨機選擇。 | 回覆體驗一致、可掃讀：頂置重點 → 清單 → 正文，surface text 不再夾雜 `§` codes。非 trivial 工作的計劃永遠是全圖優先，所以你可以一眼 veto / 修改整個 plan，無需逐項批准。Patch 易審可貼。仲裁規則令 AI 不再為「diff 較小」犧牲事實可驗收 — 事實可驗收永遠勝出。 |
+| **v3.0.4** | 每次工作階段結束時 AI 給你的那段字條，現在標題改為「NEXT SESSION OPENING MESSAGE」，並在底下加一行提示「貼成你下次 AI 工作階段的第一條訊息」— 看到就知道要貼去哪。工作階段開始時 AI 會印一行 `Seed context: ...` 顯示用了哪個來源（你貼的、或者自動讀取上次留下的字條），讓你看清楚有沒有接續到。README 不再只教安裝 + 開始，現在覆蓋完整每日流程（開始 → 工作 → 結束 → 下次接續），並附 4 個語言版本的視覺流程圖。release notes 改用新模板，每篇都先講「對你的意義」，不再像內部 changelog。 | 工作階段結尾不再困惑「這段字條要貼去哪」。AI 啟動時不用再猜「它有沒有接續上次」。新用戶讀 README 就看到整個日常流程，不只是安裝。 |
 | **v3.0.3** | AI 回覆變得更果斷直接：當 AI 有判斷時會直接給出，不再用「你覺得呢」反問把決定推回給你。選項最多 3 個並附上明確推薦。AI 未核對過的數字、日期、引用會明確標示 `UNVERIFIED`，讓你一眼分辨已核實 vs 未核實。內部規則代碼不再用作回覆裡的句子主語。每筆 SESSION_LOG 收尾紀錄上限 ≤110 行，發布版本相關的詳細內容會移到另一個檔案，避免每次啟動讀取時被舊紀錄拖慢。 | 簡單任務減少來回確認。已核實 vs 未核實的狀態看得清楚。閱讀回覆不再需要先懂治理術語。長期專案啟動速度不會被歷史紀錄拖慢。 |
 | **v3.0**（含 v3.0.1 / v3.0.2 patches） | 治理檔案大幅精簡：AGENTS.md 從 734 行縮減至 504 行（−31.3%），所有規則完整保留；每 session 啟動的系統 prompt token 成本下降約 15.6%。Legacy quarantine 機制把 89 條歷史防漂移檢查隔離到自動 chain 的第二層 harness — 主檢查套件變輕，但 release 時禁止 bypass legacy，歷史保險不會無聲丟失。v3.0.1 加入 release 後文檔同步治理（R29 系列檢查），防止 README / index.html 漂走。v3.0.2 把 release / merge gate 擴充為 4 階段生命週期（發前驗證 / 發 release / 發後執手尾 / 觀察期），加 R30 系列 enforcement。已建立 `dev/SESSION_STATE_DETAIL.md` 或 `dev/PROJECT_MASTER_SPEC.md` 的用戶 re-install 時也會被自動備份，升級路徑資料安全。 | 系統 prompt 中的治理文字變少 → 規則遵守率提升（業界數據：短規則約 89% vs 冗長約 35%）；release 後相關文件漂走會自動 catch（README、release notes、公開頁 stat counter 同步）；本機檔案在升級時被保留；跨 LLM 通用相容（Claude Code、Claude Cowork、OpenAI Codex CLI、Gemini CLI 與 Web LLMs）— 零 hook 依賴。 |
-| **v2.8** | 強化 INIT-only 封裝邊界：移除 `INIT.md` 與 README 對內部維護工具的引用，並新增回歸檢查，若 INIT 指向未附帶檔案即判定失敗。 | 避免只提供 `INIT.md` 的安裝情境出錯，並可自動攔截後續封裝邊界漂移。 |
-| **v2.7** | 完成交接與工作日誌膨脹治理升級，並用 30 組成長情景完成驗證。交接輸出更穩定精簡，當日誌變大時，舊內容會自動移出啟動主路徑。 | 啟動更快、context 浪費更少，同時保留關鍵交接資訊。壓力情景下啟動 payload 最多降低 **16,096 tokens**，且所有測試情景都維持必要交接欄位完整。 |
-| **v2.6** | AI 接手舊 session 時，會讀 `SESSION_LOG.md` 找「留給下一個 AI 的交接筆記」。以前的規則是「找檔案裡最後出現的那段」— 日誌手動整理或歸檔後，物理位置最後的反而可能是舊的。現在改為找「日期最新那筆記錄裡的那段」，日誌怎麼動都找得對。`INIT.md` 安裝前的 10 步安全確認程序，原本在檔案裡寫了兩份，且已累積 8 處以上用詞差異；現在頂部改成指向下方唯一版本的 3 行說明，兩份不再打架。Session 開始和結束時出現的裝飾小圖案，原本規則說「避免跟上一次重複」— 但 AI 跨 session 根本記不住上次用了哪個，這條規則形同虛設。現在改為：同一次 session 內，結束小圖必須跟開始小圖不同（AI 確實做得到）。純粹編輯治理文檔時，不會再誤觸發「安裝前必須先建立 `CODEBASE_CONTEXT.md`」的規定。自動品質檢查從 169 條增至 210 條，新增涵蓋 Session ID 格式、禁用指令列表完整性、檔名規範等。 | 交接筆記找錯的情況不再發生；安裝說明只有一份不會互相矛盾；Session 啟動與結束的小圖案會確實輪替；日常編輯不再被安全流程卡住；自動攔截的異常情況更多，release 前的信心更足。 |
-| **v2.5** | 核心工作流程規則重新定位以提升 AI 注意力權重（從注意力死區移至高優先區域）；冗餘段落合併（淨減 3 行）；填補三個工作流程缺口 — AI 測試失敗時報告而非靜默重試、deviation stop 後明確聲明重入哪個階段、模糊表達不再誤觸 session closeout | 核心規則獲得更一致的 AI 遵守率；維護負擔減輕；失敗和交接時的 AI 行為更可預測 |
-| **v2.4** | AI 在 PLAN 階段進行風險分級 — 高風險任務（≥3 檔案、範圍不明、破壞性操作、外部系統）暫停等用戶確認才繼續；工作日誌改用精簡格式（每筆記錄縮小約 60%）；歸檔門檻從 800 行降至 400 行，減少 AI 啟動時讀取的無關歷史 | 誤解任務在改 code 之前被攔截；AI 啟動更快；相同空間容納更多歷史 |
-| **v2.3** | 七項系統性審計修正：AI 在動手前先展示對任務的理解（PLAN 顯示）、用戶指令與治理規則衝突時明確指出、執行中發現假設錯誤時停下回報、簡單問題不再強制四段式輸出 | 減少任務誤解、覆蓋操作可追溯、錯誤假設造成的白做大幅減少 |
-| **v2.2** | Session log 不再無限增長 — 當 `SESSION_LOG.md` 超過 400 行或有超過 30 天的舊記錄時，舊記錄會自動移至 `dev/archive/`；活躍日誌保留最近 7–10 個工作階段 | 長期專案保持精簡，無需手動清理；幾個月前的歷史記錄不再佔用 AI 的啟動情境 |
-| **v2.1** | 兩項可靠性修正：(1) 收到交接時，新的 AI 工具現在有更明確的指示，要求在開始工作前先讀取治理規則；(2) 做完任何修改後，AI 必須在回覆中顯示它更新了哪些文件 — 看不到這個區塊就代表該步驟被跳過 | 切換 AI 工具時交接更穩定；文件更新是否有做，在 AI 的回覆中一目了然，不再靜默略過 |
-| **v2.0** | `DOC_SYNC_CHECKLIST.md` — 確定性文件同步登錄表，將變更類別對應到必須更新的文件；`AGENTS.md` 加入章節標記（MANDATORY / CONDITIONAL / REFERENCE） | 消除文件同步猜測：AI 查表決定要更新什麼，而非自行判斷 |
-| **v1.9.0** | 六項治理修正：新工作階段的三種觸發條件、收尾時強制跨文件同步、優先事項清單每次重新生成而非累加、修改操作精確化 | 修正從實際應用中發現的 AI 行為缺口 — 過期清單、遺漏文件同步、範圍歧義 |
-| **v1.8.0** | 新增情境壓縮恢復規則 — AI 在對話被壓縮後必須重新執行啟動序列，不可信任壓縮摘要中的待辦清單 | 防止 Claude Code 自動壓縮情境後，AI 靜默沿用過時的待辦清單 |
-| **v1.7.0** | 交接 Prompt 首段新增明確指示：先讀 `AGENTS.md`，再依啟動序列執行 | 接收工具就算不自動載入治理檔案，交接也能正常銜接 |
-| **v1.6.0** | 安裝後自動輸出 Quick Start 指令；`CODEBASE_CONTEXT.md` 生成前先備份，並擴大掃描來源 | 安裝完直接有指令可用；首次情境擷取更完整 |
 
 ---
 
@@ -107,12 +97,12 @@
 ### :small_blue_diamond: 5 步走完一次完整流程
 
 1. **安裝**（一次性）：將 **[INIT.md](INIT.md)** 貼到你的 AI 工具，依提示回覆 `INSTALL_ROOT_OK: <absolute_path>` 與 `INSTALL_WRITE_OK`。
-2. **開始工作階段**：輸入 `請依 AGENTS.md 開始本次工作階段`，AI 會接續你上次的進度。
+2. **開始工作階段**：輸入 `Follow AGENTS.md`，AI 會接續你上次的進度。
 3. **工作**：請 AI 開發功能、修 bug、寫文件 — 任何事都可以。
-4. **結束**：輸入 `請為本次工作階段完成收尾與完整交接。`。AI 會給你一張 **NEXT SESSION OPENING MESSAGE** 字條。
+4. **結束**：輸入 `收工`。AI 會給你一張 **NEXT SESSION OPENING MESSAGE** 字條。
 5. **下次工作階段**：把那張字條貼成你的第一條訊息 — 就回到步驟 2 了。
 
-> **如果忘了在步驟 5 貼上字條？** 同一台電腦 + 同一個 AI 工具：AI 會自動從 `dev/SESSION_LOG.md` 讀取上次留下的字條繼續。換電腦、或用網頁版 AI（ChatGPT / claude.ai 等）：AI 會從空白開始 — 必須貼上字條。貼上總是更精準。猶豫時就貼。
+> **忘了在步驟 5 貼上字條？** 貼上仍是最可靠做法 — AI 自動讀取 `SESSION_LOG.md` 的可靠度視 AI 工具與 model 而定，由約 40% 至 85% 不等。詳見下方[快速操作](#quick-operations) §3「為何要手動貼上」的解說。
 
 ---
 
@@ -221,13 +211,13 @@ AI 自動處理並合併既有的 `AGENTS.md`、`CLAUDE.md`、`GEMINI.md`。
 ### :small_blue_diamond: 1) 開始新工作階段
 
 ```text
-請依 AGENTS.md 開始本次工作階段
+Follow AGENTS.md
 ```
 
 ### :small_blue_diamond: 2) 收尾並完成完整交接
 
 ```text
-請為本次工作階段完成收尾與完整交接。
+收工
 ```
 
 ### :small_blue_diamond: 3) 快速開始下一個工作階段
@@ -236,7 +226,7 @@ AI 自動處理並合併既有的 `AGENTS.md`、`CLAUDE.md`、`GEMINI.md`。
 <貼上上一輪輸出的「NEXT SESSION OPENING MESSAGE」區塊作為下次工作階段的第一條訊息。>
 ```
 
-> **為何要手動貼上，而非依賴 `Follow AGENTS.md` 短指令？** 治理設計本身是 self-contained — AI 應自動讀取上次留下的 handoff。然而實際測試顯示 `Follow AGENTS.md` 短指令僅約 70–85% 機率觸發完整啟動序列（視 AI 工具、模型、平台而定）。OPENING MESSAGE 區塊是明文指令 — 開頭兩行明確指示 AI 依序讀取 4 個治理檔，跨工具可信度提升至約 95% 以上（Codex / Claude Code / CoWork / Gemini CLI / 網頁版 AI）。多貼一次即可消除不確定性。如有疑慮，請貼上。
+> **為何要手動貼上，而非依賴 `Follow AGENTS.md` 短指令？** 治理設計本身是 self-contained — AI 應自動讀取上次留下的 handoff。然而實際測試顯示 `Follow AGENTS.md` 短指令的可靠度因 AI 工具與 model 而異：Claude Code Opus 約 85%、Claude Code Sonnet 約 60%、CoWork Opus 約 75%、CoWork Sonnet 約 40%。OPENING MESSAGE 區塊是明文指令 — 開頭兩行明確指示 AI 依序讀取 4 個治理檔，同一矩陣下可靠度提升至約 75–98%。多貼一次即可消除不確定性。如有疑慮，請貼上。
 
 ---
 
@@ -355,9 +345,9 @@ AI 自動處理並合併既有的 `AGENTS.md`、`CLAUDE.md`、`GEMINI.md`。
 - [docs/VERIFICATION.md](docs/VERIFICATION.md)
 - 最新 QA 回歸驗收報告： [docs/qa/LATEST.md](docs/qa/LATEST.md)
 
-截至 2026-05-01（v3.0.5）的摘要如下：
+截至 2026-05-01（v3.0.6）的摘要如下：
 - AGENTS/INIT 規則同步：已驗證（315 項自動化回歸 — 226 主 + 89 legacy auto-chain）
-- AGENTS.md governance 範圍：530 → 687 行（+29.6%）為 v3.0.5 Tier 2 整合；累計 −6.4% 對比 v2.x baseline (734)；所有規則與 290 個 grep-anchor 完整保留（212 baseline + R29×12 + R30×6 + entry-cap×3 + reply-behavior×6 + R31×17 + R32×34 v3.0.5 Tier 2 整合）
+- AGENTS.md governance 範圍：530 → 687 行（+29.6%）為 v3.0.5 Tier 2 整合；v3.0.6 視覺更新與用語簡化對行數中性；累計 −6.4% 對比 v2.x baseline (734)；所有規則與 290 個 grep-anchor 完整保留（212 baseline + R29×12 + R30×6 + entry-cap×3 + reply-behavior×6 + R31×17 + R32×34）
 - Sandbox 安裝實戰驗收：3 個 HIGH 風險情景 PASS（含 user 自建檔的 re-install / §5a `pwd ≠ git root` mismatch / §4 closeout 端到端）
 - Matrix QC 10 維審計（sandbox install）：PASS（rc.1 的 LOW finding 已由 rc.2 hotfix 解除）
 - 交接效率驗證：仍有效（v2.7 的 30 組情景矩陣；在保留必要交接欄位下，啟動 payload 顯著下降）

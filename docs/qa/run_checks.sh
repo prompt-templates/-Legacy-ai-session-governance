@@ -258,7 +258,7 @@ done
 # ============================================================
 # Latest stable tag string — bump explicitly when releasing a new stable version.
 # This single-source variable is what regression checks below assert against.
-LATEST_STABLE_TAG="v3.0"
+LATEST_STABLE_TAG="v3.0.6"
 
 check "R29-01" "README.md contains latest stable tag row ($LATEST_STABLE_TAG)" "1" "$(grep -c "^| \*\*$LATEST_STABLE_TAG\*\*" README.md)"
 check "R29-02" "README.zh-TW.md contains latest stable tag row" "1" "$(grep -c "^| \*\*$LATEST_STABLE_TAG\*\*" README.zh-TW.md)"

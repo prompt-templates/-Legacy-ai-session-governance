@@ -1,7 +1,7 @@
 # QA Regression Report
 
 Date: 2026-05-01 (UTC)
-Scope: v3.0.5 GA — Tier 2 meta-instruction integration: §0c Preference Priority Order + §3.5 FPFR + §3b anti-hardcoding + §5 preserve-original + §11a expanded (5→10 rules) + §11b Patch-only + §11c Deep-Fix + §13 Tooling Format Rules; on top of v3.0.4 baseline
+Scope: v3.0.6 GA + supplement — closeout UX polish (Visual Cue redesign × 6 + multi-line hint → 1-line + README × 4 Install/Upgrading 9→5 step + Quick Op 3) WHY explanation + R27-10 bug fix); v3.0.6 supplement (post-tag, no new version) — README Recent releases capped to 5 entries + SVG-aligned commands + "Forgot to paste" callout corrected + LATEST_STABLE_TAG bump + DOC_SYNC strengthen; on top of v3.0.5 Tier 2 meta-instruction integration baseline
 
 ## Summary
 
