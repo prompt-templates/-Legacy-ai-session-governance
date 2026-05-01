@@ -64,6 +64,12 @@ After reading `dev/SESSION_LOG.md`, the AI must locate the latest `### Next Sess
 After completing the session file reads, display exactly one random "Boot Visual Cue" style from the set below.
 Selection rule: randomize across styles uniformly. Cross-session memory of the previous style is not expected or required.
 
+**Seed context transparency (mandatory):** Immediately after the Boot Visual Cue, print exactly one line stating which source the AI used to seed startup execution context. This makes the auto-fallback behavior visible to the user — without it, users cannot tell whether AI used their pasted handoff block or auto-read `SESSION_LOG.md`. Use one of these four forms:
+- `Seed context: paste` — user provided handoff prompt as conversation input; AI uses it as primary seed.
+- `Seed context: SESSION_LOG fallback` — no paste detected; AI auto-read the latest `### Next Session Handoff Prompt (Verbatim)` block from `dev/SESSION_LOG.md` per the rule above.
+- `Seed context: paste + SESSION_LOG fallback (consistent)` — both present and content matches.
+- `Seed context: paste + SESSION_LOG fallback (diverged — used paste)` — both present but content differs; AI uses paste as primary per §2 rule 5; surface the divergence in the first reply for user confirmation.
+
 Boot Visual Cue - Style A
 ```text
     ) ) )
@@ -280,7 +286,7 @@ Supplementary rules:
    - Key files changed in this session
    - Known risks / blockers / cautions
    - Validation status + `Post-startup first action:` (executed only after §1 startup complete, not before)
-3. Closeout response = exactly 3 sections in order: Section 1 `SESSION CLOSEOUT SUMMARY`; Section 2 `NEXT SESSION HANDOFF PROMPT (COPY/PASTE)` as single fenced `text` block (copy/paste-ready); Section 3 `CLOSEOUT VISUAL CUE` (one random style from set below).
+3. Closeout response = exactly 3 sections in order: Section 1 `SESSION CLOSEOUT SUMMARY`; Section 2 `NEXT SESSION OPENING MESSAGE` as single fenced `text` block (paste this as the first message of your next AI session); Section 3 `CLOSEOUT VISUAL CUE` (one random style from set below). The Section 2 heading was renamed from `NEXT SESSION HANDOFF PROMPT (COPY/PASTE)` (v3.0.3 and earlier) to `NEXT SESSION OPENING MESSAGE` (v3.0.4+) to make the use-site explicit; AI auto-reads `SESSION_LOG.md` fallback when paste is missing on the same machine, but cross-tool / cross-machine / web LLM handoffs require the paste.
 4. Randomization rule: within a single session, the Closeout Visual Cue must differ from the Boot Visual Cue displayed earlier in the same session. Across sessions, randomize uniformly — previous session's style is not tracked.
 5. Use separator lines between sections:
     - Major separator: `========================================`
@@ -293,7 +299,10 @@ SESSION CLOSEOUT SUMMARY
 <summary bullets>
 
 ----------------------------------------
-NEXT SESSION HANDOFF PROMPT (COPY/PASTE)
+NEXT SESSION OPENING MESSAGE
+(paste this as the first message of your next AI session.
+ Same machine + same repo + same tool? Optional — AI auto-reads SESSION_LOG fallback.
+ Cross-tool / cross-machine / web LLM? Required.)
 ----------------------------------------
 <single fenced text block>
 

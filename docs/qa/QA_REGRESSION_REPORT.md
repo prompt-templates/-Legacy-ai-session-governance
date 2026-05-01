@@ -1,15 +1,15 @@
 # QA Regression Report
 
 Date: 2026-05-01 (UTC)
-Scope: v3.0.3 GA — §4 entry-size cap consolidation (≤110 hard cap incl. verbatim handoff block + STATE_DETAIL escape valve + R-checks #167-169) + §11a Reply Behavior governance (5 mandatory rules: judgement-first / choice format / ambiguity / fact verification / plain-language surface text + R-checks #170-175 + new marker MANDATORY REPLY DISCIPLINE), on top of v3.0.2 baseline
+Scope: v3.0.4 GA — Closeout output clarity + startup seed-context transparency + README lifecycle restructure + release notes template; on top of v3.0.3 baseline
 
 ## Summary
 
-- Total checks: 264 — 175 main (`docs/qa/run_checks.sh`) + 89 legacy auto-chain (`docs/qa/legacy_checks.sh`)
-- Pass: 264
+- Total checks: 281 — 192 main (`docs/qa/run_checks.sh`) + 89 legacy auto-chain (`docs/qa/legacy_checks.sh`)
+- Pass: 281
 - Fail: 0
-- Per-entry size scan: 10/10 SESSION_LOG entries ≤110 cap (historical entry Claude_20260425_1017 refactored 127→72; detail relocated to dev/SESSION_STATE_DETAIL.md)
-- Matrix QC audit (10-dim) pre-release: PARTIAL — 5 findings (HIGH×2 README Snapshot drift + MEDIUM×1 safeguards row + LOW×2); HIGH+MEDIUM resolved by this release's doc-sync
+- Per-entry size scan: 10/10 SESSION_LOG entries ≤110 cap maintained
+- New R31 series (17 checks): startup transparency (R31-01 to R31-04), closeout heading rename (R31-05, R31-06), release notes template + v3.0.3 retroactive rewrite (R31-07 to R31-09), lifecycle SVG existence × 4 + README embedding × 4 (R31-10 to R31-17)
 
 **Run automated checks:** `bash docs/qa/run_checks.sh` (from project root, ~10 seconds, auto-chains legacy)
 

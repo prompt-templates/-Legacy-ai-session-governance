@@ -268,7 +268,7 @@ check "R29-05" "docs/releases/${LATEST_STABLE_TAG}.md release notes file exists"
 check_gte "R29-06" "docs/qa/LATEST.md references latest stable tag" "1" "$(grep -c "$LATEST_STABLE_TAG" docs/qa/LATEST.md)"
 # index.html stat counter must reflect total checks (main + legacy);
 # value is hardcoded against current run total so any harness check change forces an update.
-EXPECTED_INDEX_COUNTER="264"
+EXPECTED_INDEX_COUNTER="281"
 check "R29-07" "docs/site/index.html stat counter = $EXPECTED_INDEX_COUNTER" "1" "$(grep -c "data-target=\"$EXPECTED_INDEX_COUNTER\"" docs/site/index.html)"
 check "R29-08" "DOC_SYNC_CHECKLIST has Release published row" "1" "$(grep -c 'Release published' dev/DOC_SYNC_CHECKLIST.md)"
 # README must mention latest stable tag in ≥2 places (version-table row + Snapshot/text body) — guards against
@@ -289,6 +289,29 @@ check "R30-03" "§3c Phase 3: Fresh-environment validation rule (AGENTS)" "1" "$
 check "R30-04" "§3c Phase 3: Fresh-environment validation rule (INIT mirror)" "1" "$(grep -c 'Fresh-environment validation' $I)"
 check "R30-05" "§3c Phase 4: Track production fail modes rule (AGENTS)" "1" "$(grep -c 'Track production fail modes' $A)"
 check "R30-06" "§3c Phase 4: Track production fail modes rule (INIT mirror)" "1" "$(grep -c 'Track production fail modes' $I)"
+
+# ============================================================
+# R31 series — §1 Startup transparency + §4 closeout heading rename (v3.0.4)
+# Guards against drift on the user-facing closeout block heading and the
+# seed-context line that makes auto-fallback behavior visible to the user.
+# ============================================================
+check "R31-01" "§1 Seed context transparency rule (AGENTS)" "1" "$(grep -c 'Seed context transparency' $A)"
+check "R31-02" "§1 Seed context transparency rule (INIT mirror)" "1" "$(grep -c 'Seed context transparency' $I)"
+check "R31-03" "§1 Seed context line forms enumerated (AGENTS)" "1" "$(grep -c 'Seed context: paste + SESSION_LOG fallback (consistent)' $A)"
+check "R31-04" "§1 Seed context line forms enumerated (INIT mirror)" "1" "$(grep -c 'Seed context: paste + SESSION_LOG fallback (consistent)' $I)"
+check "R31-05" "§4 Section 2 heading rename (AGENTS, both rule 3 + skeleton)" "2" "$(grep -c 'NEXT SESSION OPENING MESSAGE' $A)"
+check "R31-06" "§4 Section 2 heading rename (INIT mirror — rule 3 + skeleton + Quick Start)" "3" "$(grep -c 'NEXT SESSION OPENING MESSAGE' $I)"
+check "R31-07" "Release notes _TEMPLATE.md exists" "1" "$(test -f docs/releases/_TEMPLATE.md && echo 1 || echo 0)"
+check_gte "R31-08" "Release notes template has 'What you' mandatory section reference" "1" "$(grep -c 'What you' docs/releases/_TEMPLATE.md)"
+check "R31-09" "v3.0.3 release notes contains 'What you'll feel' section (rewrite per template)" "1" "$(grep -c '## What you' docs/releases/v3.0.3.md)"
+check "R31-10" "Lifecycle SVG (EN) exists" "1" "$(test -f ref_doc/lifecycle_flow_en.svg && echo 1 || echo 0)"
+check "R31-11" "Lifecycle SVG (zh-TW) exists" "1" "$(test -f ref_doc/lifecycle_flow_tw.svg && echo 1 || echo 0)"
+check "R31-12" "Lifecycle SVG (zh-CN) exists" "1" "$(test -f ref_doc/lifecycle_flow_cn.svg && echo 1 || echo 0)"
+check "R31-13" "Lifecycle SVG (ja) exists" "1" "$(test -f ref_doc/lifecycle_flow_ja.svg && echo 1 || echo 0)"
+check "R31-14" "README.md references lifecycle SVG" "1" "$(grep -c 'lifecycle_flow_en.svg' README.md)"
+check "R31-15" "README.zh-TW.md references lifecycle SVG" "1" "$(grep -c 'lifecycle_flow_tw.svg' README.zh-TW.md)"
+check "R31-16" "README.zh-CN.md references lifecycle SVG" "1" "$(grep -c 'lifecycle_flow_cn.svg' README.zh-CN.md)"
+check "R31-17" "README.ja.md references lifecycle SVG" "1" "$(grep -c 'lifecycle_flow_ja.svg' README.ja.md)"
 
 # ============================================================
 # Category 15: Legacy Harness Health (staleness detection)

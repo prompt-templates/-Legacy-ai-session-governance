@@ -9,11 +9,11 @@ When your Codex / Claude / Gemini quota runs out, paste the handoff block into t
 - Keeps governance from drifting, instead of just adding more rules
 - A harness engineering component focused on session continuity
 
-**[30-second Quick Start](#quickstart)** · **[Install](#install)** · **[Upgrade](#upgrade)** · **[Quick Operations](#quick-operations)**
+**[How a session works](#quickstart)** · **[Install](#install)** · **[Upgrade](#upgrade)** · **[Quick Operations](#quick-operations)**
 
 ![Overview](ref_doc/overview_infograph_en.png)
 
-> **New here?** Check out the **[Interactive Introduction](https://prompt-templates.github.io/ai-session-governance/)** — a visual guide to what this template does and why it exists.
+> **🆕 First time here?** The **[Interactive Introduction](https://prompt-templates.github.io/ai-session-governance/)** walks you through what this template does in about 5 minutes — recommended before reading the rest of this README.
 
 
 ---
@@ -72,7 +72,8 @@ If you already have a large session log, it is trimmed automatically on the firs
 
 | Version | What changed | Why it matters |
 |---|---|---|
-| **v3.0.3** | (1) **§4 entry-size cap** — every SESSION_LOG entry hard-capped at ≤110 lines (including verbatim handoff block); release-class detail relocates to `dev/SESSION_STATE_DETAIL.md` per new escape valve. (2) **§11a Reply Behavior** — five mandatory reply rules every AI must follow: judgement-first (no disguised open questions), choice format (≤3 options + recommendation backed by evidence), ambiguity handling (≤3 hypotheses + ≤3 questions per round), fact verification (`UNVERIFIED` distinct from `NA`), plain-language surface text (no internal `§` codes as sentence subjects). 9 new regression checks (#167-175) enforce AGENTS/INIT mirror parity + new marker line MANDATORY REPLY DISCIPLINE. | Active SESSION_LOG stays compact on long-running projects (no more 100+ line release entries crowding the active file at startup). AI replies become more decisive and easier to read — fewer "what do you think?" loops, clearer fact-verification state, surface text understandable without governance domain knowledge. Both rules ship via INIT.md so all installs benefit. |
+| **v3.0.4** | The closeout block at the end of each session is now labelled "NEXT SESSION OPENING MESSAGE" with a one-line hint underneath ("paste this as the first message of your next AI session") so it's clear where it goes. At session start, AI prints which source it used to seed the session — paste, auto-fallback from your saved note, or both — so you can tell whether your paste was needed. The README now teaches the full daily flow (start → work → close → resume) with a visual flow chart in 4 languages, instead of stopping at install. A new release-notes template makes every release lead with "What you'll feel". | No more "where do I paste this?" confusion at the end of a session. No more guessing whether AI started blank or picked up automatically. New users see the full lifecycle right in the README, not just the install step. |
+| **v3.0.3** | AI replies became more direct: when AI has a recommendation, it now states it instead of pushing the decision back as an open question. Choices come capped at 3 options with one explicit recommendation. Numbers and facts the AI hasn't verified are marked `UNVERIFIED` so you can tell them apart from confirmed information. Internal rule codes no longer appear as sentence subjects in user-facing replies. Each closeout entry in the session log is hard-capped at ≤110 lines, with release-class detail moved to a separate file so startup stays fast even on release-heavy weeks. | Less back-and-forth on simple tasks. Clearer state on what AI has and hasn't verified. Replies readable without needing to know any governance terminology. Long-running projects don't slow down at session startup. |
 | **v3.0** (incl. v3.0.1 / v3.0.2 patches) | Major governance-file slim-down: AGENTS.md cut from 734 to 504 lines (−31.3%) while preserving every rule; system-prompt token cost per session boot down ~15.6%. A legacy quarantine moves 89 historical drift-defense checks into an auto-chained second harness — the main check suite stays lean but bypassing legacy is forbidden during release verification. v3.0.1 added release-doc sync governance (R29-series checks) preventing README/index.html drift. v3.0.2 expanded the release/merge gate into a 4-phase lifecycle (pre-release verification / release execution / post-release cleanup / observability) with R30-series enforcement. Users who created `dev/SESSION_STATE_DETAIL.md` or `dev/PROJECT_MASTER_SPEC.md` are properly backed up on re-install (data-safe upgrade path). | Less governance text in every system prompt → higher rule-adherence rate (industry data: short rules ~89% vs verbose ~35%). Release-related drift is automatically caught (READMEs, release notes, public site stat counters all stay in sync). Existing local notes are preserved on upgrade. Cross-LLM compatibility maintained across Claude Code, Claude Cowork, OpenAI Codex CLI, Gemini CLI, and web LLMs — zero hook dependency. |
 | **v2.8** | Hardened the INIT-only packaging boundary: removed references to internal maintainer tooling from `INIT.md` and README, and added regression checks that fail if INIT points to non-installed files. | Prevents first-time install failures in user environments where only `INIT.md` is provided, and automatically catches future boundary drift. |
 | **v2.7** | Added a full anti-bloat upgrade for handoff and session history, validated across 30 growth scenarios. Handoff output is now consistently concise, and older log content is automatically moved out of the active startup path when history grows. | Faster startup and lower context waste without losing key handoff information. In stress scenarios, startup payload was reduced by up to **16,096 tokens**, while all required handoff fields remained intact across all test scenarios. |
@@ -92,17 +93,21 @@ If you already have a large session log, it is trimmed automatically on the firs
 
 <a id="quickstart"></a>
 
-## :bookmark_tabs: 30-second Quick Start
+## :bookmark_tabs: How a session works
 
-1. Open **[INIT.md](INIT.md)** and paste it into your AI CLI.
-2. Confirm root and write prompts exactly:
-   - `INSTALL_ROOT_OK: <absolute_path>`
-   - `INSTALL_WRITE_OK`
-3. Start each new session with:
+After installing once, every session follows the same loop:
 
-```text
-Follow AGENTS.md
-```
+![Lifecycle flow](ref_doc/lifecycle_flow_en.svg)
+
+### :small_blue_diamond: 5 steps, end-to-end
+
+1. **Install** (one-time): paste **[INIT.md](INIT.md)** into your AI tool, then confirm `INSTALL_ROOT_OK: <absolute_path>` and `INSTALL_WRITE_OK`.
+2. **Start a session**: type `Follow AGENTS.md`. AI catches up on what you were doing.
+3. **Work**: ask AI to build features, fix bugs, write docs — anything.
+4. **Close**: type `wrap up`. AI hands you a **NEXT SESSION OPENING MESSAGE** block.
+5. **Next session**: paste that block as your first message — and you're back at step 2 instantly.
+
+> **Forgot to paste in step 5?** Same machine + same AI tool: AI auto-reads the saved note from `dev/SESSION_LOG.md` and continues. Different machine, or a web AI (ChatGPT / claude.ai / etc.): AI starts blank — paste is required. Pasting always works better. When in doubt, paste.
 
 ---
 
@@ -224,7 +229,9 @@ Wrap up this session with full closeout and handover.
 ### :small_blue_diamond: 3) Resume in another AI CLI
 
 ```text
-<Paste the previous "NEXT SESSION HANDOFF PROMPT (COPY/PASTE)" block here, unchanged.>
+<Paste the previous "NEXT SESSION OPENING MESSAGE" block here, unchanged.
+ Required for cross-tool / cross-machine / web LLM handoffs. Same machine + same tool
+ can also rely on AI's automatic SESSION_LOG fallback, but pasting is more precise.>
 ```
 
 ---
@@ -344,9 +351,9 @@ Full verification details:
 - [docs/VERIFICATION.md](docs/VERIFICATION.md)
 - Latest QA regression report: [docs/qa/LATEST.md](docs/qa/LATEST.md)
 
-Snapshot status (as of 2026-05-01 — v3.0.3):
-- AGENTS/INIT rule parity: verified (264-check automated regression — 175 main + 89 legacy auto-chain)
-- AGENTS.md L4 reduction: 734 → 521 lines (−29.0%), with all rules and 227 grep-anchors preserved (212 baseline + R29×12 release-doc sync + R30×6 release-lifecycle 4-phase + entry-cap×3 + reply-behavior×6)
+Snapshot status (as of 2026-05-01 — v3.0.4):
+- AGENTS/INIT rule parity: verified (281-check automated regression — 192 main + 89 legacy auto-chain)
+- AGENTS.md L4 reduction: 734 → 530 lines (−27.8%), with all rules and 256 grep-anchors preserved (212 baseline + R29×12 release-doc sync + R30×6 release-lifecycle 4-phase + entry-cap×3 + reply-behavior×6 + R31×17 closeout-clarity / startup-transparency / lifecycle-svg)
 - Sandbox install QC: 3 HIGH-risk scenarios PASS (re-install with user overflow files / §5a `pwd ≠ git root` mismatch / §4 closeout end-to-end)
 - Matrix QC audit (10-dimension) on sandbox install: PASS (LOW finding from rc.1 resolved by rc.2 hotfix)
 - Handoff efficiency validation: still valid (30-scenario matrix from v2.7; required handoff fields preserved while startup payload decreased)

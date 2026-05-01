@@ -78,6 +78,12 @@ After reading `dev/SESSION_LOG.md`, the AI must locate the latest `### Next Sess
 After completing the session file reads, display exactly one random "Boot Visual Cue" style from the set below.
 Selection rule: randomize across styles uniformly. Cross-session memory of the previous style is not expected or required.
 
+**Seed context transparency (mandatory):** Immediately after the Boot Visual Cue, print exactly one line stating which source the AI used to seed startup execution context. This makes the auto-fallback behavior visible to the user — without it, users cannot tell whether AI used their pasted handoff block or auto-read `SESSION_LOG.md`. Use one of these four forms:
+- `Seed context: paste` — user provided handoff prompt as conversation input; AI uses it as primary seed.
+- `Seed context: SESSION_LOG fallback` — no paste detected; AI auto-read the latest `### Next Session Handoff Prompt (Verbatim)` block from `dev/SESSION_LOG.md` per the rule above.
+- `Seed context: paste + SESSION_LOG fallback (consistent)` — both present and content matches.
+- `Seed context: paste + SESSION_LOG fallback (diverged — used paste)` — both present but content differs; AI uses paste as primary per §2 rule 5; surface the divergence in the first reply for user confirmation.
+
 Boot Visual Cue - Style A
 ```text
     ) ) )
@@ -294,7 +300,7 @@ Supplementary rules:
    - Key files changed in this session
    - Known risks / blockers / cautions
    - Validation status + `Post-startup first action:` (executed only after §1 startup complete, not before)
-3. Closeout response = exactly 3 sections in order: Section 1 `SESSION CLOSEOUT SUMMARY`; Section 2 `NEXT SESSION HANDOFF PROMPT (COPY/PASTE)` as single fenced `text` block (copy/paste-ready); Section 3 `CLOSEOUT VISUAL CUE` (one random style from set below).
+3. Closeout response = exactly 3 sections in order: Section 1 `SESSION CLOSEOUT SUMMARY`; Section 2 `NEXT SESSION OPENING MESSAGE` as single fenced `text` block (paste this as the first message of your next AI session); Section 3 `CLOSEOUT VISUAL CUE` (one random style from set below). The Section 2 heading was renamed from `NEXT SESSION HANDOFF PROMPT (COPY/PASTE)` (v3.0.3 and earlier) to `NEXT SESSION OPENING MESSAGE` (v3.0.4+) to make the use-site explicit; AI auto-reads `SESSION_LOG.md` fallback when paste is missing on the same machine, but cross-tool / cross-machine / web LLM handoffs require the paste.
 4. Randomization rule: within a single session, the Closeout Visual Cue must differ from the Boot Visual Cue displayed earlier in the same session. Across sessions, randomize uniformly — previous session's style is not tracked.
 5. Use separator lines between sections:
     - Major separator: `========================================`
@@ -307,7 +313,10 @@ SESSION CLOSEOUT SUMMARY
 <summary bullets>
 
 ----------------------------------------
-NEXT SESSION HANDOFF PROMPT (COPY/PASTE)
+NEXT SESSION OPENING MESSAGE
+(paste this as the first message of your next AI session.
+ Same machine + same repo + same tool? Optional — AI auto-reads SESSION_LOG fallback.
+ Cross-tool / cross-machine / web LLM? Required.)
 ----------------------------------------
 <single fenced text block>
 
@@ -692,6 +701,8 @@ Rule if exists: preserve all existing rows; ensure the universal rows in the tem
 | Session-log maintenance policy changed | AGENTS.md §4a mechanism enforcement; INIT.md FILE 1 §4a + §5a backup list; README*.md safeguards section | grep + policy parity check |
 | Session-log entry format / size policy changed | AGENTS.md §4 entry format + budget rule 5; INIT.md FILE 1 §4 mirror; existing over-cap session log entries refactored with detail relocated to `dev/SESSION_STATE_DETAIL.md` | grep parity + per-entry line count |
 | Reply behavior governance changed | AGENTS.md §11a; INIT.md FILE 1 §11a mirror; AGENTS/INIT marker line `MANDATORY REPLY DISCIPLINE`; README*.md if behavior is described user-facing | grep parity check |
+| Closeout output skeleton or startup transparency wording changed | AGENTS.md §1 (seed-context line) + §4 rule 3 / rule 6 (Section 2 heading + skeleton); INIT.md FILE 1 mirror; INIT.md install-time Quick Start `Resume in another AI tool` block; README*.md Quick Operations `Resume next session` block (4 languages); harness grep parity checks for new heading text | grep parity check |
+| Release notes template / format changed | docs/releases/_TEMPLATE.md (single-source template); existing release notes files retroactively updated only if user-facing impact; harness check for `_TEMPLATE.md` presence + new releases `What you'll feel` section | file existence + grep section presence |
 | New project doc added | This file — add a row for the new doc's update triggers | row presence check |
 | _[Add project-specific rows below this line]_ | | |
 
@@ -730,7 +741,9 @@ Then say: "Governance setup complete.
 
 3) Resume in another AI tool (after quota switch)
    ──────────────────────────────────────────────────
-   <Paste the NEXT SESSION HANDOFF PROMPT (COPY/PASTE) block from the previous session, unchanged.>
+   <Paste the NEXT SESSION OPENING MESSAGE block from the previous session, unchanged.
+    Required for cross-tool / cross-machine / web LLM handoffs. Same-machine + same-tool
+    can also rely on AI's automatic SESSION_LOG fallback, but pasting is more precise.>
 
 ════════════════════════════════════════
 

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+  <title>How a session works — start, work, close, resume</title>
+  <desc>Four-step day-to-day flow with the handoff note shown at close, and a note about what happens if you forget to paste it next time.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#334155"/>
+    </marker>
+    <linearGradient id="step-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#dbeafe"/>
+      <stop offset="100%" stop-color="#bfdbfe"/>
+    </linearGradient>
+    <linearGradient id="note-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fef3c7"/>
+      <stop offset="100%" stop-color="#fde68a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Title -->
+  <text x="400" y="32" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">How a session works</text>
+  <text x="400" y="54" text-anchor="middle" font-size="13" fill="#475569">Four steps you repeat every time you sit down to work</text>
+
+  <!-- Step 1: Start -->
+  <g>
+    <rect x="30" y="100" width="170" height="100" rx="12" fill="url(#step-grad)" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="115" y="128" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">1. Start</text>
+    <text x="115" y="155" text-anchor="middle" font-size="12" fill="#1e3a8a">Type:</text>
+    <text x="115" y="173" text-anchor="middle" font-size="12" font-family="monospace" fill="#1e3a8a" font-weight="600">Follow AGENTS.md</text>
+    <text x="115" y="192" text-anchor="middle" font-size="11" fill="#475569">AI catches up on context</text>
+  </g>
+
+  <line x1="200" y1="150" x2="225" y2="150" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 2: Work -->
+  <g>
+    <rect x="230" y="100" width="170" height="100" rx="12" fill="url(#step-grad)" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="315" y="128" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">2. Work</text>
+    <text x="315" y="158" text-anchor="middle" font-size="12" fill="#1e3a8a">Ask AI to do things</text>
+    <text x="315" y="178" text-anchor="middle" font-size="11" fill="#475569">Build features, fix bugs,</text>
+    <text x="315" y="192" text-anchor="middle" font-size="11" fill="#475569">review code, write docs</text>
+  </g>
+
+  <line x1="400" y1="150" x2="425" y2="150" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 3: Close -->
+  <g>
+    <rect x="430" y="100" width="170" height="100" rx="12" fill="url(#step-grad)" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="515" y="128" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">3. Close</text>
+    <text x="515" y="155" text-anchor="middle" font-size="12" fill="#1e3a8a">Type:</text>
+    <text x="515" y="173" text-anchor="middle" font-size="12" font-family="monospace" fill="#1e3a8a" font-weight="600">wrap up</text>
+    <text x="515" y="192" text-anchor="middle" font-size="11" fill="#475569">AI gives you a note ↓</text>
+  </g>
+
+  <line x1="600" y1="150" x2="625" y2="150" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 4: Next time -->
+  <g>
+    <rect x="630" y="100" width="155" height="100" rx="12" fill="url(#note-grad)" stroke="#f59e0b" stroke-width="2"/>
+    <text x="707" y="128" text-anchor="middle" font-size="15" font-weight="700" fill="#92400e">4. Next time</text>
+    <text x="707" y="155" text-anchor="middle" font-size="12" fill="#78350f">Paste that note</text>
+    <text x="707" y="173" text-anchor="middle" font-size="12" fill="#78350f">as your first</text>
+    <text x="707" y="190" text-anchor="middle" font-size="12" fill="#78350f">message</text>
+  </g>
+
+  <!-- Loop arrow from step 4 back to step 1 -->
+  <path d="M 707,200 Q 707,250 400,250 Q 115,250 115,200" stroke="#334155" stroke-width="2" fill="none" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+  <text x="400" y="244" text-anchor="middle" font-size="11" fill="#64748b" font-style="italic">…and you're back at step 1 for the next session</text>
+
+  <!-- Forgot-to-paste panel -->
+  <g>
+    <rect x="30" y="290" width="755" height="100" rx="10" fill="#fef9c3" stroke="#eab308" stroke-width="1.5"/>
+    <text x="50" y="316" font-size="13" font-weight="700" fill="#854d0e">If you forget to paste in step 4 …</text>
+
+    <text x="50" y="343" font-size="12" fill="#422006">
+      <tspan font-weight="600">Same computer + same AI tool:</tspan>
+      <tspan> usually fine — the AI picks up where you left off automatically.</tspan>
+    </text>
+    <text x="50" y="362" font-size="12" fill="#422006">
+      <tspan font-weight="600">Different computer, or a web AI like ChatGPT:</tspan>
+      <tspan> the AI starts blank. You need to paste.</tspan>
+    </text>
+    <text x="50" y="381" font-size="11" fill="#854d0e" font-style="italic">Pasting always works better. When in doubt, paste.</text>
+  </g>
+
+  <text x="400" y="412" text-anchor="middle" font-size="10" fill="#94a3b8">ai-session-governance · day-to-day flow</text>
+</svg>

@@ -9,11 +9,11 @@
 - 防止治理规则漂移，而不是一直叠加新规则
 - 一个专注于 session 连续性的 Harness Engineering 组件
 
-**[30 秒快速开始](#quickstart)** · **[安装](#install)** · **[升级](#upgrade)** · **[快速操作](#quick-operations)**
+**[工作阶段如何运作](#quickstart)** · **[安装](#install)** · **[升级](#upgrade)** · **[快速操作](#quick-operations)**
 
 ![Overview](ref_doc/overview_infograph_cn.png)
 
-> **初次接触？** 请看 **[互动式介绍页面](https://prompt-templates.github.io/ai-session-governance/?lang=cn)** — 以可视化方式了解本模板的功能与设计理念。
+> **🆕 初次接触？** 建议先花 5 分钟看 **[互动式介绍页面](https://prompt-templates.github.io/ai-session-governance/?lang=cn)** — 以可视化方式了解本模板的功能与设计理念，再阅读本 README 其余章节。
 
 
 ---
@@ -72,7 +72,8 @@
 
 | 版本 | 变更内容 | 对你的意义 |
 |---|---|---|
-| **v3.0.3** | (1) **§4 entry-size cap** — SESSION_LOG 每条 entry 上限 ≤110 行（含 verbatim handoff block），release-class detail 关到 `dev/SESSION_STATE_DETAIL.md`，从根源防止 log 膨胀。(2) **§11a Reply Behavior** — AI 每次 reply 必跟 5 条 mandatory rules：judgement-first（不伪装开放题反问）、choice format（≤3 options + 推荐带可验证依据）、ambiguity handling（≤3 假设 + ≤3 问题 per round）、fact verification（`UNVERIFIED` 与 `NA` 区分）、plain-language surface text（surface 不用 `§` codes 做主语）。9 条新 R-checks（#167-175）做 AGENTS / INIT mirror parity + 新 marker line MANDATORY REPLY DISCIPLINE。 | 长期项目 active SESSION_LOG 保持精简（release-class entry 100+ 行不再霸占 startup reads）。AI 回复更果断易读 — 减少「你觉得呢」循环、未核对 facts 标示清楚、surface text 不需要 reader 懂 § code 才看得明。两条 rules 经 INIT.md 推到所有用户 install。 |
+| **v3.0.4** | 每次工作阶段结束时 AI 给你的那段字条，现在标题改为「NEXT SESSION OPENING MESSAGE」，并在底下加一行提示「贴成你下次 AI 工作阶段的第一条消息」— 看到就知道要贴去哪。工作阶段开始时 AI 会打印一行 `Seed context: ...` 显示用了哪个来源（你贴的、或者自动读取上次留下的字条），让你看清楚有没有接续到。README 不再只教安装 + 开始，现在覆盖完整每日流程（开始 → 工作 → 结束 → 下次接续），并附 4 个语言版本的视觉流程图。release notes 改用新模板，每篇都先讲「对你的意义」，不再像内部 changelog。 | 工作阶段结尾不再困惑「这段字条要贴去哪」。AI 启动时不用再猜「它有没有接续上次」。新用户读 README 就看到整个日常流程，不只是安装。 |
+| **v3.0.3** | AI 回复变得更果断直接：当 AI 有判断时会直接给出，不再用「你觉得呢」反问把决定推回给你。选项最多 3 个并附上明确推荐。AI 未核对过的数字、日期、引用会明确标示 `UNVERIFIED`，让你一眼分辨已核实 vs 未核实。内部规则代码不再用作回复里的句子主语。每条 SESSION_LOG 收尾记录上限 ≤110 行，发布版本相关的详细内容会移到另一个文件，避免每次启动读取时被旧记录拖慢。 | 简单任务减少来回确认。已核实 vs 未核实的状态看得清楚。阅读回复不再需要先懂治理术语。长期项目启动速度不会被历史记录拖慢。 |
 | **v3.0**（含 v3.0.1 / v3.0.2 patches） | 治理文档大幅精简：AGENTS.md 从 734 行缩减至 504 行（−31.3%），所有规则完整保留；每 session 启动的系统 prompt token 成本下降约 15.6%。Legacy quarantine 机制把 89 条历史防漂移检查隔离到自动 chain 的第二层 harness — 主检查套件变轻，但 release 时禁止 bypass legacy，历史保险不会无声丢失。v3.0.1 加入 release 后文档同步治理（R29 系列检查），防止 README / index.html 漂走。v3.0.2 把 release / merge gate 扩充为 4 阶段生命周期（发前验证 / 发 release / 发后执手尾 / 观察期），加 R30 系列 enforcement。已创建 `dev/SESSION_STATE_DETAIL.md` 或 `dev/PROJECT_MASTER_SPEC.md` 的用户 re-install 时也会被自动备份，升级路径数据安全。 | 系统 prompt 中的治理文本变少 → 规则遵守率提升（业界数据：短规则约 89% vs 冗长约 35%）；release 后相关文件漂走会自动 catch（README、release notes、公开页 stat counter 同步）；本地文件在升级时被保留；跨 LLM 通用兼容（Claude Code、Claude Cowork、OpenAI Codex CLI、Gemini CLI 与 Web LLMs）— 零 hook 依赖。 |
 | **v2.8** | 强化 INIT-only 封装边界：移除 `INIT.md` 与 README 对内部维护工具的引用，并新增回归检查，若 INIT 指向未附带文件即判定失败。 | 避免仅提供 `INIT.md` 的安装场景出错，并可自动拦截后续封装边界漂移。 |
 | **v2.7** | 完成交接与日志膨胀治理升级，并用 30 组增长场景完成验证。交接输出更稳定精简，日志增大时旧内容会自动移出启动主路径。 | 启动更快、context 浪费更少，同时保留关键交接信息。压力场景下启动 payload 最高减少 **16,096 tokens**，且所有测试场景都保持必要交接字段完整。 |
@@ -92,17 +93,21 @@
 
 <a id="quickstart"></a>
 
-## :bookmark_tabs: 30 秒快速开始
+## :bookmark_tabs: 工作阶段如何运作
 
-1. 打开 **[INIT.md](INIT.md)**，并粘贴到你的 AI 命令行工具中。
-2. 按提示精确回复：
-   - `INSTALL_ROOT_OK: <absolute_path>`
-   - `INSTALL_WRITE_OK`
-3. 之后每次新工作阶段开始时，输入：
+安装一次之后，每次工作阶段都重复同一个循环：
 
-```text
-请按 AGENTS.md 开始本次工作阶段
-```
+![工作阶段流程](ref_doc/lifecycle_flow_cn.svg)
+
+### :small_blue_diamond: 5 步走完一次完整流程
+
+1. **安装**（一次性）：将 **[INIT.md](INIT.md)** 粘贴到你的 AI 工具，按提示回复 `INSTALL_ROOT_OK: <absolute_path>` 与 `INSTALL_WRITE_OK`。
+2. **开始工作阶段**：输入 `请按 AGENTS.md 开始本次工作阶段`，AI 会接续你上次的进度。
+3. **工作**：让 AI 开发功能、修 bug、写文档 — 任何事都可以。
+4. **结束**：输入 `请为本次工作阶段完成收尾与完整交接。`。AI 会给你一张 **NEXT SESSION OPENING MESSAGE** 字条。
+5. **下次工作阶段**：把那张字条粘贴成你的第一条消息 — 就回到步骤 2 了。
+
+> **如果忘了在步骤 5 粘贴字条？** 同一台电脑 + 同一个 AI 工具：AI 会自动从 `dev/SESSION_LOG.md` 读取上次留下的字条继续。换电脑、或用网页版 AI（ChatGPT / claude.ai 等）：AI 会从空白开始 — 必须粘贴字条。粘贴总是更精准。犹豫时就贴。
 
 ---
 
@@ -228,7 +233,9 @@ AI 自动处理并合并已有的 `AGENTS.md`、`CLAUDE.md`、`GEMINI.md`。
 ### :small_blue_diamond: 3) 快速开始下一个工作阶段
 
 ```text
-<请粘贴上一轮输出的“NEXT SESSION HANDOFF PROMPT (COPY/PASTE)”区块（保持原文）。>
+<请粘贴上一轮输出的“NEXT SESSION OPENING MESSAGE”区块（保持原文）。
+ 跨工具、跨电脑、或网页版 AI 必须粘贴；同一台电脑 + 同一个 AI 工具
+ 也可依靠 AI 自动读 SESSION_LOG 备援接续，但粘贴更精准。>
 ```
 
 ---
@@ -348,9 +355,9 @@ AI 自动处理并合并已有的 `AGENTS.md`、`CLAUDE.md`、`GEMINI.md`。
 - [docs/VERIFICATION.md](docs/VERIFICATION.md)
 - 最新 QA 回归验收报告： [docs/qa/LATEST.md](docs/qa/LATEST.md)
 
-截至 2026-05-01（v3.0.3）的摘要如下：
-- AGENTS/INIT 规则同步：已验证（264 项自动化回归 — 175 主 + 89 legacy auto-chain）
-- AGENTS.md L4 精简：734 → 521 行（−29.0%），所有规则与 227 个 grep-anchor 完整保留（212 baseline + R29×12 release-doc sync + R30×6 release-lifecycle 4-phase + entry-cap×3 + reply-behavior×6）
+截至 2026-05-01（v3.0.4）的摘要如下：
+- AGENTS/INIT 规则同步：已验证（281 项自动化回归 — 192 主 + 89 legacy auto-chain）
+- AGENTS.md L4 精简：734 → 530 行（−27.8%），所有规则与 256 个 grep-anchor 完整保留（212 baseline + R29×12 release-doc sync + R30×6 release-lifecycle 4-phase + entry-cap×3 + reply-behavior×6 + R31×17 closeout-clarity / startup-transparency / lifecycle-svg）
 - Sandbox 安装实战验收：3 个 HIGH 风险场景 PASS（含 user 自建文件的 re-install / §5a `pwd ≠ git root` mismatch / §4 closeout 端到端）
 - Matrix QC 10 维审计（sandbox install）：PASS（rc.1 的 LOW finding 已由 rc.2 hotfix 解除）
 - 交接效率验证：仍有效（v2.7 的 30 组场景矩阵；在保留必要交接字段下，启动 payload 明显下降）

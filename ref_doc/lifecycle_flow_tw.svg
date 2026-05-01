@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang TC', 'Microsoft JhengHei', sans-serif">
+  <title>工作階段運作方式 — 開始、工作、結束、下次接續</title>
+  <desc>每天工作的 4 步流程；結束時會收到一張接續字條，下次當作第一條訊息貼上。</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#334155"/>
+    </marker>
+    <linearGradient id="step-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#dbeafe"/>
+      <stop offset="100%" stop-color="#bfdbfe"/>
+    </linearGradient>
+    <linearGradient id="note-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fef3c7"/>
+      <stop offset="100%" stop-color="#fde68a"/>
+    </linearGradient>
+  </defs>
+
+  <text x="400" y="32" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">工作階段運作方式</text>
+  <text x="400" y="54" text-anchor="middle" font-size="13" fill="#475569">每次坐下開工都會重複的 4 步流程</text>
+
+  <!-- Step 1: 開始 -->
+  <g>
+    <rect x="30" y="100" width="170" height="100" rx="12" fill="url(#step-grad)" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="115" y="128" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">1. 開始</text>
+    <text x="115" y="155" text-anchor="middle" font-size="12" fill="#1e3a8a">輸入：</text>
+    <text x="115" y="173" text-anchor="middle" font-size="12" font-family="monospace" fill="#1e3a8a" font-weight="600">Follow AGENTS.md</text>
+    <text x="115" y="192" text-anchor="middle" font-size="11" fill="#475569">AI 接續你上次的進度</text>
+  </g>
+
+  <line x1="200" y1="150" x2="225" y2="150" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 2: 工作 -->
+  <g>
+    <rect x="230" y="100" width="170" height="100" rx="12" fill="url(#step-grad)" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="315" y="128" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">2. 工作</text>
+    <text x="315" y="158" text-anchor="middle" font-size="12" fill="#1e3a8a">請 AI 做事情</text>
+    <text x="315" y="178" text-anchor="middle" font-size="11" fill="#475569">開發功能、修 bug、</text>
+    <text x="315" y="192" text-anchor="middle" font-size="11" fill="#475569">檢視程式碼、寫文件</text>
+  </g>
+
+  <line x1="400" y1="150" x2="425" y2="150" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 3: 結束 -->
+  <g>
+    <rect x="430" y="100" width="170" height="100" rx="12" fill="url(#step-grad)" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="515" y="128" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">3. 結束</text>
+    <text x="515" y="155" text-anchor="middle" font-size="12" fill="#1e3a8a">輸入：</text>
+    <text x="515" y="173" text-anchor="middle" font-size="12" font-family="monospace" fill="#1e3a8a" font-weight="600">收工</text>
+    <text x="515" y="192" text-anchor="middle" font-size="11" fill="#475569">AI 會給你一張字條 ↓</text>
+  </g>
+
+  <line x1="600" y1="150" x2="625" y2="150" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 4: 下次 -->
+  <g>
+    <rect x="630" y="100" width="155" height="100" rx="12" fill="url(#note-grad)" stroke="#f59e0b" stroke-width="2"/>
+    <text x="707" y="128" text-anchor="middle" font-size="15" font-weight="700" fill="#92400e">4. 下次</text>
+    <text x="707" y="155" text-anchor="middle" font-size="12" fill="#78350f">把那張字條</text>
+    <text x="707" y="173" text-anchor="middle" font-size="12" fill="#78350f">貼成你的</text>
+    <text x="707" y="190" text-anchor="middle" font-size="12" fill="#78350f">第一條訊息</text>
+  </g>
+
+  <path d="M 707,200 Q 707,250 400,250 Q 115,250 115,200" stroke="#334155" stroke-width="2" fill="none" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+  <text x="400" y="244" text-anchor="middle" font-size="11" fill="#64748b" font-style="italic">…然後回到步驟 1 開始下一次工作</text>
+
+  <!-- Forgot panel -->
+  <g>
+    <rect x="30" y="290" width="755" height="100" rx="10" fill="#fef9c3" stroke="#eab308" stroke-width="1.5"/>
+    <text x="50" y="316" font-size="13" font-weight="700" fill="#854d0e">如果忘了在步驟 4 貼上字條 …</text>
+
+    <text x="50" y="343" font-size="12" fill="#422006">
+      <tspan font-weight="600">同一台電腦 + 同一個 AI 工具：</tspan>
+      <tspan>通常沒問題 — AI 會自動接續上次的進度。</tspan>
+    </text>
+    <text x="50" y="362" font-size="12" fill="#422006">
+      <tspan font-weight="600">換電腦、或用網頁版 AI（例如 ChatGPT）：</tspan>
+      <tspan>AI 會從空白開始。你必須貼上字條。</tspan>
+    </text>
+    <text x="50" y="381" font-size="11" fill="#854d0e" font-style="italic">貼上總是更精準。猶豫時就貼。</text>
+  </g>
+
+  <text x="400" y="412" text-anchor="middle" font-size="10" fill="#94a3b8">ai-session-governance · 日常流程</text>
+</svg>
