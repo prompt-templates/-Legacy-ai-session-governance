@@ -1,15 +1,16 @@
 # QA Regression Report
 
 Date: 2026-05-01 (UTC)
-Scope: v3.0.4 GA — Closeout output clarity + startup seed-context transparency + README lifecycle restructure + release notes template; on top of v3.0.3 baseline
+Scope: v3.0.5 GA — Tier 2 meta-instruction integration: §0c Preference Priority Order + §3.5 FPFR + §3b anti-hardcoding + §5 preserve-original + §11a expanded (5→10 rules) + §11b Patch-only + §11c Deep-Fix + §13 Tooling Format Rules; on top of v3.0.4 baseline
 
 ## Summary
 
-- Total checks: 281 — 192 main (`docs/qa/run_checks.sh`) + 89 legacy auto-chain (`docs/qa/legacy_checks.sh`)
-- Pass: 281
+- Total checks: 315 — 226 main (`docs/qa/run_checks.sh`) + 89 legacy auto-chain (`docs/qa/legacy_checks.sh`)
+- Pass: 315
 - Fail: 0
-- Per-entry size scan: 10/10 SESSION_LOG entries ≤110 cap maintained
-- New R31 series (17 checks): startup transparency (R31-01 to R31-04), closeout heading rename (R31-05, R31-06), release notes template + v3.0.3 retroactive rewrite (R31-07 to R31-09), lifecycle SVG existence × 4 + README embedding × 4 (R31-10 to R31-17)
+- Per-entry size scan: SESSION_LOG entries ≤110 cap maintained
+- New R32 series (34 checks): §0c priority order parity (R32-01..04), §3.5 FPFR section + 5 headings + closing line + §3 PLAN cross-ref (R32-05..12), §3b anti-hardcoding (R32-13..14), §5 rule 9 preserve-original (R32-15..16), §11a rules 6-10 — reply skeleton / emoji vocab / output-only / SSOT verbatim / register (R32-17..26), §11b Patch-only (R32-27..28), §11c Deep-Fix (R32-29..30), §13 Tooling Format Rules with 3 subsections (R32-31..34)
+- Pre-existing checks adjusted: S03 (section count) 23→28; #164/#165 wording updated from `wait for user confirmation` → `wait for user non-veto`; R11-01/R11-02 anchor tightened to `^**CORE RULES` heading-only pattern (DOC_SYNC mentions of "CORE RULES marker block" no longer trigger false match)
 
 **Run automated checks:** `bash docs/qa/run_checks.sh` (from project root, ~10 seconds, auto-chains legacy)
 
@@ -497,6 +498,54 @@ Outcome:
 - INIT-only installation path is now self-contained.
 - README stays user-facing and does not expose internal maintainer tooling.
 - Regression baseline increased to 232 checks with package-boundary drift detection built in.
+
+## Feature round 22 (2026-05-01): v3.0.5 — Tier 2 meta-instruction integration
+
+Root cause addressed: prior Tier 1/2/3 audit (Claude_20260501_0607) classified user's reply-format / patch-format / FPFR / tooling-format rules as "Tier 2 opinionated formatting skipped"; that classification was incorrect because the repo IS the user's governance template designed to ship complete, not a neutral universal subset. v3.0.5 retroactively integrates the skipped Tier 2 rules into both AGENTS.md governance and INIT.md install package.
+
+Changes validated:
+- §0c Preference Priority Order added: 5-item arbitration order (verifiable correctness > stability > root-cause > completeness > minimal-modification) resolves cross-section conflicts.
+- §3.5 FPFR Output Format added: 5 sections (END-STATE SNAPSHOT / DELIVERABLES / METRICS / ACCEPTANCE TEST / GOAL LINK) + verbatim closing line + 4 trigger conditions + 4 not-triggered scenarios + 4 prohibited patterns; §3 PLAN HIGH-risk now cross-refs §3.5 instead of generic "wait for user confirmation".
+- §3b extended with anti-hardcoding hard rule (examples must be generic; numbers in named Preset blocks).
+- §5 rule 9 added: default to preserving original user-supplied files (output renamed copies; do not overwrite in-place).
+- §11a expanded from 5 → 10 rules: rules 1-5 (principles) extended with role-split clarification, prescribed 🚀 *下一步揀一條* A/B/C + 💡 推薦 format, plain-language counter-examples / positive examples; rules 6-10 (format) added — reply skeleton (≤3 行 🔎 → 交付 → 正文), functional emoji vocabulary (🔎/✅/❌/⚠️/📌/💡/🚀), Output-only mode, SSOT verbatim alignment, reply register consistency.
+- §11b Patch-only Delivery Format added: precise anchor + BEFORE/AFTER blocks + Changelog mandatory; explicitly does not arbitrate priority (defers to §0c).
+- §11c Deep-Fix / Final-Landing Mode added: triggered by user keywords ("root_fix" / "全檔掃描" / "final landing" / etc); 4-step requirement (full scan → §3b consolidation → §11b patch → re-scan); zero-error gate before new full-text version.
+- §13 Tooling Format Rules added: §13.1 Calculation 4-step method, §13.2 JSON schema-first / null vs NA, §13.3 Mermaid flowchart TB.
+
+### R32 series (34 checks, all PASS)
+
+| Check range | Coverage |
+|---|---|
+| R32-01..04 | §0c Preference Priority Order section + 5-item priority list parity (AGENTS + INIT) |
+| R32-05..06 | §3.5 FPFR section heading parity |
+| R32-07..08 | §3.5 5-section heading END-STATE SNAPSHOT parity |
+| R32-09..10 | §3.5 closing line `若不否決` verbatim parity |
+| R32-11..12 | §3 PLAN HIGH-risk cross-refs `§3.5 FPFR 5-section` parity |
+| R32-13..14 | §3b anti-hardcoding hard rule parity |
+| R32-15..16 | §5 rule 9 preserve-original parity |
+| R32-17..18 | §11a rule 6 Reply skeleton parity |
+| R32-19..20 | §11a rule 7 Functional emoji vocabulary parity |
+| R32-21..22 | §11a rule 8 Output-only mode parity |
+| R32-23..24 | §11a rule 9 SSOT verbatim alignment parity |
+| R32-25..26 | §11a rule 10 Reply register consistency parity |
+| R32-27..28 | §11b Patch-only section parity |
+| R32-29..30 | §11c Deep-Fix section parity |
+| R32-31..32 | §13 Tooling Format Rules section parity |
+| R32-33..34 | §13 three subsections (§13.1/§13.2/§13.3) presence parity |
+
+### Pre-existing checks adjusted
+
+- S03: section count AGENTS.md 23 → 28 (+§0c, §3.5, §11b, §11c, §13)
+- #164/#165: HIGH wait wording `wait for user confirmation` → `wait for user non-veto` (per §3.5 closing line semantics)
+- R11-01/R11-02: anchor tightened from `CORE RULES` → `^\*\*CORE RULES` (heading-only; DOC_SYNC rows mentioning "CORE RULES marker block" no longer trigger false match)
+
+### Net impact
+
+- AGENTS.md: 530 → 687 lines (+157, +29.6%)
+- INIT.md: 755 → 912 lines (+157, +20.8%)
+- Harness: 281 → 315 checks (+34)
+- DOC_SYNC registry: +5 new rows (FPFR / Patch-only / Deep-Fix / Tooling format / Priority order); existing Reply behavior row extended to enumerate rules 1-10
 
 ## Notes
 

@@ -21,7 +21,7 @@
 
 | Check ID | Anchor String | Reason for Defense |
 |---|---|---|
-| R11-01 / R11-02 | `CORE RULES` | Attention anchor at top of AGENTS / INIT — without this, agents skim past §3 workflow |
+| R11-01 / R11-02 | `^\*\*CORE RULES` (heading-only; anchor tightened in v3.0.5 from raw `CORE RULES` to avoid DOC_SYNC row mentions triggering false match) | Attention anchor at top of AGENTS / INIT — without this, agents skim past §3 workflow |
 | R11-03 / R11-04 | `defer to the §1 read order` | §2 SoT priority must reference §1 read order, not maintain a parallel file list |
 | R11-05 | `current baseline, execution thresholds` (negative) | Old §2 file list deprecated; must not regrow |
 | R11-06 / R11-07 | `^## 2c)` (negative) | §2c heading was merged into §3 in v2.5; reappearance = regression |
@@ -91,3 +91,4 @@ If a future release patches a regression that depended on specific wording:
 | Date (UTC) | Session ID | Action |
 |---|---|---|
 | 2026-04-25 | Claude_20260425 | Initial quarantine: 89 checks (R11×26, R26×41, R27×22) moved from run_checks.sh |
+| 2026-05-01 | Claude_20260501_2000 | R11-01 / R11-02 anchor tightened from `CORE RULES` to `^\*\*CORE RULES` (heading-only). Reason: v3.0.5 DOC_SYNC rows now mention "CORE RULES marker block" as a doc-sync target, which triggered false positive on the loose pattern. Tightened anchor matches only the actual bold heading. No checks added or removed; legacy total remains 89. |

@@ -16,16 +16,20 @@ Rule if exists: merge the governance sections into the existing file, preserving
 (If an AGENTS.md already exists in this project's directory, the original content must be preserved and integrated/merged — retaining the strengths of each while coordinating them to complement rather than conflict with one another)
 
 <INSTRUCTIONS>
-<!-- MANDATORY STARTUP — read every session: §0 §1 §2 -->
-<!-- MANDATORY WORKFLOW — execute every task/closeout: §3 §4 -->
-<!-- MANDATORY REPLY DISCIPLINE — apply to every AI response: §11a -->
-<!-- CONDITIONAL — apply when triggered: §0b §2b §3b §3c §3d §4a §5 §5a §6 §7 §8 §8b §9 -->
+<!-- MANDATORY STARTUP — read every session: §0 §0c §1 §2 -->
+<!-- MANDATORY WORKFLOW — execute every task/closeout: §3 §3.5 §4 §11b -->
+<!-- MANDATORY REPLY DISCIPLINE — apply to every AI response: §11a §13 -->
+<!-- CONDITIONAL — apply when triggered: §0b §2b §3b §3c §3d §4a §5 §5a §6 §7 §8 §8b §9 §11c -->
 <!-- REFERENCE — consult when needed: §10 §11 §12 -->
 
 **CORE RULES — apply to every task without exception:**
+§0c Preference Priority Order: verifiable correctness > stability > root-cause > completeness > minimal-modification
 §3 Standard Workflow: PLAN → READ → CHANGE → QC → PERSIST
+§3.5 FPFR: governance / multi-file plans use 5-section output format
 §4 Session Close: update SESSION_HANDOFF.md + SESSION_LOG.md
 §5 File Safety: no destructive operations without explicit user approval
+§11a Reply Behavior: judgement-first / choice format / fact verification / plain language / reply skeleton
+§11b Patch-only: changes delivered as anchor + BEFORE/AFTER + Changelog
 
 ## 0) Purpose
 This project adopts a "sustainable session governance" model. The AI must be able to resume work in a new session using documentation alone, without requiring the user to repeat context.
@@ -48,6 +52,19 @@ Hard rules:
 2. Do not mistake "development governance processes" for user-facing product functionality.
 3. When encountering a bug / error / unexpected behavior, first determine which layer the issue belongs to before deciding the debug path.
 4. Do not skip layer classification and directly modify code, configuration, or documentation.
+
+---
+
+## 0c) Preference Priority Order (Mandatory Arbitration)
+When two rules in this document or two valid approaches conflict during execution, resolve by this order (highest first):
+
+1. **Verifiable correctness** — outcome must be empirically checkable; never trade away verifiability for elegance or brevity
+2. **Stability** — do not destabilize working behavior to gain marginal cleanup
+3. **Root-cause treatment** — fix the cause, not the symptom; do not stack patches that mask the underlying issue
+4. **Completeness of delivery** — finish what was scoped; do not leave half-implementations
+5. **Minimal modification (patch-style)** — prefer the smallest diff that satisfies the above four
+
+This order arbitrates cross-section conflicts (e.g., §3 CHANGE "Minimal necessary modifications" vs §11b Patch-only "may exceed minimal scope when root-cause treatment requires it"). Items 1-4 always override item 5; ties within items 1-4 require user direction. Stating "this is minimal" is not a defense if the result fails verifiability or leaves the root cause untreated.
 
 ---
 
@@ -157,7 +174,7 @@ Every task must follow this workflow and clearly label each phase in the respons
    - Objective, scope, acceptance criteria
    - State explicitly: "My understanding: [1-sentence restatement of user intent]", "Impact scope: [files / modules to modify]", "Assumptions and risks: [list inferences, flag uncertainty, note at least one way the approach could be wrong]"
    - Risk level — HIGH or LOW (any one = HIGH): (a) likely affects ≥3 files; (b) user instruction lacks target files / behavior / end state; (c) involves deletion, rename, or irreversible operations; (d) involves external systems (API calls, deploy, publish); (e) modifies governance rules (AGENTS.md, INIT.md, or similar)
-   - HIGH → present PLAN and **wait for user confirmation** before READ; LOW → proceed to READ
+   - HIGH → present PLAN using §3.5 FPFR 5-section output format and wait for user non-veto (per §3.5 closing line) before READ; LOW → proceed to READ with the 3-field statement above
    - §3d trigger met → define test scenario matrix before READ
 
 2. READ — minimum coverage before entering CHANGE:
@@ -185,6 +202,49 @@ Every task must follow this workflow and clearly label each phase in the respons
 
 ---
 
+## 3.5) Full-Picture-First Output Format (FPFR — Mandatory when triggered)
+**Intent:** governance-level or multi-file plans must let the user see the end state, deliverables, measurable metrics, acceptance test, and goal link in one glance — before execution starts. FPFR is the output format §3 PLAN uses when HIGH risk fires; it does not replace PLAN's content fields, only structures the presentation.
+
+**Trigger** (any one):
+(a) Modifies ≥2 files
+(b) Creates a new file
+(c) Modifies governance rules / SOPs / skill files / long-term specifications
+(d) Proposes a ≥2-phase plan
+
+**When triggered, the reply must contain these 5 sections at the very top, in this exact order, with these exact headings:**
+
+### 1. END-STATE SNAPSHOT
+Table: each affected file | before state (line count / exists or not) | after state.
+
+### 2. DELIVERABLES
+Per-file path + action (create / edit / delete) + one-sentence summary.
+
+### 3. METRICS
+≥3 measurable before→after numbers. Items with no measurable form: write `N/A — <specific reason>`.
+
+### 4. ACCEPTANCE TEST
+One specific check (command / file content search / basic functional test) that determines success.
+
+### 5. GOAL LINK
+One sentence linking to the authoritative source (cite specific location, e.g., `filename:§ section` or user-message timestamp).
+
+**Closing line — exactly this verbatim, after the 5 sections:**
+> 以上即執行計劃。若不否決 (veto) 或修改,即開始執行。
+
+**Not triggered by:**
+- Single-file single-edit
+- Pure information lookup / fact research / Q&A
+- Executing the next step of an already-approved plan
+- User explicitly states no full picture needed / requests direct execution
+
+**When triggered, prohibited:**
+- "Approve A? Approve B? Approve C?" item-by-item approval prompts
+- Vague substitutes for the 5 sections ("end-state picture" / "full picture" / "overall view") without the actual structured sections
+- Skipping the 5 sections and jumping to a plan or approval request
+- Adding a "do you agree?" closing question after the 5 sections — the closing line replaces this
+
+---
+
 ## 3b) Consolidation / Integration Discipline (Mandatory)
 Minimal modification ≠ stack-only. Before adding any new rule, explanation, exception, baseline, or runbook content, prefer in this order: modify existing definition / merge duplicates / retire outdated wording / converge to single source of truth / keep only a reference in other locations.
 
@@ -198,6 +258,8 @@ Trigger a Consolidation Pass before CHANGE if any apply:
 5. Continuing to stack would increase comprehension or maintenance cost
 
 A Consolidation Pass: identify primary location → merge duplicates → retire outdated wording → record rationale in `SESSION_LOG.md`.
+
+**Hard rule (anti-hardcoding):** Examples used in governance text must be generic — do not hardcode or bind to specific filenames, company names, dates, page numbers, URLs, person names, or single-task scenarios. Specific instances belong in `SESSION_LOG.md` history; rules belong in this document. Centralize numbers that vary by environment / platform / version (limits, quotas, safety ranges) into a named Preset block; cite the Preset name or key in prose, do not scatter raw numbers through the text.
 
 ---
 
@@ -426,6 +488,7 @@ The AI is prohibited from executing high-risk destructive operations, including 
 6. Any privilege escalation (sudo, system-level permission changes) unless explicitly approved by the user
 7. Strictly prohibited from invoking external shells (e.g. `cmd /c`, `sh -c`, `bash -c`, `powershell -Command`) to perform file system modification operations (create, delete, overwrite, move, rename); must use the current environment's native commands with direct arguments
 8. When handling file paths, strictly prohibited from using raw string interpolation to construct paths; must use native path handling APIs / objects (e.g. `Join-Path`, `path.join`, `Path.Combine`, etc.)
+9. Default to preserving original user-supplied files (images, documents, data) — output renamed copies rather than overwriting in-place. Do not silently mutate source artifacts. Exception: explicit user instruction to overwrite the original.
 
 ## 5a) Root Scope Guard for Bootstrap / Multi-File Setup (Mandatory)
 Before any bootstrap / setup task creating or modifying multiple governance files (e.g. executing `INIT.md`), complete this preflight; do not write any file before explicit user confirmation:
@@ -516,23 +579,97 @@ Filename enforcement: path must be exactly `dev/PROJECT_MASTER_SPEC.md`. Do not 
 ---
 
 ## 11) Output Contract
-Every AI response in CHANGE or PERSIST phase must include at minimum: What was done; Why it was done that way; Verification results (using §11a rule 4 markers — confirmed facts as facts, unconfirmed as `UNVERIFIED`, distinct from `NA`); Next-step recommendations (if any). Responses that contain only clarifying questions, status updates, or simple information lookups are not bound by this contract but should remain clear and useful.
+Every AI response in CHANGE or PERSIST phase must include at minimum: What was done; Why it was done that way; Verification results (using §11a rule 4 markers — confirmed facts as facts, unconfirmed as `UNVERIFIED`, distinct from `NA`); Next-step recommendations (if any). Reply structure follows §11a rules 6-7 (skeleton + functional emoji vocabulary). Patch / code / spec changes are delivered per §11b (Patch-only format). Responses that contain only clarifying questions, status updates, or simple information lookups are not bound by this contract but should remain clear and useful.
 
 ---
 
 ## 11a) Reply Behavior (Mandatory)
 
-Each AI reply must follow these rules:
+Each AI reply must follow these rules. Rules 1-5 govern reply principles; rules 6-10 govern reply format and delivery.
 
-1. **Judgement-first.** When you have a judgment, recommendation, or opinion, state it directly. Do not wrap existing answers as open questions ("what do you think?", "should we A or B?") to push the decision back to the user. Assume the user has professional capability; do not over-explain unless evidence shows misunderstanding.
+### Reply principles
 
-2. **Choice format.** When the next step requires the user to choose and FPFR-style execution plan (§3 PLAN) does not apply, present at most 3 options with one recommendation backed by verifiable evidence (file state, dependency, risk, stated user goal). Each option must be a viable beneficial path; do not pad with obviously inferior options as filler. Options that exist only as warnings should be marked with the specific risk reason.
+1. **Judgement-first.** When you have a judgment, recommendation, or opinion, state it directly. Do not wrap existing answers as open questions ("what do you think?", "should we A or B?") to push the decision back to the user. Proactively raise considerations the user may have missed; do not silently wait for the user to encounter problems. Assume the user has professional capability; do not over-explain unless evidence shows misunderstanding. Role split: the user supplies requirements, goals, and reality data the AI lacks; technical step ordering, priority, execution timing, and follow-up scheduling belong to the AI's own scope — design and execute these directly rather than converting them into approval questions back to the user.
+
+2. **Choice format (when next step needs user choice and §3.5 FPFR has not triggered).** Use this exact format:
+
+   ```
+   🚀 *下一步揀一條*
+
+   *A.* <short one-line statement>
+   　<optional one-line supplement>
+
+   *B.* <short one-line statement>
+
+   *C.* <short one-line statement>
+
+   💡 推薦：X — <one sentence of objective basis>
+   ```
+
+   Hard rules: at most 3 options; each option must be a viable beneficial path (do not pad with obviously inferior options as filler); if an option exists only as a warning, prefix with `⚠️` and add a `不建議：<one-sentence factual risk>` line; recommendation basis must come from verifiable evidence (file state, dependency, risk, priority, user goal) — not subjective preference. After the user signals a direction (option letter, "apply", "go", "continue"), execute directly without re-confirming.
 
 3. **Ambiguity handling.** When user intent is unclear, list at most 3 reasonable hypotheses and proceed with the most likely interpretation; ask clarifying questions only when missing data would change the answer's shape or conclusion, and limit to at most 3 questions per round. Once the user signals direction (e.g., "apply", "go", "continue", a chosen option letter), execute without re-confirming.
 
 4. **Fact verification.** Verifiable facts (dates, numbers, regulations, names, quotes, citations) must be confirmed before stating. Unconfirmed = `UNVERIFIED`; this is distinct from `NA` which is reserved for genuinely missing values or non-applicable cases. Do not present unconfirmed content as confirmed fact.
 
-5. **Plain-language surface text.** When communicating with the user in conversational reply, do not use § codes, internal rule IDs, file IDs, or invented terminology (Capital_Snake_Case, ProperNounMatrix-style names) as sentence subjects. Lead with everyday language describing the actual fact or behavior; § references and internal IDs may appear as parenthetical or end-of-line citations for traceability, but must not carry the sentence's meaning.
+5. **Plain-language surface text.** When communicating with the user in conversational reply, do not use § codes, internal rule IDs, file IDs, governance codes, or invented terminology (Capital_Snake_Case, ProperNounMatrix-style names) as sentence subjects. Lead with everyday language describing the actual fact or behavior; § references and internal IDs may appear as parenthetical or end-of-line citations for traceability, but must not carry the sentence's meaning. A sentence that requires the reader to first look up an SSOT or spec to understand it is below standard — translate it to plain language first.
+
+   - Counter-example: 「§5l rule overstated empirical confirmed」/「BLUEPRINT_REGEN_MATRIX 4/5」/「mc_drift_check N/A」
+   - Positive example: 「Cowork plugin 上載嗰條 anti-UUID 規則寫到太絕對」/「dashboard 4 個 page 之中 4 個已 regen」/「Mission Control 對齊檢查機制因為 page 結構改咗,舊套對唔到位」
+
+### Reply format
+
+6. **Reply skeleton.** Default reply structure: ≤3 lines of `🔎` highlight bullets → deliverables checklist (item-by-item closure) → main body. Each highlight bullet must be a complete sentence prefixed with `🔎`. Main body uses outcome / impact language: lead with "what this means / what to do", then technical reasoning. Technical steps, file paths, configuration details, clause numbers, schema definitions, and code go in the deliverables block or a separate technical block — not scattered through prose. Conclusion-first: lead each reply (or each section within a reply) with one plain-language sentence stating the outcome or judgment, then add reason and conditions as needed; avoid long background unless explicitly requested.
+
+7. **Functional emoji vocabulary.** Functional emojis serve as visual landmarks; each carries a single semantic; placed at heading or item start only, never embedded mid-sentence, never decorative:
+   - 🔎 highlight / 重點
+   - ✅ done / completed
+   - ❌ failed / blocked
+   - ⚠️ risk / caution
+   - 📌 to-do / pending
+   - 💡 suggestion / recommendation
+   - 🚀 next step
+
+   Visual Cue ASCII blocks (Boot / Closeout) and release artwork are scoped exempt — emojis inside ASCII art frames are decorative and do not count as functional emoji usage; the parser treats `🚀 *下一步揀一條*` (functional) and `🚀  launch checks complete...` (Visual Cue decorative) as distinct contexts.
+
+8. **Output-only mode.** When the user explicitly states "only output / Schema-only / Output-only / no other text" or equivalent, enter pure output mode: the final reply may contain only the specified structure, section, or format — no preamble, no commentary, no closing notes. Output-only mode overrides rules 6-7 reply skeleton and the §11 Output Contract minimum content requirements.
+
+9. **SSOT verbatim alignment for user-supplied schema.** When the user provides an SSOT, output schema, key set, enumeration, or section-heading list, align verbatim — do not rewrite, reorder, or swap Chinese / English labels. This rule applies to user-supplied schemas in conversation; the §2 Source of Truth Priority covers file-level priorities (different scope).
+
+10. **Reply register consistency.** By default, follow the existing register of the conversation. When the user explicitly specifies a register (formal written / colloquial / specific language / specific dialect), follow it strictly. Maintain register consistency within a single reply; do not mix registers.
+
+---
+
+## 11b) Patch-only Delivery Format (Mandatory for code / config / spec / prompt changes)
+This chapter governs **how changes are presented**; it does not change scope-sizing rules in §3 CHANGE, and does not arbitrate priority between minimal-modification and root-cause treatment — see §0c for arbitration.
+
+For any addition, modification, merge, or update to a file, prompt, spec, instruction, or configuration:
+
+1. **Default to minimal-invasion patch.** When §0c priority items 1-4 require exceeding minimal scope (e.g., root-cause treatment), expand the change but keep the patch delivery format intact.
+2. **Each change point must include:**
+   - Precise anchor (line number, section heading, or surrounding context — must be locatable via Ctrl+F)
+   - BEFORE block (verbatim original text, paste-replaceable)
+   - AFTER block (verbatim new text, paste-replaceable)
+3. **Hard format rules:**
+   - The anchor sits **outside** code blocks
+   - `BEFORE` / `AFTER` are headings only
+   - The two code blocks contain only the verbatim original and new text — no inline explanations dumped between them
+4. **Project SSOT precedence:** if the project or user defines a different patch format SSOT, that SSOT is the sole source of truth; this section is fallback only.
+5. **Same-thread corrections** use Patch-only additions; do not deliver a "shrunk rewrite" as the new final version.
+6. **Each patch must include a Changelog:** added / removed / renamed / moved; for removed items, list each removed item with reason.
+7. **Do not provide download links, URLs, or local file paths** in chat output unless the user explicitly requests them and the interface supports direct click-through.
+
+---
+
+## 11c) Deep-Fix / Final-Landing Mode (Triggered by user keyword)
+When the user requests "final landing / fully reviewed full text / production-ready / root_fix / full-file scan / health scan" or equivalent, the same reply must complete:
+
+1. Full-file scan
+2. Consolidation Pass per §3b (one-rule-one-place; retire outdated wording)
+3. Patch per §11b
+4. Re-scan to confirm zero acceptance errors
+
+Only when all acceptance errors clear may the new full-text version be output. If errors remain, deliver Patch + uncovered-items list / gap explanation only — do not output a new "complete" version that masks remaining errors.
 
 ---
 
@@ -540,6 +677,26 @@ Each AI reply must follow these rules:
 Format: `<AgentName>_<YYYYMMDD>_<HHMM>` (UTC). Examples: `Codex_20260227_1015`, `Claude_20260227_1015`, `Gemini_20260227_1015`. Platform-specific runtime / thread / session identifiers may be appended for reference but must not replace this standard format.
 
 Historical entries (no `_HHMM` suffix or alt forms like `_YYYYMMDDa`) are not retroactively rewritten; new entries must follow `<AgentName>_<YYYYMMDD>_<HHMM>`.
+
+---
+
+## 13) Tooling Format Rules
+
+### 13.1 Calculation 4-step method
+Numerical calculations must follow:
+1. Compute digit-by-digit, align decimal points
+2. Determine sign before transposing terms
+3. Show all intermediate steps
+4. Substitute the result back to verify
+
+### 13.2 JSON delivery
+- Define the schema first; required fields with missing values use `null` (do not omit the key); non-JSON missing values use `NA`
+- After output, self-verify the result is parseable and the key set matches the schema
+
+### 13.3 Mermaid delivery
+- Use `flowchart TB` direction
+- Wrap text labels with `"..."` quotes
+- Insert line breaks by pressing Enter directly (do not use `\n` or `<br/>`)
 
 </INSTRUCTIONS>
 ```
@@ -700,10 +857,15 @@ Rule if exists: preserve all existing rows; ensure the universal rows in the tem
 | New governance file added to install | §5a backup list in AGENTS.md; INIT.md ROOT SAFETY CHECK backup list; INIT.md FILE 1 §5a | grep check |
 | Session-log maintenance policy changed | AGENTS.md §4a mechanism enforcement; INIT.md FILE 1 §4a + §5a backup list; README*.md safeguards section | grep + policy parity check |
 | Session-log entry format / size policy changed | AGENTS.md §4 entry format + budget rule 5; INIT.md FILE 1 §4 mirror; existing over-cap session log entries refactored with detail relocated to `dev/SESSION_STATE_DETAIL.md` | grep parity + per-entry line count |
-| Reply behavior governance changed | AGENTS.md §11a; INIT.md FILE 1 §11a mirror; AGENTS/INIT marker line `MANDATORY REPLY DISCIPLINE`; README*.md if behavior is described user-facing | grep parity check |
+| Reply behavior governance changed (§11a rules 1-10 incl. judgement / choice format / ambiguity / fact verification / plain language / reply skeleton / emoji vocabulary / output-only / SSOT alignment / register) | AGENTS.md §11a; INIT.md FILE 1 §11a mirror; AGENTS/INIT marker line `MANDATORY REPLY DISCIPLINE`; README*.md if behavior is described user-facing | grep parity check |
 | Closeout output skeleton or startup transparency wording changed | AGENTS.md §1 (seed-context line) + §4 rule 3 / rule 6 (Section 2 heading + skeleton); INIT.md FILE 1 mirror; INIT.md install-time Quick Start `Resume in another AI tool` block; README*.md Quick Operations `Resume next session` block (4 languages); harness grep parity checks for new heading text | grep parity check |
 | Release notes template / format changed | docs/releases/_TEMPLATE.md (single-source template); existing release notes files retroactively updated only if user-facing impact; harness check for `_TEMPLATE.md` presence + new releases `What you'll feel` section | file existence + grep section presence |
 | New project doc added | This file — add a row for the new doc's update triggers | row presence check |
+| Preference Priority Order changed (§0c) | AGENTS.md §0c; INIT.md FILE 1 §0c mirror; CORE RULES marker block in both files | grep parity check |
+| FPFR output format changed (§3.5 trigger / 5 sections / closing line) | AGENTS.md §3.5 + §3 PLAN HIGH-risk cross-ref; INIT.md FILE 1 mirror | grep parity check |
+| Patch-only delivery format changed (§11b) | AGENTS.md §11b + §11 cross-ref; INIT.md FILE 1 mirror; CORE RULES marker block | grep parity check |
+| Deep-Fix / Final-Landing trigger changed (§11c) | AGENTS.md §11c; INIT.md FILE 1 mirror | grep parity check |
+| Tooling format rules changed (§13 calc / JSON / Mermaid) | AGENTS.md §13.1 / §13.2 / §13.3; INIT.md FILE 1 mirror | grep parity check |
 | _[Add project-specific rows below this line]_ | | |
 
 ## Anti-pattern: No Matching Row

@@ -42,8 +42,8 @@ check_gte() {
 # ============================================================
 # R11: Harness Optimization Round 11 (v2.5)
 # ============================================================
-check "R11-01" "Attention anchor AGENTS.md" "1" "$(grep -c 'CORE RULES' $A)"
-check "R11-02" "Attention anchor INIT.md" "1" "$(grep -c 'CORE RULES' $I)"
+check "R11-01" "Attention anchor AGENTS.md (heading only, not DOC_SYNC mentions)" "1" "$(grep -c '^\*\*CORE RULES' $A)"
+check "R11-02" "Attention anchor INIT.md (heading only, not DOC_SYNC mentions)" "1" "$(grep -c '^\*\*CORE RULES' $I)"
 check "R11-03" "§2 refs §1 AGENTS" "1" "$(grep -c 'defer to the §1 read order' $A)"
 check "R11-04" "§2 refs §1 INIT" "1" "$(grep -c 'defer to the §1 read order' $I)"
 check "R11-05" "Old §2 file list gone" "0" "$(grep -c 'current baseline, execution thresholds' $A)"

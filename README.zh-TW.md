@@ -49,7 +49,11 @@
 | **工作日誌自動維護** | 工作日誌隨時間增長到數千行，佔用 AI 每次啟動的 context — 收尾時由 AI 依觸發條件自動整理舊記錄，保持啟動上下文精簡 |
 | **QC 失敗處理** | AI 靜默重試或放棄失敗的測試 — 測試或建置失敗時，AI 必須報告失敗內容、診斷原因，並等待用戶指示，而非自動重試 |
 | **收尾誤觸保護** | 「好了謝謝」之類的日常用語意外觸發完整 session closeout — 當語意模糊時，AI 會先確認是否真的要結束工作階段 |
-| **回覆行為治理** | AI 用假裝開放題反問推回用戶、選項夾差選項充數、過量澄清問題、未核對 facts 當已核對寫、surface text 用 `§` codes 做句子主語 — §11a（v3.0.3）令 5 條 reply rules mandatory：judgement-first、≤3 options + 推薦、≤3 假設 + ≤3 問題、`UNVERIFIED` 同 `NA` 區分、surface text 用人話 |
+| **回覆行為治理** | AI 用假裝開放題反問推回用戶、選項夾差選項充數、過量澄清問題、未核對 facts 當已核對寫、surface text 用 `§` codes 做句子主語 — §11a（v3.0.3 baseline + v3.0.5 擴展）令 10 條 reply rules mandatory：judgement-first 加角色分工、規定選擇題格式（`🚀 *下一步揀一條*` + A/B/C + `💡 推薦`）、≤3 假設 + ≤3 問題、`UNVERIFIED` 同 `NA` 區分、surface text 用人話加反例正例、回覆骨架（`🔎` 重點 → 交付清單 → 正文）、功能 emoji 詞彙（🔎/✅/❌/⚠️/📌/💡/🚀）、Output-only mode override、SSOT 逐字對齊、回覆語體一致 |
+| **全圖優先計劃** | AI 將多檔或治理改動當散文堆，無 end-state、無交付、無指標、無驗收、無目標連結 — §3.5 FPFR（v3.0.5）規定：當涉及 ≥2 檔 / 新建檔 / 治理改動 / ≥2 階段計劃時，必須以 5 個固定區段 + 收尾句呈交；明禁「同意 A？同意 B？」逐項批准 |
+| **補丁式交付格式** | AI 將代碼 / spec / 設定改動當整段重生文字交，無 anchor、無 before/after，難審難 rollback — §11b（v3.0.5）規定：精準 anchor 喺 code block 外、BEFORE / AFTER 兩個 code block 內只放 verbatim 文字、Changelog 列出 added / removed / renamed / moved |
+| **跨規則仲裁** | AI 對住規則衝突（例如「最小改動」vs「根因治理」）隨機揀，無一致優先序 — §0c（v3.0.5）明文優先序：事實可驗收 > 穩定性 > 根因治理 > 完整性交付 > 最小改動；前 4 項永遠 override 第 5 項 |
+| **工具格式硬規則** | AI 計算唔展示步驟、JSON 無 schema、Mermaid 方向亂 — §13（v3.0.5）規定：計算四步法（逐位 + 判正負 + 顯示步驟 + 代回驗算）、JSON schema-first 必填欄位用 `null`、Mermaid `flowchart TB` 方向加 `"..."` 包覆 text label |
 
 ### :small_blue_diamond: SESSION_LOG.md 怎麼保持精簡
 
@@ -72,6 +76,7 @@
 
 | 版本 | 變更內容 | 對你的意義 |
 |---|---|---|
+| **v3.0.5** | 完整回覆協議現入治理，唔再係「universal subset」。回覆會先用 `🔎` 重點 bullet（≤3 行）、再交付清單、再正文。選擇題用一致格式 `🚀 *下一步揀一條*` + A/B/C + `💡 推薦`。多檔或治理改動觸發全圖優先計劃，5 個固定區段（END-STATE / DELIVERABLES / METRICS / ACCEPTANCE / GOAL LINK）+ 收尾句 — 唔再有「同意 A？同意 B？」逐項批准。代碼 / spec / 設定改動以補丁交付：精準 anchor 喺 code block 外、BEFORE / AFTER 兩個 code block 內只放 verbatim 文字、加 Changelog。數值答案展示四步。JSON 先定 schema。Mermaid 用 `flowchart TB` 加 `"..."` 包覆 text label。當兩條規則衝突時 AI 跟明文優先序（事實可驗收 > 穩定性 > 根因 > 完整性 > 最小改動），唔再隨機揀。 | 回覆體驗一致、可掃讀：頂置重點 → 清單 → 正文，surface text 唔再夾 `§` codes。非 trivial 工作嘅計劃永遠係全圖優先，所以你可以一眼 veto / 修改成個 plan，唔需逐項批准。Patch 易審可貼。仲裁規則令 AI 唔再為「diff 細啲」犧牲事實可驗收 — 事實可驗收永遠贏。 |
 | **v3.0.4** | 每次工作階段結束時 AI 給你的那段字條，現在標題改為「NEXT SESSION OPENING MESSAGE」，並在底下加一行提示「貼成你下次 AI 工作階段的第一條訊息」— 看到就知道要貼去哪。工作階段開始時 AI 會印一行 `Seed context: ...` 顯示用了哪個來源（你貼的、或者自動讀取上次留下的字條），讓你看清楚有冇接續到。README 不再只教安裝 + 開始，現在覆蓋完整每日流程（開始 → 工作 → 結束 → 下次接續），並附 4 個語言版本的視覺流程圖。release notes 改用新模板，每篇都先講「對你的意義」，不再像內部 changelog。 | 工作階段結尾不再困惑「這段字條要貼去哪」。AI 啟動時不用再猜「它有冇接續上次」。新用戶讀 README 就看到整個日常流程，不只是安裝。 |
 | **v3.0.3** | AI 回覆變得更果斷直接：當 AI 有判斷時會直接給出，不再用「你覺得呢」反問把決定推回給你。選項最多 3 個並附上明確推薦。AI 未核對過的數字、日期、引用會明確標示 `UNVERIFIED`，讓你一眼分辨已核實 vs 未核實。內部規則代碼不再用作回覆裡的句子主語。每筆 SESSION_LOG 收尾紀錄上限 ≤110 行，發布版本相關的詳細內容會移到另一個檔案，避免每次啟動讀取時被舊紀錄拖慢。 | 簡單任務減少來回確認。已核實 vs 未核實的狀態看得清楚。閱讀回覆不再需要先懂治理術語。長期專案啟動速度不會被歷史紀錄拖慢。 |
 | **v3.0**（含 v3.0.1 / v3.0.2 patches） | 治理檔案大幅精簡：AGENTS.md 從 734 行縮減至 504 行（−31.3%），所有規則完整保留；每 session 啟動的系統 prompt token 成本下降約 15.6%。Legacy quarantine 機制把 89 條歷史防漂移檢查隔離到自動 chain 的第二層 harness — 主檢查套件變輕，但 release 時禁止 bypass legacy，歷史保險不會無聲丟失。v3.0.1 加入 release 後文檔同步治理（R29 系列檢查），防止 README / index.html 漂走。v3.0.2 把 release / merge gate 擴充為 4 階段生命週期（發前驗證 / 發 release / 發後執手尾 / 觀察期），加 R30 系列 enforcement。已建立 `dev/SESSION_STATE_DETAIL.md` 或 `dev/PROJECT_MASTER_SPEC.md` 的用戶 re-install 時也會被自動備份，升級路徑資料安全。 | 系統 prompt 中的治理文字變少 → 規則遵守率提升（業界數據：短規則約 89% vs 冗長約 35%）；release 後相關文件漂走會自動 catch（README、release notes、公開頁 stat counter 同步）；本機檔案在升級時被保留；跨 LLM 通用相容（Claude Code、Claude Cowork、OpenAI Codex CLI、Gemini CLI 與 Web LLMs）— 零 hook 依賴。 |
@@ -355,9 +360,9 @@ AI 自動處理並合併既有的 `AGENTS.md`、`CLAUDE.md`、`GEMINI.md`。
 - [docs/VERIFICATION.md](docs/VERIFICATION.md)
 - 最新 QA 回歸驗收報告： [docs/qa/LATEST.md](docs/qa/LATEST.md)
 
-截至 2026-05-01（v3.0.4）的摘要如下：
-- AGENTS/INIT 規則同步：已驗證（281 項自動化回歸 — 192 主 + 89 legacy auto-chain）
-- AGENTS.md L4 削減：734 → 530 行（−27.8%），所有規則與 256 個 grep-anchor 完整保留（212 baseline + R29×12 release-doc sync + R30×6 release-lifecycle 4-phase + entry-cap×3 + reply-behavior×6 + R31×17 closeout-clarity / startup-transparency / lifecycle-svg）
+截至 2026-05-01（v3.0.5）的摘要如下：
+- AGENTS/INIT 規則同步：已驗證（315 項自動化回歸 — 226 主 + 89 legacy auto-chain）
+- AGENTS.md governance 範圍：530 → 687 行（+29.6%）為 v3.0.5 Tier 2 整合；累計 −6.4% 對比 v2.x baseline (734)；所有規則與 290 個 grep-anchor 完整保留（212 baseline + R29×12 + R30×6 + entry-cap×3 + reply-behavior×6 + R31×17 + R32×34 v3.0.5 Tier 2 整合）
 - Sandbox 安裝實戰驗收：3 個 HIGH 風險情景 PASS（含 user 自建檔的 re-install / §5a `pwd ≠ git root` mismatch / §4 closeout 端到端）
 - Matrix QC 10 維審計（sandbox install）：PASS（rc.1 的 LOW finding 已由 rc.2 hotfix 解除）
 - 交接效率驗證：仍有效（v2.7 的 30 組情景矩陣；在保留必要交接欄位下，啟動 payload 顯著下降）

@@ -40,7 +40,7 @@ I="INIT.md"
 # ============================================================
 check "S01" "Fence count AGENTS.md = 16" "16" "$(grep -c '^```' $A)"
 check "S02" "Fence count INIT.md = 28" "28" "$(grep -c '^```' $I)"
-check "S03" "Section count AGENTS.md = 23" "23" "$(grep -c '^## ' $A)"
+check "S03" "Section count AGENTS.md = 28" "28" "$(grep -c '^## ' $A)"
 check "S04" "AGENTS.md fences even" "0" "$(( $(grep -c '^```' $A) % 2 ))"
 check "S05" "INIT.md fences even" "0" "$(( $(grep -c '^```' $I) % 2 ))"
 
@@ -237,8 +237,8 @@ check "159" "Lean format INIT" "1" "$(grep -c 'lean key-value style' $I)"
 check_gte "160" "FILE 5 bold key format" "1" "$(grep -c '\*\*ID:\*\*' $I)"
 check "162" "Archive >400 AGENTS" "1" "$(grep -c '>400 lines' $A)"
 check_gte "163" "Archive >400 INIT" "1" "$(grep -c '>400 lines' $I)"
-check "164" "HIGH wait AGENTS" "1" "$(grep -c 'wait for user confirmation' $A)"
-check "165" "HIGH wait INIT" "1" "$(grep -c 'wait for user confirmation' $I)"
+check "164" "HIGH wait AGENTS (FPFR non-veto wording per v3.0.5)" "1" "$(grep -c 'wait for user non-veto' $A)"
+check "165" "HIGH wait INIT (FPFR non-veto wording per v3.0.5)" "1" "$(grep -c 'wait for user non-veto' $I)"
 check "166" "Assumptions and risks AGENTS" "1" "$(grep -c 'Assumptions and risks' $A)"
 check "167" "Assumptions and risks INIT" "1" "$(grep -c 'Assumptions and risks' $I)"
 check "168" "Self-challenge removed AGENTS" "0" "$(grep -c 'Challenge own assumptions' $A)"
@@ -268,7 +268,7 @@ check "R29-05" "docs/releases/${LATEST_STABLE_TAG}.md release notes file exists"
 check_gte "R29-06" "docs/qa/LATEST.md references latest stable tag" "1" "$(grep -c "$LATEST_STABLE_TAG" docs/qa/LATEST.md)"
 # index.html stat counter must reflect total checks (main + legacy);
 # value is hardcoded against current run total so any harness check change forces an update.
-EXPECTED_INDEX_COUNTER="281"
+EXPECTED_INDEX_COUNTER="315"
 check "R29-07" "docs/site/index.html stat counter = $EXPECTED_INDEX_COUNTER" "1" "$(grep -c "data-target=\"$EXPECTED_INDEX_COUNTER\"" docs/site/index.html)"
 check "R29-08" "DOC_SYNC_CHECKLIST has Release published row" "1" "$(grep -c 'Release published' dev/DOC_SYNC_CHECKLIST.md)"
 # README must mention latest stable tag in ≥2 places (version-table row + Snapshot/text body) — guards against
@@ -312,6 +312,63 @@ check "R31-14" "README.md references lifecycle SVG" "1" "$(grep -c 'lifecycle_fl
 check "R31-15" "README.zh-TW.md references lifecycle SVG" "1" "$(grep -c 'lifecycle_flow_tw.svg' README.zh-TW.md)"
 check "R31-16" "README.zh-CN.md references lifecycle SVG" "1" "$(grep -c 'lifecycle_flow_cn.svg' README.zh-CN.md)"
 check "R31-17" "README.ja.md references lifecycle SVG" "1" "$(grep -c 'lifecycle_flow_ja.svg' README.ja.md)"
+
+# ============================================================
+# R32 series — v3.0.5: Tier 2 meta-instruction integration
+# §0c Preference Priority Order / §3.5 FPFR / §3b anti-hardcoding /
+# §5 preserve-original / §11a expanded (rules 6-10) / §11b Patch-only /
+# §11c Deep-Fix / §13 Tooling Format Rules
+# Each new section gets AGENTS + INIT parity check.
+# ============================================================
+# §0c Preference Priority Order
+check "R32-01" "§0c Preference Priority Order present (AGENTS)" "1" "$(grep -c '^## 0c)' $A)"
+check "R32-02" "§0c Preference Priority Order present (INIT mirror)" "1" "$(grep -c '^## 0c)' $I)"
+check "R32-03" "§0c 5-item priority list — Verifiable correctness (AGENTS)" "1" "$(grep -c 'Verifiable correctness' $A)"
+check "R32-04" "§0c 5-item priority list — Verifiable correctness (INIT mirror)" "1" "$(grep -c 'Verifiable correctness' $I)"
+
+# §3.5 FPFR Output Format
+check "R32-05" "§3.5 FPFR section present (AGENTS)" "1" "$(grep -c '^## 3.5)' $A)"
+check "R32-06" "§3.5 FPFR section present (INIT mirror)" "1" "$(grep -c '^## 3.5)' $I)"
+check "R32-07" "§3.5 5-section heading END-STATE SNAPSHOT (AGENTS)" "1" "$(grep -c 'END-STATE SNAPSHOT' $A)"
+check "R32-08" "§3.5 5-section heading END-STATE SNAPSHOT (INIT mirror)" "1" "$(grep -c 'END-STATE SNAPSHOT' $I)"
+check "R32-09" "§3.5 closing line verbatim (AGENTS)" "1" "$(grep -c '若不否決' $A)"
+check "R32-10" "§3.5 closing line verbatim (INIT mirror)" "1" "$(grep -c '若不否決' $I)"
+check "R32-11" "§3 PLAN HIGH-risk cross-refs §3.5 (AGENTS)" "1" "$(grep -c '§3.5 FPFR 5-section' $A)"
+check "R32-12" "§3 PLAN HIGH-risk cross-refs §3.5 (INIT mirror)" "1" "$(grep -c '§3.5 FPFR 5-section' $I)"
+
+# §3b anti-hardcoding hard rule
+check "R32-13" "§3b anti-hardcoding hard rule present (AGENTS)" "1" "$(grep -c 'Hard rule (anti-hardcoding)' $A)"
+check "R32-14" "§3b anti-hardcoding hard rule present (INIT mirror)" "1" "$(grep -c 'Hard rule (anti-hardcoding)' $I)"
+
+# §5 rule 9 preserve original
+check "R32-15" "§5 rule 9 preserve original files (AGENTS)" "1" "$(grep -c 'preserving original user-supplied files' $A)"
+check "R32-16" "§5 rule 9 preserve original files (INIT mirror)" "1" "$(grep -c 'preserving original user-supplied files' $I)"
+
+# §11a expanded rules 6-10
+check "R32-17" "§11a rule 6 Reply skeleton (AGENTS)" "1" "$(grep -c '\*\*Reply skeleton\.\*\*' $A)"
+check "R32-18" "§11a rule 6 Reply skeleton (INIT mirror)" "1" "$(grep -c '\*\*Reply skeleton\.\*\*' $I)"
+check "R32-19" "§11a rule 7 Functional emoji vocabulary (AGENTS)" "1" "$(grep -c 'Functional emoji vocabulary' $A)"
+check "R32-20" "§11a rule 7 Functional emoji vocabulary (INIT mirror)" "1" "$(grep -c 'Functional emoji vocabulary' $I)"
+check "R32-21" "§11a rule 8 Output-only mode (AGENTS)" "1" "$(grep -c '\*\*Output-only mode\.\*\*' $A)"
+check "R32-22" "§11a rule 8 Output-only mode (INIT mirror)" "1" "$(grep -c '\*\*Output-only mode\.\*\*' $I)"
+check "R32-23" "§11a rule 9 SSOT verbatim alignment (AGENTS)" "1" "$(grep -c 'SSOT verbatim alignment' $A)"
+check "R32-24" "§11a rule 9 SSOT verbatim alignment (INIT mirror)" "1" "$(grep -c 'SSOT verbatim alignment' $I)"
+check "R32-25" "§11a rule 10 Reply register consistency (AGENTS)" "1" "$(grep -c '\*\*Reply register consistency\.\*\*' $A)"
+check "R32-26" "§11a rule 10 Reply register consistency (INIT mirror)" "1" "$(grep -c '\*\*Reply register consistency\.\*\*' $I)"
+
+# §11b Patch-only Delivery Format
+check "R32-27" "§11b Patch-only section present (AGENTS)" "1" "$(grep -c '^## 11b) Patch-only Delivery Format' $A)"
+check "R32-28" "§11b Patch-only section present (INIT mirror)" "1" "$(grep -c '^## 11b) Patch-only Delivery Format' $I)"
+
+# §11c Deep-Fix / Final-Landing Mode
+check "R32-29" "§11c Deep-Fix section present (AGENTS)" "1" "$(grep -c '^## 11c) Deep-Fix' $A)"
+check "R32-30" "§11c Deep-Fix section present (INIT mirror)" "1" "$(grep -c '^## 11c) Deep-Fix' $I)"
+
+# §13 Tooling Format Rules — 3 subsections
+check "R32-31" "§13 Tooling Format Rules section present (AGENTS)" "1" "$(grep -c '^## 13) Tooling Format Rules' $A)"
+check "R32-32" "§13 Tooling Format Rules section present (INIT mirror)" "1" "$(grep -c '^## 13) Tooling Format Rules' $I)"
+check "R32-33" "§13 three subsections present (AGENTS)" "3" "$(grep -cE '^### 13\.[123]' $A)"
+check "R32-34" "§13 three subsections present (INIT mirror)" "3" "$(grep -cE '^### 13\.[123]' $I)"
 
 # ============================================================
 # Category 15: Legacy Harness Health (staleness detection)
