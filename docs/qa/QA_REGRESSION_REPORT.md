@@ -274,6 +274,9 @@ Changes: §1 Verbatim block "last occurring" precision + "does not substitute" s
 | (137) Never-delete hard rule in INIT.md | `grep -c "Never delete session entries" INIT.md` | 1 | PASS |
 | (138) §4a in CONDITIONAL markers in AGENTS.md | `grep -c "CONDITIONAL.*§4a" AGENTS.md` | 1 | PASS |
 | (139) §4a in CONDITIONAL markers in INIT.md | `grep -c "CONDITIONAL.*§4a" INIT.md` | 1 | PASS |
+| (167) §4 entry size cap ≤110 in SESSION_LOG | `awk` count between `^## YYYY-MM-DD` headers | 0 over-cap entries | PASS |
+| (168) §4 entry-cap rule present in AGENTS.md | `grep -c "hard cap ≤110 lines per entry" AGENTS.md` | 1 | PASS |
+| (169) §4 entry-cap rule present in INIT.md | `grep -c "hard cap ≤110 lines per entry" INIT.md` | 1 | PASS |
 
 PROJECT_MASTER_SPEC.md in Opening line template: AGENTS.md=1 (§4 rule 5 only), INIT.md=2 (§4 rule 5 + QUICK START section) — both ≥1, verified by inspection; not assigned a numbered check as the value differs by file.
 

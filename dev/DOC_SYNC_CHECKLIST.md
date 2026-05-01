@@ -18,6 +18,7 @@
 | External API / service change | CODEBASE_CONTEXT.md External Services block | block format check |
 | New governance file added to install | §5a backup list in AGENTS.md; INIT.md ROOT SAFETY CHECK backup list; INIT.md FILE 1 §5a | grep check |
 | Session-log maintenance policy changed | AGENTS.md §4a mechanism enforcement; INIT.md FILE 1 §4a + §5a backup list; README*.md safeguards section | grep + policy parity check |
+| Session-log entry format / size policy changed | AGENTS.md §4 entry format + budget rule 5; INIT.md FILE 1 §4 mirror; docs/qa/run_checks.sh entry-cap awk check; docs/qa/QA_REGRESSION_REPORT.md row; existing over-cap entries refactored with detail relocated to dev/SESSION_STATE_DETAIL.md | bash docs/qa/run_checks.sh + grep parity |
 | New project doc added | This file — add a row for the new doc's update triggers | row presence check |
 | Workspace cleanup (delete untracked scratch / `_tmp_*` artifacts) | dev/SESSION_HANDOFF.md if Open Priorities, Current Baseline, or Known Risks referenced the deleted artifacts | manual review |
 | Harness restructure (legacy quarantine / split / new harness layer) | docs/qa/MIGRATION_NOTES.md series table; AGENTS.md §3c Machine Verification clause; INIT.md FILE 1 mirror; run_checks.sh + legacy_checks.sh sync | bash docs/qa/run_checks.sh full chain |

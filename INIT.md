@@ -255,7 +255,7 @@ At closeout, update minimum: `dev/SESSION_HANDOFF.md`, `dev/SESSION_LOG.md`. If 
 
 Each closeout records at minimum: Date (UTC); Session ID; Completed items; Pending items; Next priorities (max 3 — SESSION_LOG summary field only; full prioritized list in `dev/SESSION_HANDOFF.md` Open Priorities); Risks / blockers.
 
-**Session log entry format:** Use lean key-value style (see `dev/SESSION_LOG.md` template). Target ~20-30 lines per entry excluding the Handoff Prompt block. Omit conditional sections (Fix Record, Consolidation) when they have no content — do not write empty blocks. Do not record "Files read" — it has no value for future sessions.
+**Session log entry format:** Use lean key-value style (see `dev/SESSION_LOG.md` template). Target ~20-30 lines for routine entries; **hard cap ≤110 lines per entry** (counted between consecutive `^## YYYY-MM-DD` headers, includes verbatim Handoff Prompt block). Release-class or multi-phase sessions exceeding cap → relocate detail to `dev/SESSION_STATE_DETAIL.md` (general overflow) or `docs/releases/<version>.md` (release-class detail); leave a 1-line reference in entry pointing to the relocated section. Omit conditional sections (Fix Record, Consolidation) when they have no content — do not write empty blocks. Do not record "Files read" — it has no value for future sessions.
 
 **Session handoff compactness budget** (mandatory at every closeout):
 1. `Current Baseline`: keep to concise state facts only; cap at 6 numbered lines
@@ -671,6 +671,7 @@ Rule if exists: preserve all existing rows; ensure the universal rows in the tem
 | External API / service change | CODEBASE_CONTEXT.md External Services block | block format check |
 | New governance file added to install | §5a backup list in AGENTS.md; INIT.md ROOT SAFETY CHECK backup list; INIT.md FILE 1 §5a | grep check |
 | Session-log maintenance policy changed | AGENTS.md §4a mechanism enforcement; INIT.md FILE 1 §4a + §5a backup list; README*.md safeguards section | grep + policy parity check |
+| Session-log entry format / size policy changed | AGENTS.md §4 entry format + budget rule 5; INIT.md FILE 1 §4 mirror; existing over-cap session log entries refactored with detail relocated to `dev/SESSION_STATE_DETAIL.md` | grep parity + per-entry line count |
 | New project doc added | This file — add a row for the new doc's update triggers | row presence check |
 | _[Add project-specific rows below this line]_ | | |
 
