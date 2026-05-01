@@ -277,6 +277,12 @@ Changes: §1 Verbatim block "last occurring" precision + "does not substitute" s
 | (167) §4 entry size cap ≤110 in SESSION_LOG | `awk` count between `^## YYYY-MM-DD` headers | 0 over-cap entries | PASS |
 | (168) §4 entry-cap rule present in AGENTS.md | `grep -c "hard cap ≤110 lines per entry" AGENTS.md` | 1 | PASS |
 | (169) §4 entry-cap rule present in INIT.md | `grep -c "hard cap ≤110 lines per entry" INIT.md` | 1 | PASS |
+| (170) §11a heading in AGENTS.md | `grep -c "^## 11a) Reply Behavior" AGENTS.md` | 1 | PASS |
+| (171) §11a heading in INIT.md | `grep -c "^## 11a) Reply Behavior" INIT.md` | 1 | PASS |
+| (172) §11a Judgement-first phrase in AGENTS.md | `grep -c "**Judgement-first.**" AGENTS.md` | 1 | PASS |
+| (173) §11a Judgement-first phrase in INIT.md | `grep -c "**Judgement-first.**" INIT.md` | 1 | PASS |
+| (174) §11a UNVERIFIED phrase in AGENTS.md | `grep -c "Unconfirmed = .UNVERIFIED." AGENTS.md` | 1 | PASS |
+| (175) §11a UNVERIFIED phrase in INIT.md | `grep -c "Unconfirmed = .UNVERIFIED." INIT.md` | 1 | PASS |
 
 PROJECT_MASTER_SPEC.md in Opening line template: AGENTS.md=1 (§4 rule 5 only), INIT.md=2 (§4 rule 5 + QUICK START section) — both ≥1, verified by inspection; not assigned a numbered check as the value differs by file.
 
@@ -430,7 +436,7 @@ Changes: Attention anchor at file top (I); §0b moved to CONDITIONAL zone after 
 
 | Check | Command | Expected | Result |
 |---|---|---|---|
-| (S03) Section count AGENTS.md | `grep -c "^## " AGENTS.md` | 22 | PASS |
+| (S03) Section count AGENTS.md | `grep -c "^## " AGENTS.md` | 23 | PASS |
 | (O01-O10) Section ordering | see `run_checks.sh` O01–O10 | all PASS | PASS |
 | (X01) No dead §2c refs AGENTS.md | `grep -c "§2c" AGENTS.md` | 0 | PASS |
 | (X02) No dead §2c refs INIT.md | `grep -c "§2c" INIT.md` | 0 | PASS |
@@ -440,7 +446,7 @@ Changes: Attention anchor at file top (I); §0b moved to CONDITIONAL zone after 
 | Check | Command | Expected | Result |
 |---|---|---|---|
 | Fence counts | AGENTS.md / INIT.md | 16 / 28 | PASS |
-| Section count | AGENTS.md | 22 (was 23, §2c merged) | PASS |
+| Section count | AGENTS.md | 23 (§11a added v3.0.3 alongside §11) | PASS |
 
 ## Feature round 12 (2026-04-19): v2.7 — root-fix for SESSION_HANDOFF/SESSION_LOG bloat
 

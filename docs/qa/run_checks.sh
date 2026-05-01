@@ -40,7 +40,7 @@ I="INIT.md"
 # ============================================================
 check "S01" "Fence count AGENTS.md = 16" "16" "$(grep -c '^```' $A)"
 check "S02" "Fence count INIT.md = 28" "28" "$(grep -c '^```' $I)"
-check "S03" "Section count AGENTS.md = 22" "22" "$(grep -c '^## ' $A)"
+check "S03" "Section count AGENTS.md = 23" "23" "$(grep -c '^## ' $A)"
 check "S04" "AGENTS.md fences even" "0" "$(( $(grep -c '^```' $A) % 2 ))"
 check "S05" "INIT.md fences even" "0" "$(( $(grep -c '^```' $I) % 2 ))"
 
@@ -199,6 +199,14 @@ check "139" "§4a in CONDITIONAL INIT" "1" "$(grep 'CONDITIONAL' $I | grep -c '�
 check "167" "Entry size cap ≤110 in SESSION_LOG" "0" "$(awk '/^## [0-9]{4}-[0-9]{2}-[0-9]{2}/{if(in_entry && count>110) over++; in_entry=1; count=0; next} in_entry{count++} END{if(in_entry && count>110) over++; print over+0}' dev/SESSION_LOG.md 2>/dev/null || echo 0)"
 check "168" "§4 entry-cap rule present in AGENTS" "1" "$(grep -c 'hard cap ≤110 lines per entry' $A)"
 check "169" "§4 entry-cap rule present in INIT" "1" "$(grep -c 'hard cap ≤110 lines per entry' $I)"
+
+# §11a Reply Behavior (v3.0.3) — heading parity + key phrases AGENTS/INIT mirror
+check "170" "§11a heading AGENTS" "1" "$(grep -c '^## 11a) Reply Behavior' $A)"
+check "171" "§11a heading INIT" "1" "$(grep -c '^## 11a) Reply Behavior' $I)"
+check "172" "§11a Judgement-first AGENTS" "1" "$(grep -c '\*\*Judgement-first\.\*\*' $A)"
+check "173" "§11a Judgement-first INIT" "1" "$(grep -c '\*\*Judgement-first\.\*\*' $I)"
+check "174" "§11a UNVERIFIED ≠ NA AGENTS" "1" "$(grep -c 'Unconfirmed = .UNVERIFIED.' $A)"
+check "175" "§11a UNVERIFIED ≠ NA INIT" "1" "$(grep -c 'Unconfirmed = .UNVERIFIED.' $I)"
 
 # ============================================================
 # Category 11: Governance Audit Fixes (v2.3)

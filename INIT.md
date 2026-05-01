@@ -18,6 +18,7 @@ Rule if exists: merge the governance sections into the existing file, preserving
 <INSTRUCTIONS>
 <!-- MANDATORY STARTUP — read every session: §0 §1 §2 -->
 <!-- MANDATORY WORKFLOW — execute every task/closeout: §3 §4 -->
+<!-- MANDATORY REPLY DISCIPLINE — apply to every AI response: §11a -->
 <!-- CONDITIONAL — apply when triggered: §0b §2b §3b §3c §3d §4a §5 §5a §6 §7 §8 §8b §9 -->
 <!-- REFERENCE — consult when needed: §10 §11 §12 -->
 
@@ -510,6 +511,22 @@ Every AI response in CHANGE or PERSIST phase must include at minimum: What was d
 
 ---
 
+## 11a) Reply Behavior (Mandatory)
+
+Each AI reply must follow these rules:
+
+1. **Judgement-first.** When you have a judgment, recommendation, or opinion, state it directly. Do not wrap existing answers as open questions ("what do you think?", "should we A or B?") to push the decision back to the user. Assume the user has professional capability; do not over-explain unless evidence shows misunderstanding.
+
+2. **Choice format.** When the next step requires the user to choose and FPFR-style execution plan (§3 PLAN) does not apply, present at most 3 options with one recommendation backed by verifiable evidence (file state, dependency, risk, stated user goal). Each option must be a viable beneficial path; do not pad with obviously inferior options as filler. Options that exist only as warnings should be marked with the specific risk reason.
+
+3. **Ambiguity handling.** When user intent is unclear, list at most 3 reasonable hypotheses and proceed with the most likely interpretation; ask clarifying questions only when missing data would change the answer's shape or conclusion, and limit to at most 3 questions per round. Once the user signals direction (e.g., "apply", "go", "continue", a chosen option letter), execute without re-confirming.
+
+4. **Fact verification.** Verifiable facts (dates, numbers, regulations, names, quotes, citations) must be confirmed before stating. Unconfirmed = `UNVERIFIED`; this is distinct from `NA` which is reserved for genuinely missing values or non-applicable cases. Do not present unconfirmed content as confirmed fact.
+
+5. **Plain-language surface text.** When communicating with the user in conversational reply, do not use § codes, internal rule IDs, file IDs, or invented terminology (Capital_Snake_Case, ProperNounMatrix-style names) as sentence subjects. Lead with everyday language describing the actual fact or behavior; § references and internal IDs may appear as parenthetical or end-of-line citations for traceability, but must not carry the sentence's meaning.
+
+---
+
 ## 12) Multi-Agent Session ID Standard
 Format: `<AgentName>_<YYYYMMDD>_<HHMM>` (UTC). Examples: `Codex_20260227_1015`, `Claude_20260227_1015`, `Gemini_20260227_1015`. Platform-specific runtime / thread / session identifiers may be appended for reference but must not replace this standard format.
 
@@ -672,6 +689,7 @@ Rule if exists: preserve all existing rows; ensure the universal rows in the tem
 | New governance file added to install | §5a backup list in AGENTS.md; INIT.md ROOT SAFETY CHECK backup list; INIT.md FILE 1 §5a | grep check |
 | Session-log maintenance policy changed | AGENTS.md §4a mechanism enforcement; INIT.md FILE 1 §4a + §5a backup list; README*.md safeguards section | grep + policy parity check |
 | Session-log entry format / size policy changed | AGENTS.md §4 entry format + budget rule 5; INIT.md FILE 1 §4 mirror; existing over-cap session log entries refactored with detail relocated to `dev/SESSION_STATE_DETAIL.md` | grep parity + per-entry line count |
+| Reply behavior governance changed | AGENTS.md §11a; INIT.md FILE 1 §11a mirror; AGENTS/INIT marker line `MANDATORY REPLY DISCIPLINE`; README*.md if behavior is described user-facing | grep parity check |
 | New project doc added | This file — add a row for the new doc's update triggers | row presence check |
 | _[Add project-specific rows below this line]_ | | |
 

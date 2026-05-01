@@ -4,6 +4,7 @@
 <INSTRUCTIONS>
 <!-- MANDATORY STARTUP — read every session: §0 §1 §2 -->
 <!-- MANDATORY WORKFLOW — execute every task/closeout: §3 §4 -->
+<!-- MANDATORY REPLY DISCIPLINE — apply to every AI response: §11a -->
 <!-- CONDITIONAL — apply when triggered: §0b §2b §3b §3c §3d §4a §5 §5a §6 §7 §8 §8b §9 -->
 <!-- REFERENCE — consult when needed: §10 §11 §12 -->
 
@@ -493,6 +494,22 @@ Filename enforcement: path must be exactly `dev/PROJECT_MASTER_SPEC.md`. Do not 
 
 ## 11) Output Contract
 Every AI response in CHANGE or PERSIST phase must include at minimum: What was done; Why it was done that way; Verification results; Next-step recommendations (if any). Responses that contain only clarifying questions, status updates, or simple information lookups are not bound by this contract but should remain clear and useful.
+
+---
+
+## 11a) Reply Behavior (Mandatory)
+
+Each AI reply must follow these rules:
+
+1. **Judgement-first.** When you have a judgment, recommendation, or opinion, state it directly. Do not wrap existing answers as open questions ("what do you think?", "should we A or B?") to push the decision back to the user. Assume the user has professional capability; do not over-explain unless evidence shows misunderstanding.
+
+2. **Choice format.** When the next step requires the user to choose and FPFR-style execution plan (§3 PLAN) does not apply, present at most 3 options with one recommendation backed by verifiable evidence (file state, dependency, risk, stated user goal). Each option must be a viable beneficial path; do not pad with obviously inferior options as filler. Options that exist only as warnings should be marked with the specific risk reason.
+
+3. **Ambiguity handling.** When user intent is unclear, list at most 3 reasonable hypotheses and proceed with the most likely interpretation; ask clarifying questions only when missing data would change the answer's shape or conclusion, and limit to at most 3 questions per round. Once the user signals direction (e.g., "apply", "go", "continue", a chosen option letter), execute without re-confirming.
+
+4. **Fact verification.** Verifiable facts (dates, numbers, regulations, names, quotes, citations) must be confirmed before stating. Unconfirmed = `UNVERIFIED`; this is distinct from `NA` which is reserved for genuinely missing values or non-applicable cases. Do not present unconfirmed content as confirmed fact.
+
+5. **Plain-language surface text.** When communicating with the user in conversational reply, do not use § codes, internal rule IDs, file IDs, or invented terminology (Capital_Snake_Case, ProperNounMatrix-style names) as sentence subjects. Lead with everyday language describing the actual fact or behavior; § references and internal IDs may appear as parenthetical or end-of-line citations for traceability, but must not carry the sentence's meaning.
 
 ---
 
