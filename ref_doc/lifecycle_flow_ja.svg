@@ -75,7 +75,7 @@
       <tspan>たいてい大丈夫 — AI が前回の続きを自動で拾います。</tspan>
     </text>
     <text x="50" y="362" font-size="12" fill="#422006">
-      <tspan font-weight="600">別のパソコン、またはウェブの AI（ChatGPT など）：</tspan>
+      <tspan font-weight="600">別のパソコンまたは別の AI ツール：</tspan>
       <tspan>AI はゼロから始まります。貼り付けが必要です。</tspan>
     </text>
     <text x="50" y="381" font-size="11" fill="#854d0e" font-style="italic">貼り付けたほうが確実です。迷ったら貼る。</text>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg viewBox="0 0 880 580" xmlns="http://www.w3.org/2000/svg" font-family="'Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo','Noto Sans CJK JP',sans-serif">
+<svg viewBox="0 0 880 550" xmlns="http://www.w3.org/2000/svg" font-family="'Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo','Noto Sans CJK JP',sans-serif">
   <!-- Background -->
-  <rect width="880" height="580" fill="#fafafa"/>
+  <rect width="880" height="550" fill="#fafafa"/>
 
   <!-- Title -->
   <text x="440" y="32" text-anchor="middle" font-size="17" font-weight="700" fill="#1a1a2e">なぜ短い指示ではなく OPENING MESSAGE を手動で貼り付けるのか？</text>
@@ -84,17 +84,11 @@
     <text x="400" y="142" text-anchor="middle" font-size="12" font-weight="600" fill="#cc4444">~40%</text>
     <text x="660" y="142" text-anchor="middle" font-size="12" font-weight="700" fill="#0c8a7e">~75%</text>
 
-    <!-- Row 5 -->
-    <rect x="0" y="152" width="800" height="30" fill="#fafafa"/>
-    <text x="20" y="172" font-size="12" fill="#1a1a2e">Web AI（ChatGPT / claude.ai / Gemini Web）</text>
-    <text x="400" y="172" text-anchor="middle" font-size="11" font-style="italic" fill="#cc4444">該当なし — auto-load なし</text>
-    <text x="660" y="172" text-anchor="middle" font-size="12" font-weight="700" fill="#0c8a7e">~95%（必須）</text>
-
     <!-- Border -->
-    <rect x="0" y="0" width="800" height="182" fill="none" stroke="#ddd" stroke-width="1"/>
+    <rect x="0" y="0" width="800" height="152" fill="none" stroke="#ddd" stroke-width="1"/>
   </g>
 
   <!-- ========== Footnote ========== -->
-  <text x="440" y="538" text-anchor="middle" font-size="11" fill="#666">💡 USER message attention &gt; SYSTEM prompt attention — LLM アーキテクチャ上の制限、ガバナンスでは変更不可</text>
-  <text x="440" y="558" text-anchor="middle" font-size="10" fill="#999">手動貼り付けは複数ツール間で最高信頼性の手法；1 秒のコストで信頼性が大幅向上</text>
+  <text x="440" y="508" text-anchor="middle" font-size="11" fill="#666">💡 USER message attention &gt; SYSTEM prompt attention — LLM アーキテクチャ上の制限、ガバナンスでは変更不可</text>
+  <text x="440" y="528" text-anchor="middle" font-size="10" fill="#999">手動貼り付けは複数ツール間で最高信頼性の手法；1 秒のコストで信頼性が大幅向上</text>
 </svg>

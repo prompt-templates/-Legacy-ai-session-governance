@@ -75,7 +75,7 @@
       <tspan>通常没问题 — AI 会自动接续上次的进度。</tspan>
     </text>
     <text x="50" y="362" font-size="12" fill="#422006">
-      <tspan font-weight="600">换电脑、或用网页版 AI（例如 ChatGPT）：</tspan>
+      <tspan font-weight="600">换电脑或换 AI 工具：</tspan>
       <tspan>AI 会从空白开始。你必须贴上字条。</tspan>
     </text>
     <text x="50" y="381" font-size="11" fill="#854d0e" font-style="italic">贴上总是更精准。犹豫时就贴。</text>
