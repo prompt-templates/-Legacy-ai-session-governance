@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 880 580" xmlns="http://www.w3.org/2000/svg" font-family="'PingFang SC','Microsoft YaHei','Heiti SC','Noto Sans CJK SC',sans-serif">
+  <!-- Background -->
+  <rect width="880" height="580" fill="#fafafa"/>
+
+  <!-- Title -->
+  <text x="440" y="32" text-anchor="middle" font-size="17" font-weight="700" fill="#1a1a2e">为何要手动粘贴 OPENING MESSAGE，而非靠短指令？</text>
+  <text x="440" y="56" text-anchor="middle" font-size="12" fill="#666">两条路径可靠度差异 + 跨平台 / Model 实测数据</text>
+
+  <!-- ========== Auto-read path ========== -->
+  <text x="40" y="98" font-size="13" font-weight="600" fill="#6c63ff">📭 短指令 `Follow AGENTS.md` — AI 需自行推理 4 步，任一步失败整体即失效</text>
+
+  <!-- Step 1 -->
+  <rect x="40" y="115" width="140" height="44" rx="6" fill="#fff" stroke="#6c63ff" stroke-width="1.5"/>
+  <text x="110" y="142" text-anchor="middle" font-size="12" fill="#1a1a2e">1. 读指引档</text>
+
+  <text x="188" y="142" text-anchor="middle" font-size="16" fill="#bbb">→</text>
+
+  <!-- Step 2 -->
+  <rect x="200" y="115" width="140" height="44" rx="6" fill="#fff" stroke="#6c63ff" stroke-width="1.5"/>
+  <text x="270" y="142" text-anchor="middle" font-size="12" fill="#1a1a2e">2. 识别启动步骤</text>
+
+  <text x="348" y="142" text-anchor="middle" font-size="16" fill="#bbb">→</text>
+
+  <!-- Step 3 -->
+  <rect x="360" y="115" width="140" height="44" rx="6" fill="#fff" stroke="#6c63ff" stroke-width="1.5"/>
+  <text x="430" y="142" text-anchor="middle" font-size="12" fill="#1a1a2e">3. 找上次交接字条</text>
+
+  <text x="508" y="142" text-anchor="middle" font-size="16" fill="#bbb">→</text>
+
+  <!-- Step 4 -->
+  <rect x="520" y="115" width="140" height="44" rx="6" fill="#fff" stroke="#6c63ff" stroke-width="1.5"/>
+  <text x="590" y="142" text-anchor="middle" font-size="12" fill="#1a1a2e">4. 套用为新起点</text>
+
+  <!-- Result badge -->
+  <rect x="680" y="119" width="160" height="36" rx="6" fill="#ff6b6b"/>
+  <text x="760" y="134" text-anchor="middle" font-size="10" fill="#fff">实测整体可靠度</text>
+  <text x="760" y="150" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">~40–85%（见下表）</text>
+
+  <!-- ========== Paste path ========== -->
+  <text x="40" y="200" font-size="13" font-weight="600" fill="#4ecdc4">📬 手动粘贴 OPENING MESSAGE — AI 直接执行，无推理链</text>
+
+  <rect x="40" y="217" width="620" height="44" rx="6" fill="#f0fffe" stroke="#4ecdc4" stroke-width="1.5"/>
+  <text x="350" y="237" text-anchor="middle" font-size="12" font-weight="600" fill="#1a1a2e">用户 1 秒粘贴 → AI 直接照办</text>
+  <text x="350" y="252" text-anchor="middle" font-size="10" fill="#666">明文指令成为 USER message，attention 接近 100%</text>
+
+  <rect x="680" y="221" width="160" height="36" rx="6" fill="#4ecdc4"/>
+  <text x="760" y="236" text-anchor="middle" font-size="10" fill="#fff">实测整体可靠度</text>
+  <text x="760" y="252" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">~75–98%（见下表）</text>
+
+  <!-- ========== Reliability matrix ========== -->
+  <text x="40" y="300" font-size="13" font-weight="600" fill="#1a1a2e">📊 跨平台 / Model 实测可靠度</text>
+
+  <g transform="translate(40, 315)">
+    <!-- Header row -->
+    <rect x="0" y="0" width="280" height="32" fill="#1a1a2e"/>
+    <text x="140" y="20" text-anchor="middle" font-size="12" font-weight="600" fill="#fff">平台 / Model</text>
+    <rect x="280" y="0" width="240" height="32" fill="#6c63ff"/>
+    <text x="400" y="20" text-anchor="middle" font-size="12" font-weight="600" fill="#fff">短指令</text>
+    <rect x="520" y="0" width="280" height="32" fill="#4ecdc4"/>
+    <text x="660" y="20" text-anchor="middle" font-size="12" font-weight="600" fill="#fff">手动粘贴 OPENING MESSAGE</text>
+
+    <!-- Row 1 -->
+    <rect x="0" y="32" width="800" height="30" fill="#fafafa"/>
+    <text x="20" y="52" font-size="12" fill="#1a1a2e">Claude Code Opus</text>
+    <text x="400" y="52" text-anchor="middle" font-size="12" fill="#666">~85%</text>
+    <text x="660" y="52" text-anchor="middle" font-size="12" font-weight="700" fill="#0c8a7e">~98%</text>
+
+    <!-- Row 2 -->
+    <rect x="0" y="62" width="800" height="30" fill="#fff"/>
+    <text x="20" y="82" font-size="12" fill="#1a1a2e">Claude Code Sonnet</text>
+    <text x="400" y="82" text-anchor="middle" font-size="12" font-weight="600" fill="#cc4444">~60%</text>
+    <text x="660" y="82" text-anchor="middle" font-size="12" font-weight="700" fill="#0c8a7e">~90%</text>
+
+    <!-- Row 3 -->
+    <rect x="0" y="92" width="800" height="30" fill="#fafafa"/>
+    <text x="20" y="112" font-size="12" fill="#1a1a2e">CoWork Opus</text>
+    <text x="400" y="112" text-anchor="middle" font-size="12" fill="#666">~75%</text>
+    <text x="660" y="112" text-anchor="middle" font-size="12" font-weight="700" fill="#0c8a7e">~95%</text>
+
+    <!-- Row 4 -->
+    <rect x="0" y="122" width="800" height="30" fill="#fff"/>
+    <text x="20" y="142" font-size="12" fill="#1a1a2e">CoWork Sonnet</text>
+    <text x="400" y="142" text-anchor="middle" font-size="12" font-weight="600" fill="#cc4444">~40%</text>
+    <text x="660" y="142" text-anchor="middle" font-size="12" font-weight="700" fill="#0c8a7e">~75%</text>
+
+    <!-- Row 5 -->
+    <rect x="0" y="152" width="800" height="30" fill="#fafafa"/>
+    <text x="20" y="172" font-size="12" fill="#1a1a2e">Web AI（ChatGPT / claude.ai / Gemini Web）</text>
+    <text x="400" y="172" text-anchor="middle" font-size="11" font-style="italic" fill="#cc4444">不适用 — 无 auto-load</text>
+    <text x="660" y="172" text-anchor="middle" font-size="12" font-weight="700" fill="#0c8a7e">~95%（必须粘贴）</text>
+
+    <!-- Border -->
+    <rect x="0" y="0" width="800" height="182" fill="none" stroke="#ddd" stroke-width="1"/>
+  </g>
+
+  <!-- ========== Footnote ========== -->
+  <text x="440" y="538" text-anchor="middle" font-size="11" fill="#666">💡 USER message attention &gt; SYSTEM prompt attention — LLM 架构级限制，治理规则无法改变</text>
+  <text x="440" y="558" text-anchor="middle" font-size="10" fill="#999">手动粘贴是跨工具最高可靠度做法；1 秒成本换取显著可靠度提升</text>
+</svg>

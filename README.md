@@ -224,6 +224,8 @@ wrap up
 
 > **Why paste manually instead of just `Follow AGENTS.md`?** Governance is designed so AI auto-reads your saved handoff from `SESSION_LOG.md` — that's the self-contained intent. In practice, the short `Follow AGENTS.md` trigger reliability varies widely by AI tool and model: Claude Code Opus ~85%, Claude Code Sonnet ~60%, CoWork Opus ~75%, CoWork Sonnet ~40%. The OPENING MESSAGE block is a longer explicit prompt — its first two lines anchor the receiving AI to read all 4 governance files in order, pushing reliability to ~75-98% across the same matrix. One extra paste removes the guesswork. When in doubt, paste.
 
+![Why paste manually](ref_doc/why_paste_handoff_en.svg)
+
 ---
 
 ## :bookmark_tabs: Quota-switch handoff flow

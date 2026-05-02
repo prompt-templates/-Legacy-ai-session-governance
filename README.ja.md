@@ -228,6 +228,8 @@ wrap up
 
 > **`Follow AGENTS.md` という短い指示ではなく、なぜ手動で貼り付けるのか？** ガバナンス設計自体は self-contained — AI は前回の handoff を `SESSION_LOG.md` から自動読み込みするはずです。しかし実テストによる `Follow AGENTS.md` 短指示の信頼性は AI ツールとモデルにより大きく異なります：Claude Code Opus 約 85%、Claude Code Sonnet 約 60%、CoWork Opus 約 75%、CoWork Sonnet 約 40%。OPENING MESSAGE ブロックは明示的指示 — 冒頭 2 行で AI に 4 つのガバナンスファイルを順序通り読むよう指示し、同じマトリクスで信頼性を約 75–98% まで引き上げます。一度貼り付けるだけで不確定性が消えます。迷ったら貼り付けてください。
 
+![なぜ手動で貼り付けるのか](ref_doc/why_paste_handoff_ja.svg)
+
 ---
 
 ## :bookmark_tabs: 配分切り替え引き継ぎフロー

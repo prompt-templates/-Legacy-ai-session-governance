@@ -228,6 +228,8 @@ Follow AGENTS.md
 
 > **為何要手動貼上，而非依賴 `Follow AGENTS.md` 短指令？** 治理設計本身是 self-contained — AI 應自動讀取上次留下的 handoff。然而實際測試顯示 `Follow AGENTS.md` 短指令的可靠度因 AI 工具與 model 而異：Claude Code Opus 約 85%、Claude Code Sonnet 約 60%、CoWork Opus 約 75%、CoWork Sonnet 約 40%。OPENING MESSAGE 區塊是明文指令 — 開頭兩行明確指示 AI 依序讀取 4 個治理檔，同一矩陣下可靠度提升至約 75–98%。多貼一次即可消除不確定性。如有疑慮，請貼上。
 
+![為何要手動貼上](ref_doc/why_paste_handoff_tw.svg)
+
 ---
 
 ## :bookmark_tabs: 配額切換交接流程
