@@ -78,7 +78,7 @@
 
 | 版本 | 變更內容 | 對你的意義 |
 |---|---|---|
-| **v3.0.7** | 全新 onboarding wizard 系統：AI 根據你提供嘅 1 句項目描述，draft 完整嘅 `PROJECT_MASTER_SPEC.md` 或 `RUNBOOK.md` 草稿，列出所有假設清單供你逐項挑錯，AI 重 draft 直到滿意 — 唔再用冷冰冰嘅問題清單。取代舊有 5-7 步結構化 Q&A schema，過於僵硬不適合模糊嘅長期項目願景。Matrix-QC 審查工具加入「邊界感知差異」規則 + 禁用 prescriptive 動詞，令審查 findings 保持中性描述（fix 由人決定，唔係審查工具決定）。Playbook 從 dogfood 中歸納 3 條紀律（explicit write vs soft closure 分類、防作假規定用 `(待補)`、逐欄位明確假設）。Landing page 加入 wizard 系統 feature card。 | 新用戶不再面對空白嘅 `PROJECT_MASTER_SPEC.md` 模板 — AI 從最少輸入產生完整草稿，每個假設明確列出供你 spot-check。長期項目願景模糊、不適合冷冰冰問題清單嘅情況 first-class 支援。審查工具不再對故意保留嘅安裝模板邊界誤報。Playbook 迭代減少不必要嘅來回。 |
+| **v3.0.7** | 全新 onboarding wizard 系統：AI 根據你提供的 1 句項目描述，生成完整的 `PROJECT_MASTER_SPEC.md` 或 `RUNBOOK.md` 草稿，並列出所有假設清單供你逐項檢查，AI 重新草擬直至滿意——不再使用冷冰冰的問題清單。取代舊有 5-7 步結構化 Q&A schema，過於僵硬不適合模糊的長期項目願景。Matrix-QC 審查工具加入「邊界感知差異」規則 + 禁用 prescriptive 動詞，令審查 findings 保持中性描述（fix 由人決定，並非由審查工具決定）。Playbook 從 dogfood 歸納 3 條紀律（explicit write vs soft closure 分類、防作假規定使用 `(待補)`、逐欄位明確假設）。Landing page 加入 wizard 系統 feature card。 | 新用戶不再面對空白的 `PROJECT_MASTER_SPEC.md` 模板——AI 從最少輸入產生完整草稿，每個假設明確列出供你 spot-check。長期項目願景模糊、不適合冷冰冰問題清單的情況皆獲 first-class 支援。審查工具不再對故意保留的安裝模板邊界誤報。Playbook 迭代減少不必要的來回。 |
 | **v3.0.6** | 收尾介面優化：6 款重新設計的工作階段啟動/收尾視覺、「貼上此區塊」說明從 3 行縮為 1 行、README 安裝/升級流程從 9 步縮為 5 步並加上「AI 背後執行」說明區塊。README 接續區段首次解釋為何手動貼上 OPENING MESSAGE 比 `Follow AGENTS.md` 更可靠（約 95% vs 約 70-85%）。修補既有 harness exit code 漏洞（R27-10）。 | 新用戶安裝流程大幅精簡。工作階段啟動/收尾畫面更美觀。「為何手動貼上」的解釋消除常見困惑。 |
 | **v3.0.5** | 完整回覆協議現入治理，不再只是「universal subset」。回覆會先用 `🔎` 重點 bullet（≤3 行）、再交付清單、再正文。選擇題用一致格式 `🚀 *下一步揀一條*` + A/B/C + `💡 推薦`。多檔或治理改動觸發全圖優先計劃，5 個固定區段（END-STATE / DELIVERABLES / METRICS / ACCEPTANCE / GOAL LINK）+ 收尾句 — 不再有「同意 A？同意 B？」逐項批准。代碼 / spec / 設定改動以補丁交付：精準 anchor 在 code block 外、BEFORE / AFTER 兩個 code block 內只放 verbatim 文字、加 Changelog。數值答案展示四步。JSON 先定 schema。Mermaid 用 `flowchart TB` 加 `"..."` 包覆 text label。當兩條規則衝突時 AI 依明文優先序（事實可驗收 > 穩定性 > 根因 > 完整性 > 最小改動），不再隨機選擇。 | 回覆體驗一致、可掃讀：頂置重點 → 清單 → 正文，surface text 不再夾雜 `§` codes。非 trivial 工作的計劃永遠是全圖優先，所以你可以一眼 veto / 修改整個 plan，無需逐項批准。Patch 易審可貼。仲裁規則令 AI 不再為「diff 較小」犧牲事實可驗收 — 事實可驗收永遠勝出。 |
 | **v3.0.4** | 每次工作階段結束時 AI 給你的那段字條，現在標題改為「NEXT SESSION OPENING MESSAGE」，並在底下加一行提示「貼成你下次 AI 工作階段的第一條訊息」— 看到就知道要貼去哪。工作階段開始時 AI 會印一行 `Seed context: ...` 顯示用了哪個來源（你貼的、或者自動讀取上次留下的字條），讓你看清楚有沒有接續到。README 不再只教安裝 + 開始，現在覆蓋完整每日流程（開始 → 工作 → 結束 → 下次接續），並附 4 個語言版本的視覺流程圖。release notes 改用新模板，每篇都先講「對你的意義」，不再像內部 changelog。 | 工作階段結尾不再困惑「這段字條要貼去哪」。AI 啟動時不用再猜「它有沒有接續上次」。新用戶讀 README 就看到整個日常流程，不只是安裝。 |
@@ -291,7 +291,7 @@ build master spec
 不是。小型專案馬上就有效果；大型專案時間拉長效益更明顯。
 
 ### :small_blue_diamond: 2) 第一天就需要 `PROJECT_MASTER_SPEC.md` 嗎？
-不用。先用 `AGENTS.md` + `SESSION_HANDOFF.md` + `SESSION_LOG.md` 就夠了。
+不需要。先用 `AGENTS.md` + `SESSION_HANDOFF.md` + `SESSION_LOG.md` 已經足夠。日後想加時，只需對 AI 說「build master spec」，AI 會根據你一句項目描述自動生成完整草稿（v3.0.7+）。
 
 ### :small_blue_diamond: 3) 這是編碼標準嗎？
 不是。它規範 AI 怎麼讀、改、驗證、交接——不管你怎麼寫程式。

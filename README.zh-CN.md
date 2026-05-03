@@ -291,7 +291,7 @@ build master spec
 不是。小型项目马上就有效果；大型项目时间拉长效益更明显。
 
 ### :small_blue_diamond: 2) 第一天就需要 `PROJECT_MASTER_SPEC.md` 吗？
-不用。先用 `AGENTS.md` + `SESSION_HANDOFF.md` + `SESSION_LOG.md` 就够了。
+不需要。先用 `AGENTS.md` + `SESSION_HANDOFF.md` + `SESSION_LOG.md` 已经足够。日后想加时，只需对 AI 说「build master spec」，AI 会根据你一句项目描述自动生成完整草稿（v3.0.7+）。
 
 ### :small_blue_diamond: 3) 这是编码标准吗？
 不是。它规范 AI 怎么读、改、验证、交接——不管你怎么写代码。

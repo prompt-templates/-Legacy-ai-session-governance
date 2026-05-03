@@ -287,7 +287,7 @@ For a visual walkthrough of common questions, see the **[Interactive Introductio
 No. Small repos benefit right away; larger ones see more gain over time.
 
 ### :small_blue_diamond: 2) Do I need `PROJECT_MASTER_SPEC.md` on day one?
-No. Start with `AGENTS.md` + `SESSION_HANDOFF.md` + `SESSION_LOG.md`.
+No. Start with `AGENTS.md` + `SESSION_HANDOFF.md` + `SESSION_LOG.md`. When you want one later, just say `build master spec` — AI drafts it from a 1-sentence project description (v3.0.7+).
 
 ### :small_blue_diamond: 3) Is this a coding style guide?
 No. It governs how AI reads, changes, verifies, and hands over work — not how you write code.

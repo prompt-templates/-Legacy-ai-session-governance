@@ -291,7 +291,7 @@ build master spec
 違います。小規模でもすぐ効果があり、長期運用では規模が大きいほど差が出ます。
 
 ### :small_blue_diamond: 2) 初日から `PROJECT_MASTER_SPEC.md` は必要ですか？
-不要です。まず `AGENTS.md` + `SESSION_HANDOFF.md` + `SESSION_LOG.md` だけで始められます。
+不要です。まず `AGENTS.md` + `SESSION_HANDOFF.md` + `SESSION_LOG.md` だけで始められます。後で追加したいときは AI に「build master spec」と伝えれば、AI が 1 文のプロジェクト説明から完全な草稿を自動生成します（v3.0.7+）。
 
 ### :small_blue_diamond: 3) これはコーディング規約ですか？
 違います。AIがどう読み・変更し・検証し・引き継ぐかを決めるもので、コードの書き方は関係ありません。
