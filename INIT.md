@@ -180,7 +180,7 @@ Every task must follow this workflow and clearly label each phase in the respons
    - Risk level — HIGH or LOW (any one = HIGH): (a) likely affects ≥3 files; (b) user instruction lacks target files / behavior / end state; (c) involves deletion, rename, or irreversible operations; (d) involves external systems (API calls, deploy, publish); (e) modifies governance rules (AGENTS.md, INIT.md, or similar)
    - HIGH → present PLAN using §3.5 FPFR 5-section output format and wait for user non-veto (per §3.5 closing line) before READ; LOW → proceed to READ with the 3-field statement above
    - §3d trigger met → define test scenario matrix before READ
-   - Onboarding readiness check: at PLAN entry, read `dev/PROFILE.md` if exists (for `wizard_disabled_spec` / `wizard_disabled_runbook` flags). If `dev/PROJECT_MASTER_SPEC.md` is missing AND `wizard_disabled_spec` ≠ `true` → offer `dev/wizards/spec_starter.md` wizard before this task. If task description shows deploy / publish / release / pipeline / recurring-procedure intent (any language) AND `dev/RUNBOOK.md` is missing AND `wizard_disabled_runbook` ≠ `true` → offer `dev/wizards/runbook_starter.md`. Each wizard prompt offers 3 paths: A run now / B defer (re-offer next session) / C never ask again (sets `wizard_disabled_*: true` in `dev/PROFILE.md`). B persists for the current session only; C persists permanently. Explicit user request (e.g., "build master spec" / "build runbook") always runs the wizard regardless of flag. See §3.6 for wizard system details.
+   - Onboarding readiness check: at PLAN entry, read `dev/PROFILE.md` if exists (for `wizard_disabled_spec` / `wizard_disabled_runbook` flags). If `dev/PROJECT_MASTER_SPEC.md` is missing AND `wizard_disabled_spec` ≠ `true` → offer to draft via `dev/wizards/playbook.md` (using `dev/templates/spec_template.md` for field structure) before this task. If task description shows deploy / publish / release / pipeline / recurring-procedure intent (any language) AND `dev/RUNBOOK.md` is missing AND `wizard_disabled_runbook` ≠ `true` → offer to draft via `dev/wizards/playbook.md` (using `dev/templates/runbook_template.md`). Each wizard prompt offers 3 paths: A run now / B defer (re-offer next session) / C never ask again (sets `wizard_disabled_*: true` in `dev/PROFILE.md`). B persists for the current session only; C persists permanently. Explicit user request (e.g., "build master spec" / "build runbook") always runs the wizard regardless of flag. See §3.6 for wizard system details.
 
 2. READ — minimum coverage before entering CHANGE:
    - Read the full context of the section to be modified in the target file
@@ -251,25 +251,25 @@ One sentence linking to the authoritative source (cite specific location, e.g., 
 ---
 
 ## 3.6) Onboarding Wizard System (Mandatory when applicable)
-**Purpose:** Help users author non-trivial governance docs (`PROJECT_MASTER_SPEC.md` / `RUNBOOK.md` / future) via guided AI-led Q&A instead of blank-template fill-in. Wizards lower the barrier for new users who do not yet know what these docs should contain.
+**Purpose:** Help users author non-trivial governance docs (`PROJECT_MASTER_SPEC.md` / `RUNBOOK.md` / future) via AI-led draft+iterate flow instead of blank-template fill-in or cold-question form-fill. Paradigm: user supplies a 1-sentence project description → AI generates one-shot full draft + numbered assumption list → user spot-checks and corrects → AI iterates → AI proposes write.
 
-**Schema location:** `dev/wizards/<name>_starter.md`. Each schema defines: metadata (output file path / step count / skip path); Step 0 bypass detection (skip if user already provided info); Steps 1..N each with `phase_title (i18n)` + `Question (i18n)` + `Option A/B/C (i18n)` + `AI execution guidance (config)`; output template skeleton.
+**Behavior + content separation:**
+- `dev/wizards/playbook.md` — behavior layer (when to engage / draft+iterate loop / assumption rules / close-out signals / vague-input escape hatch).
+- `dev/templates/<name>_template.md` — content layer per output doc (`spec_template.md` for `PROJECT_MASTER_SPEC.md`; `runbook_template.md` for `RUNBOOK.md`). Standalone-fillable without AI.
 
-**Visual frame:** All wizards render using the shared frame defined in `dev/wizards/_visual_frame.md` (Style B, ✦ star-themed). Schemas reference label keys (`step_label` / `progress_label` / `pick_label` / `completion_title`) — do not duplicate the frame ASCII or label strings inside individual schemas.
+**Detection triggers (mandatory at §3 PLAN):** see §3 PLAN onboarding readiness check. Decline persists via `dev/PROFILE.md` `wizard_disabled_*` flags (see schema below); explicit user request always runs regardless of flag.
 
-**i18n requirement:** Every Question and Option string in a schema must have all 4 language entries (`en` / `zh-TW` / `zh-CN` / `ja`). Each language row uses one language only — do not mix English verbs / nouns into zh-TW / zh-CN / ja prose. Technical proper nouns (`Agent` / `API` / `JSON` / `Markdown` / `SDK` / placeholder tokens like `[X]` / `[domain]`) are universal and may appear in any language string.
+**Vague-input fallback (mandatory):** when user seed is too sparse to draft, AI uses §11a rule 2 choice format with mandatory escape hatch — every choice prompt at this paradigm step reads as `揀 A/B/C 或者俾多少少 context`. The escape hatch must never be stripped; without it the prompt regresses to a small forced-choice form-fill.
 
-**No-hardcoding rule:** Examples must use placeholders only (`[X]` / `[topic]` / `[domain]` / `[thing]` / `[problem]` / `[N]` / `[T]`). Do NOT hardcode specific industry / tool / framework / company names — schemas ship as a generic template, specific instances belong in user-generated output files. Harness R33-08 / R33-09 enforces this via grep blacklist.
+**Assumption list discipline:** AI surfaces all key assumptions as a numbered short-bullet list (typical 5–12 items, terse), covering both high- and low-confidence — do not filter to low-confidence only. User targets by index or natural language.
 
-**Detection triggers (mandatory at §3 PLAN):** see §3 PLAN onboarding readiness check. Decline persists for the session; do not re-prompt the same wizard within the same session after user declines.
+**Close-out signal:** AI watches for two consecutive turns with no modifications, or closure language ("OK", "啱", "夠", "ready", "good"), then proposes write. User confirms or defers.
 
-**Profile awareness:** Wizards may use `dev/PROFILE.md` (set at INIT.md install) to tune option recommendations. Profile influence is suggestion-only — user override always wins. Supported profile values: `general` / `research` / `coding` / `writing` / `agent-design` / `data-analysis`.
+**Profile awareness:** Wizards may use `dev/PROFILE.md` (set at INIT.md install) to tune draft assumptions. Profile influence is suggestion-only — user override always wins. Supported profile values: `general` / `research` / `coding` / `writing` / `agent-design` / `data-analysis`.
 
 **`dev/PROFILE.md` schema:** Carries fields: `profile` (one of the 6 supported values), `language` (auto-detected user language preference, used as wizard render fallback when current chat language is unclear; defaults to `en`), `created` (UTC date), and optional `wizard_disabled_spec` / `wizard_disabled_runbook` (each defaults to `false`). The disabled flags are set to `true` by wizard prompt's C-path ("never ask again") to permanently suppress §3 PLAN auto-prompts; explicit user-requested wizard runs ("build master spec" / "build runbook") always proceed regardless of flag. Wizard render-language precedence: latest user chat language → `dev/PROFILE.md` `language` field → `en` default.
 
-**User decline path (always required):** Each wizard's Step 0 must offer a clear "C / skip / 唔需要 / 不需要" option. AI must respect decline and not coerce continuation. Partial completion (user says "skip" mid-wizard) writes a draft with `[unfilled]` markers for missed sections.
-
-**Output discipline:** Wizard output files must include a `Created: <date> (via guided wizard, AI-assisted)` line in their header so future sessions know the file's provenance. Output paths are fixed per schema (no user override during wizard run; use schema metadata).
+**Output discipline:** Wizard output files must include a `Created: <date> (via guided wizard, AI-assisted)` line in their header so future sessions know the file's provenance. Output paths are fixed per template (`dev/PROJECT_MASTER_SPEC.md` / `dev/RUNBOOK.md`); no user override during wizard run.
 
 ---
 
@@ -638,7 +638,7 @@ Each AI reply must follow these rules. Rules 1-5 govern reply principles; rules 
    💡 推薦：X — <one sentence of objective basis>
    ```
 
-   Hard rules: at most 3 options; each option must be a viable beneficial path (do not pad with obviously inferior options as filler); if an option exists only as a warning, prefix with `⚠️` and add a `不建議：<one-sentence factual risk>` line; recommendation basis must come from verifiable evidence (file state, dependency, risk, priority, user goal) — not subjective preference. After the user signals a direction (option letter, "apply", "go", "continue"), execute directly without re-confirming.
+   Hard rules: AI-scope decisions (technical architecture, file layout, harness mechanics, internal scheduling) are decided and executed by the AI, not converted into user choices (per rule 1 role split — this format applies only to user-scope choices: goals / experience / value-judgment / acceptable trade-off); at most 3 options; each option must be a viable beneficial path (do not pad with obviously inferior options as filler); if an option exists only as a warning, prefix with `⚠️` and add a `不建議：<one-sentence factual risk>` line; recommendation basis must come from verifiable evidence (file state, dependency, risk, priority, user goal) — not subjective preference; when an option's outcome is non-obvious from a one-line label (multi-file impact, governance change, first design fork, hard-to-revert decision), each option must include a concrete user-experience preview (sample interaction, expected workflow, what the user will see / do / feel) — not technical artifacts (file paths, line counts, internal IDs, harness mechanics). After the user signals a direction (option letter, "apply", "go", "continue"), execute directly without re-confirming.
 
 3. **Ambiguity handling.** When user intent is unclear, list at most 3 reasonable hypotheses and proceed with the most likely interpretation; ask clarifying questions only when missing data would change the answer's shape or conclusion, and limit to at most 3 questions per round. Once the user signals direction (e.g., "apply", "go", "continue", a chosen option letter), execute without re-confirming.
 
@@ -950,13 +950,13 @@ POST-INSTALL: Onboarding Wizard Auto-Trigger (for first-time install only — sk
 
 Ask the user:
 
-> "Profile saved. Want to build a starter `dev/PROJECT_MASTER_SPEC.md` now via the 7-step guided wizard (~5-7 minutes)? It walks you through topic / deliverable / timeline / sources / audience / success criteria with pre-filled answers and recommendations. Future sessions read the spec at startup so context resumes without re-explaining.
+> "Profile saved. Want to build a starter `dev/PROJECT_MASTER_SPEC.md` now via the guided wizard? Give me a 1-sentence project description; AI generates a full draft + numbered assumption list, you spot-check and correct, AI iterates, then writes the file. Future sessions read the spec at startup so context resumes without re-explaining.
 >
 > ▸  A. Run wizard now
 > ▸  B. Skip — I'll run it later by saying 'build master spec'
 > ▸  C. Skip — this is a one-off project, no need for a master spec"
 
-If user picks A → execute the wizard at `dev/wizards/spec_starter.md` following its schema (read schema → render each step using `dev/wizards/_visual_frame.md` Style B → write `dev/PROJECT_MASTER_SPEC.md` per its output template).
+If user picks A → run the wizard per `dev/wizards/playbook.md` (read playbook + `dev/templates/spec_template.md` for field structure, prompt user for 1-sentence seed, draft + iterate, write `dev/PROJECT_MASTER_SPEC.md` per the template).
 If user picks B → proceed to Quick Start without running wizard. AGENTS.md §3 PLAN onboarding readiness check will re-offer the wizard at first task PLAN of the next session (because `wizard_disabled_spec` stays `false`).
 If user picks C → set `wizard_disabled_spec: true` in `dev/PROFILE.md`, then proceed to Quick Start. AGENTS.md §3 PLAN will not auto-prompt for the master spec wizard in any future session. User can still trigger the wizard manually by saying "build master spec" — explicit request bypasses the flag.
 

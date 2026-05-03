@@ -238,7 +238,7 @@ build master spec
 
 (或输入 `build runbook` 建立一份重复执行流程的 runbook)
 
-> **作用：** AI 执行一个 5-7 步的问答式 wizard。每步显示预填答案、2-3 个替代选项，以及 AI 的推荐和理由 — 你只需挑选一个(或输入「skip」)。专为不熟悉 `PROJECT_MASTER_SPEC.md` 或 `RUNBOOK.md` 应该写什么的新用户设计。Wizard 结构定义位于 `dev/wizards/` 目录，使用星星主题(✦)的框架渲染，支援 4 种语言(en / zh-TW / zh-CN / ja)。第一次安装时(`INIT.md` 的 POST-INSTALL: Profile Selection 步骤)会自动触发一次，新用户无需知道 wizard 存在也能受益。
+> **作用：** 给 AI 一句项目描述(或重复执行流程描述)。AI 一次性生成完整草稿，字段全部填好，再附一份带编号的「我假设了 ...」清单。你逐项挑错(用编号或自然语言都行)，AI 重新 draft。draft 满意后，AI 主动问「我写入 `dev/PROJECT_MASTER_SPEC.md` 好吗？」(或 `dev/RUNBOOK.md`)。专为长期项目愿景模糊、不想回答冷冰冰问题清单的用户设计。行为定义在 `dev/wizards/playbook.md`；字段结构在 `dev/templates/spec_template.md` 和 `dev/templates/runbook_template.md`(两个都可以不用 AI 自己 fill)。第一次安装时(`INIT.md` 的 POST-INSTALL: Profile Selection 步骤)会自动触发一次，新用户无需知道 wizard 存在也能受益。
 
 ---
 

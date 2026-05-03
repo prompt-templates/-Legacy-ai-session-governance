@@ -268,7 +268,7 @@ check "R29-05" "docs/releases/${LATEST_STABLE_TAG}.md release notes file exists"
 check_gte "R29-06" "docs/qa/LATEST.md references latest stable tag" "1" "$(grep -c "$LATEST_STABLE_TAG" docs/qa/LATEST.md)"
 # index.html stat counter must reflect total checks (main + legacy);
 # value is hardcoded against current run total so any harness check change forces an update.
-EXPECTED_INDEX_COUNTER="332"
+EXPECTED_INDEX_COUNTER="329"
 check "R29-07" "docs/site/index.html stat counter = $EXPECTED_INDEX_COUNTER" "1" "$(grep -c "data-target=\"$EXPECTED_INDEX_COUNTER\"" docs/site/index.html)"
 check "R29-08" "DOC_SYNC_CHECKLIST has Release published row" "1" "$(grep -c 'Release published' dev/DOC_SYNC_CHECKLIST.md)"
 # README must mention latest stable tag in ≥2 places (version-table row + Snapshot/text body) — guards against
@@ -371,39 +371,20 @@ check "R32-33" "§13 three subsections present (AGENTS)" "3" "$(grep -cE '^### 1
 check "R32-34" "§13 three subsections present (INIT mirror)" "3" "$(grep -cE '^### 13\.[123]' $I)"
 
 # ============================================================
-# R33 series — v3.0.7 Phase 1: Onboarding Wizard System
-# §3.6 Onboarding Wizard System / dev/wizards/ schema files /
-# i18n parity (en / zh-TW / zh-CN / ja) / no-hardcoding blacklist /
-# §5a backup list extension (PROFILE.md + RUNBOOK.md) / INIT.md
-# install POST-INSTALL: Profile Selection step
+# R33 series — Onboarding Wizard System (paradigm: draft+iterate)
+# §3.6 Onboarding Wizard System / dev/wizards/playbook.md (behavior)
+# / dev/templates/ (content) / §5a backup list extension (PROFILE.md +
+# RUNBOOK.md) / INIT.md install POST-INSTALL: Profile Selection step
+# / wizard_disabled_* flag persistence
 # ============================================================
 
-# File existence
+# Wizard system file existence
 check "R33-01" "dev/wizards/ directory exists" "1" "$(test -d dev/wizards && echo 1 || echo 0)"
-check "R33-02" "dev/wizards/_visual_frame.md exists" "1" "$(test -f dev/wizards/_visual_frame.md && echo 1 || echo 0)"
-check "R33-03" "dev/wizards/spec_starter.md exists" "1" "$(test -f dev/wizards/spec_starter.md && echo 1 || echo 0)"
-check "R33-04" "dev/wizards/runbook_starter.md exists" "1" "$(test -f dev/wizards/runbook_starter.md && echo 1 || echo 0)"
+check "R33-04" "dev/wizards/playbook.md exists (behavior layer)" "1" "$(test -f dev/wizards/playbook.md && echo 1 || echo 0)"
 check "R33-05" "dev/wizards/README.md exists" "1" "$(test -f dev/wizards/README.md && echo 1 || echo 0)"
-
-# i18n 4-language parity (en line count must equal zh-TW, zh-CN, ja line counts)
-SPEC=dev/wizards/spec_starter.md
-RUNBOOK=dev/wizards/runbook_starter.md
-spec_en=$(grep -c '^- en:' $SPEC 2>/dev/null || echo 0)
-spec_tw=$(grep -c '^- zh-TW:' $SPEC 2>/dev/null || echo 0)
-spec_cn=$(grep -c '^- zh-CN:' $SPEC 2>/dev/null || echo 0)
-spec_ja=$(grep -c '^- ja:' $SPEC 2>/dev/null || echo 0)
-runbook_en=$(grep -c '^- en:' $RUNBOOK 2>/dev/null || echo 0)
-runbook_tw=$(grep -c '^- zh-TW:' $RUNBOOK 2>/dev/null || echo 0)
-runbook_cn=$(grep -c '^- zh-CN:' $RUNBOOK 2>/dev/null || echo 0)
-runbook_ja=$(grep -c '^- ja:' $RUNBOOK 2>/dev/null || echo 0)
-
-check "R33-06" "spec_starter.md i18n parity (en=zh-TW=zh-CN=ja, all >0)" "1" "$([ $spec_en -gt 0 ] && [ $spec_en = $spec_tw ] && [ $spec_en = $spec_cn ] && [ $spec_en = $spec_ja ] && echo 1 || echo 0)"
-check "R33-07" "runbook_starter.md i18n parity (en=zh-TW=zh-CN=ja, all >0)" "1" "$([ $runbook_en -gt 0 ] && [ $runbook_en = $runbook_tw ] && [ $runbook_en = $runbook_cn ] && [ $runbook_en = $runbook_ja ] && echo 1 || echo 0)"
-
-# No-hardcoding: schemas must use placeholders, not specific industry/domain names
-# Blacklist: common hardcoded domain markers from prompt-engineering / AI tool examples
-check "R33-08" "spec_starter.md no hardcoded domains (AGI/fintech/React/fashion/pharma)" "0" "$(grep -cE 'AGI|fintech|React|fashion|pharma' $SPEC 2>/dev/null || true)"
-check "R33-09" "runbook_starter.md no hardcoded domains (AGI/fintech/React/fashion/pharma)" "0" "$(grep -cE 'AGI|fintech|React|fashion|pharma' $RUNBOOK 2>/dev/null || true)"
+check "R33-18" "dev/templates/ directory exists (content layer)" "1" "$(test -d dev/templates && echo 1 || echo 0)"
+check "R33-19" "dev/templates/spec_template.md exists" "1" "$(test -f dev/templates/spec_template.md && echo 1 || echo 0)"
+check "R33-20" "dev/templates/runbook_template.md exists" "1" "$(test -f dev/templates/runbook_template.md && echo 1 || echo 0)"
 
 # Governance parity (AGENTS.md + INIT.md FILE 1 mirror)
 check "R33-10" "§3.6 Onboarding Wizard System present (AGENTS)" "1" "$(grep -c '^## 3.6) Onboarding Wizard System' $A)"

@@ -238,7 +238,7 @@ build master spec
 
 (または `build runbook` で繰り返し実行する手順の runbook を作成)
 
-> **何をするか：** AI が 5-7 ステップの Q&A 形式の wizard を実行します。各ステップで事前入力された答え、2-3 個の代替選択肢、AI の推奨理由を提示 — あなたは選択するだけ(または「skip」と入力)。`PROJECT_MASTER_SPEC.md` や `RUNBOOK.md` に何を書くべきかわからない新規ユーザー向けに設計されています。Wizard スキーマは `dev/wizards/` ディレクトリにあり、星テーマ(✦)のフレームで 4 言語(en / zh-TW / zh-CN / ja)に対応。初回インストール時(`INIT.md` の POST-INSTALL: Profile Selection ステップ)に自動的に一度起動するため、新規ユーザーは wizard の存在を知らなくても利用できます。
+> **何をするか：** プロジェクト(または繰り返し実行する手順)を 1 文で AI に伝えます。AI が全フィールドを埋めた完全な草稿と、番号付きの「想定リスト」を一度に生成。あなたは番号や自然言語で気になる点を指摘し、AI が再 draft。draft が固まったら AI から「`dev/PROJECT_MASTER_SPEC.md` に書き込みますか？」(または `dev/RUNBOOK.md`)と提案。長期プロジェクトのビジョンが曖昧で、冷たい質問リストに答えたくないユーザー向けに設計されています。挙動は `dev/wizards/playbook.md`、フィールド構造は `dev/templates/spec_template.md` + `dev/templates/runbook_template.md` に分離(どちらも AI なしで自分で fill 可能)。初回インストール時(`INIT.md` の POST-INSTALL: Profile Selection ステップ)に自動的に一度起動するため、新規ユーザーは wizard の存在を知らなくても利用できます。
 
 ---
 

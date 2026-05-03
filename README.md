@@ -234,7 +234,7 @@ build master spec
 
 (or `build runbook` for a recurring procedure runbook)
 
-> **What it does:** AI runs a 5-7 step Q&A wizard. Each step shows a pre-filled answer, 2-3 alternative options, and AI's recommendation with reasoning — you just pick (or say "skip"). Designed for new users who don't know what `PROJECT_MASTER_SPEC.md` or `RUNBOOK.md` should contain. Schemas live in `dev/wizards/` and render with a star-themed (✦) frame in 4 languages (en / zh-TW / zh-CN / ja). The wizard also auto-fires once at first install (POST-INSTALL: Profile Selection step in `INIT.md`) so first-time users don't need to know the wizard exists.
+> **What it does:** Give AI a 1-sentence description of your project (or recurring procedure). AI generates a one-shot full draft with all fields filled + a numbered list of every assumption it made. You spot-check, point at items to correct (by index or free-form), AI re-drafts. When the draft looks right, AI proposes writing it to `dev/PROJECT_MASTER_SPEC.md` (or `dev/RUNBOOK.md`). Designed for vague long-term project visions where cold question forms feel like an interrogation. Behavior lives in `dev/wizards/playbook.md`; field structure lives in `dev/templates/spec_template.md` + `dev/templates/runbook_template.md` (both standalone-fillable without AI). The wizard also auto-fires once at first install (POST-INSTALL: Profile Selection step in `INIT.md`) so first-time users don't need to know the wizard exists.
 
 ---
 
