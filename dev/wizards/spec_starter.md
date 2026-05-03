@@ -65,13 +65,32 @@
 - zh-CN: 构建 / 实现 — 做一个解决 [problem] 的 [thing]
 - ja:    構築 / 実装 — [problem] を解決する [thing] を作る
 
+### Option D
+- en:    Establish governance — define rules / verification / harness for [activity]
+- zh-TW: 建立治理 — 為 [activity] 定立規則 / 驗證機制 / 檢查 harness
+- zh-CN: 建立治理 — 为 [activity] 定立规则 / 验证机制 / 检查 harness
+- ja:    ガバナンス確立 — [activity] のためのルール / 検証メカニズム / 検査 harness を定義
+
+### Option E
+- en:    Compile reference — assemble structured reference / runbook / SOP for [domain]
+- zh-TW: 編寫參考 — 為 [domain] 整理結構化 reference / runbook / SOP
+- zh-CN: 编写参考 — 为 [domain] 整理结构化 reference / runbook / SOP
+- ja:    リファレンス編纂 — [domain] のための構造化された reference / runbook / SOP を整理
+
+### Option F
+- en:    Hybrid / other — combination of above types or doesn't fit any single class
+- zh-TW: 混合 / 其他 — 上述類型嘅組合,或者唔屬於任何單一類別
+- zh-CN: 混合 / 其他 — 上述类型的组合,或者不属于任何单一类别
+- ja:    ハイブリッド / その他 — 上記の組み合わせ、またはどの単一カテゴリにも該当しない
+
 ### AI execution guidance (config)
 - profile=research      → recommend A
-- profile=writing       → recommend A
+- profile=writing       → recommend A or E (E if reference compilation)
 - profile=data-analysis → recommend A or B (ask user without recommendation if ambiguous)
 - profile=coding        → recommend C
-- profile=agent-design  → recommend C, attach note `agent_flow_note`
+- profile=agent-design  → recommend C or D (D if governance / verification / harness focus); attach note `agent_flow_note` for C
 - profile=general       → infer from user prior message; if no signal → present options without recommendation
+- hybrid signal (multiple Step 1 types apply, or fit unclear) → recommend F
 
 ## Step 2 — Topic specifics
 

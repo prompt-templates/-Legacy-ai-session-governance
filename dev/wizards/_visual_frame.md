@@ -34,9 +34,9 @@ Substitution variables:
 | `{percent}` | computed from N/Total × 100, rounded to nearest integer |
 | `{progress_label}` | `progress_label` i18n entry below |
 | `{question_text}` | per-step `Question` i18n entry from the schema |
-| `{option_a}` / `{option_b}` / `{option_c}` | per-step `Option A/B/C` i18n entry from the schema |
+| `{option_a}` / `{option_b}` / `{option_c}` / `{option_d}` / `{option_e}` / `{option_f}` | per-step `Option A/B/C/D/E/F` i18n entry from the schema (schema declares 3–6 options; render one line per declared option) |
 | `{pick_label}` | `pick_label` i18n entry below |
-| `{recommended_letter}` | `A` / `B` / `C` selected by AI per step's `AI execution guidance` |
+| `{recommended_letter}` | `A`–`F` selected by AI per step's `AI execution guidance` |
 | `{recommendation_reason}` | one-sentence reason in user's language, written by AI based on step context |
 
 ## Completion frame — rendered once at wizard end
@@ -94,3 +94,4 @@ Substitution variables:
 3. Each label must have all 4 language entries (en / zh-TW / zh-CN / ja); harness check enforces this
 4. Numeric variables (`{N}` / `{Total}` / `{percent}`) substitute as plain digits, no localization
 5. Path variables (`{output_path}`) substitute as plain text, no localization
+6. Schema may declare 3–6 options per question (Option A through Option F); frame renders one `▸ X. {option_x}` line per declared option. Each declared option requires all 4 language entries (`en` / `zh-TW` / `zh-CN` / `ja`)

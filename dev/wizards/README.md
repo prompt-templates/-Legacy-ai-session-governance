@@ -27,6 +27,7 @@ In all cases AI must offer a clear decline path and respect user choice.
 3. **Examples use placeholders only.** Do NOT hardcode specific industry / tool / framework / company names. Use `[X]` / `[topic]` / `[domain]` / `[thing]` / `[problem]` / `[N]` / `[T]`. Harness R33-08 / R33-09 enforces the exact blacklist.
 4. **AI execution guidance is the only section that may stay in English-only config syntax.** It's executor instructions, not user-facing text.
 5. **Do not duplicate the visual frame ASCII or the i18n label table.** Schemas reference `_visual_frame.md`; if a new label is needed, add it to `_visual_frame.md` first.
+6. **Schema may declare 3–6 Options per question** (Option A through Option F). Frame renders one `▸ X. {option_x}` line per declared option. 4-lang completeness applies to each declared Option (R33 series enforces).
 
 ## Adding a new wizard
 
