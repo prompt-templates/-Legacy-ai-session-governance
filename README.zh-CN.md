@@ -230,6 +230,16 @@ Follow AGENTS.md
 
 ![为何要手动粘贴](ref_doc/why_paste_handoff_cn.svg)
 
+### :small_blue_diamond: 4) 建立 starter 项目 spec 或 runbook(guided wizard)
+
+```text
+build master spec
+```
+
+(或输入 `build runbook` 建立一份重复执行流程的 runbook)
+
+> **作用：** AI 执行一个 5-7 步的问答式 wizard。每步显示预填答案、2-3 个替代选项，以及 AI 的推荐和理由 — 你只需挑选一个(或输入「skip」)。专为不熟悉 `PROJECT_MASTER_SPEC.md` 或 `RUNBOOK.md` 应该写什么的新用户设计。Wizard 结构定义位于 `dev/wizards/` 目录，使用星星主题(✦)的框架渲染，支援 4 种语言(en / zh-TW / zh-CN / ja)。第一次安装时(`INIT.md` 的 POST-INSTALL: Profile Selection 步骤)会自动触发一次，新用户无需知道 wizard 存在也能受益。
+
 ---
 
 ## :bookmark_tabs: 配额切换交接流程

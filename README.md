@@ -226,6 +226,16 @@ wrap up
 
 ![Why paste manually](ref_doc/why_paste_handoff_en.svg)
 
+### :small_blue_diamond: 4) Build a starter project spec or runbook (guided wizard)
+
+```text
+build master spec
+```
+
+(or `build runbook` for a recurring procedure runbook)
+
+> **What it does:** AI runs a 5-7 step Q&A wizard. Each step shows a pre-filled answer, 2-3 alternative options, and AI's recommendation with reasoning — you just pick (or say "skip"). Designed for new users who don't know what `PROJECT_MASTER_SPEC.md` or `RUNBOOK.md` should contain. Schemas live in `dev/wizards/` and render with a star-themed (✦) frame in 4 languages (en / zh-TW / zh-CN / ja). The wizard also auto-fires once at first install (POST-INSTALL: Profile Selection step in `INIT.md`) so first-time users don't need to know the wizard exists.
+
 ---
 
 ## :bookmark_tabs: Quota-switch handoff flow

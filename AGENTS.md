@@ -5,7 +5,7 @@
 <!-- MANDATORY STARTUP — read every session: §0 §0c §1 §2 -->
 <!-- MANDATORY WORKFLOW — execute every task/closeout: §3 §3.5 §4 §11b -->
 <!-- MANDATORY REPLY DISCIPLINE — apply to every AI response: §11a §13 -->
-<!-- CONDITIONAL — apply when triggered: §0b §2b §3b §3c §3d §4a §5 §5a §6 §7 §8 §8b §9 §11c -->
+<!-- CONDITIONAL — apply when triggered: §0b §2b §3.6 §3b §3c §3d §4a §5 §5a §6 §7 §8 §8b §9 §11c -->
 <!-- REFERENCE — consult when needed: §10 §11 §12 -->
 
 **CORE RULES — apply to every task without exception:**
@@ -166,6 +166,7 @@ Every task must follow this workflow and clearly label each phase in the respons
    - Risk level — HIGH or LOW (any one = HIGH): (a) likely affects ≥3 files; (b) user instruction lacks target files / behavior / end state; (c) involves deletion, rename, or irreversible operations; (d) involves external systems (API calls, deploy, publish); (e) modifies governance rules (AGENTS.md, INIT.md, or similar)
    - HIGH → present PLAN using §3.5 FPFR 5-section output format and wait for user non-veto (per §3.5 closing line) before READ; LOW → proceed to READ with the 3-field statement above
    - §3d trigger met → define test scenario matrix before READ
+   - Onboarding readiness check: at PLAN entry, read `dev/PROFILE.md` if exists (for `wizard_disabled_spec` / `wizard_disabled_runbook` flags). If `dev/PROJECT_MASTER_SPEC.md` is missing AND `wizard_disabled_spec` ≠ `true` → offer `dev/wizards/spec_starter.md` wizard before this task. If task description shows deploy / publish / release / pipeline / recurring-procedure intent (any language) AND `dev/RUNBOOK.md` is missing AND `wizard_disabled_runbook` ≠ `true` → offer `dev/wizards/runbook_starter.md`. Each wizard prompt offers 3 paths: A run now / B defer (re-offer next session) / C never ask again (sets `wizard_disabled_*: true` in `dev/PROFILE.md`). B persists for the current session only; C persists permanently. Explicit user request (e.g., "build master spec" / "build runbook") always runs the wizard regardless of flag. See §3.6 for wizard system details.
 
 2. READ — minimum coverage before entering CHANGE:
    - Read the full context of the section to be modified in the target file
@@ -232,6 +233,29 @@ One sentence linking to the authoritative source (cite specific location, e.g., 
 - Vague substitutes for the 5 sections ("end-state picture" / "full picture" / "overall view") without the actual structured sections
 - Skipping the 5 sections and jumping to a plan or approval request
 - Adding a "do you agree?" closing question after the 5 sections — the closing line replaces this
+
+---
+
+## 3.6) Onboarding Wizard System (Mandatory when applicable)
+**Purpose:** Help users author non-trivial governance docs (`PROJECT_MASTER_SPEC.md` / `RUNBOOK.md` / future) via guided AI-led Q&A instead of blank-template fill-in. Wizards lower the barrier for new users who do not yet know what these docs should contain.
+
+**Schema location:** `dev/wizards/<name>_starter.md`. Each schema defines: metadata (output file path / step count / skip path); Step 0 bypass detection (skip if user already provided info); Steps 1..N each with `phase_title (i18n)` + `Question (i18n)` + `Option A/B/C (i18n)` + `AI execution guidance (config)`; output template skeleton.
+
+**Visual frame:** All wizards render using the shared frame defined in `dev/wizards/_visual_frame.md` (Style B, ✦ star-themed). Schemas reference label keys (`step_label` / `progress_label` / `pick_label` / `completion_title`) — do not duplicate the frame ASCII or label strings inside individual schemas.
+
+**i18n requirement:** Every Question and Option string in a schema must have all 4 language entries (`en` / `zh-TW` / `zh-CN` / `ja`). Each language row uses one language only — do not mix English verbs / nouns into zh-TW / zh-CN / ja prose. Technical proper nouns (`Agent` / `API` / `JSON` / `Markdown` / `SDK` / placeholder tokens like `[X]` / `[domain]`) are universal and may appear in any language string.
+
+**No-hardcoding rule:** Examples must use placeholders only (`[X]` / `[topic]` / `[domain]` / `[thing]` / `[problem]` / `[N]` / `[T]`). Do NOT hardcode specific industry / tool / framework / company names — schemas ship as a generic template, specific instances belong in user-generated output files. Harness R33-08 / R33-09 enforces this via grep blacklist.
+
+**Detection triggers (mandatory at §3 PLAN):** see §3 PLAN onboarding readiness check. Decline persists for the session; do not re-prompt the same wizard within the same session after user declines.
+
+**Profile awareness:** Wizards may use `dev/PROFILE.md` (set at INIT.md install) to tune option recommendations. Profile influence is suggestion-only — user override always wins. Supported profile values: `general` / `research` / `coding` / `writing` / `agent-design` / `data-analysis`.
+
+**`dev/PROFILE.md` schema:** Carries fields: `profile` (one of the 6 supported values), `language` (auto-detected user language preference; defaults to `en`), `created` (UTC date), and optional `wizard_disabled_spec` / `wizard_disabled_runbook` (each defaults to `false`). The disabled flags are set to `true` by wizard prompt's C-path ("never ask again") to permanently suppress §3 PLAN auto-prompts; explicit user-requested wizard runs ("build master spec" / "build runbook") always proceed regardless of flag. Wizard render-language precedence: latest user chat language → `dev/PROFILE.md` `language` field → `en` default.
+
+**User decline path (always required):** Each wizard's Step 0 must offer a clear "C / skip / 唔需要 / 不需要" option. AI must respect decline and not coerce continuation. Partial completion (user says "skip" mid-wizard) writes a draft with `[unfilled]` markers for missed sections.
+
+**Output discipline:** Wizard output files must include a `Created: <date> (via guided wizard, AI-assisted)` line in their header so future sessions know the file's provenance. Output paths are fixed per schema (no user override during wizard run; use schema metadata).
 
 ---
 
@@ -495,7 +519,7 @@ Before any bootstrap / setup task creating or modifying multiple governance file
 6. Require exact confirmation reply: `INSTALL_ROOT_OK: <absolute_path>`
 7. If the confirmation path does not exactly match the proposed absolute path, abort setup (no writes)
 8. After step 6 passes, require second confirmation reply before first write: `INSTALL_WRITE_OK`
-9. After `INSTALL_WRITE_OK` and before first write, create a lightweight backup snapshot: directory `<PROJECT_ROOT>/dev/init_backup/<YYYYMMDD_HHMMSS_UTC>/`; copy only existing target files (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `dev/SESSION_HANDOFF.md`, `dev/SESSION_LOG.md`, `dev/CODEBASE_CONTEXT.md`, `dev/DOC_SYNC_CHECKLIST.md`, `dev/SESSION_STATE_DETAIL.md`, `dev/PROJECT_MASTER_SPEC.md`, if present); preserve relative paths under `<PROJECT_ROOT>`; native filesystem copy (cross-platform), no git required
+9. After `INSTALL_WRITE_OK` and before first write, create a lightweight backup snapshot: directory `<PROJECT_ROOT>/dev/init_backup/<YYYYMMDD_HHMMSS_UTC>/`; copy only existing target files (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `dev/SESSION_HANDOFF.md`, `dev/SESSION_LOG.md`, `dev/CODEBASE_CONTEXT.md`, `dev/DOC_SYNC_CHECKLIST.md`, `dev/SESSION_STATE_DETAIL.md`, `dev/PROJECT_MASTER_SPEC.md`, `dev/PROFILE.md`, `dev/RUNBOOK.md`, if present); preserve relative paths under `<PROJECT_ROOT>`; native filesystem copy (cross-platform), no git required
 10. If high-risk markers are detected, default action is abort and ask user to specify a safer subdirectory explicitly
 
 ---

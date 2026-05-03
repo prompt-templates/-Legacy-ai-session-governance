@@ -1,16 +1,17 @@
 # QA Regression Report
 
-Date: 2026-05-01 (UTC)
-Scope: v3.0.6 GA + supplement — closeout UX polish (Visual Cue redesign × 6 + multi-line hint → 1-line + README × 4 Install/Upgrading 9→5 step + Quick Op 3) WHY explanation + R27-10 bug fix); v3.0.6 supplement (post-tag, no new version) — README Recent releases capped to 5 entries + SVG-aligned commands + "Forgot to paste" callout corrected + LATEST_STABLE_TAG bump + DOC_SYNC strengthen; on top of v3.0.5 Tier 2 meta-instruction integration baseline
+Date: 2026-05-03 (UTC)
+Scope: v3.0.6 baseline + Phase 1 Onboarding Wizard System supplement (post-tag, no version bump) — new `dev/wizards/` directory, AGENTS.md §3.6 Onboarding Wizard System, INIT.md install POST-INSTALL: Profile Selection + wizard auto-trigger, §3 PLAN onboarding readiness check, §5a backup list extended (PROFILE.md + RUNBOOK.md), README × 4 Quick Op 4, R33 series (+14 checks)
 
 ## Summary
 
-- Total checks: 315 — 226 main (`docs/qa/run_checks.sh`) + 89 legacy auto-chain (`docs/qa/legacy_checks.sh`)
-- Pass: 315
+- Total checks: 332 — 243 main (`docs/qa/run_checks.sh`) + 89 legacy auto-chain (`docs/qa/legacy_checks.sh`)
+- Pass: 332
 - Fail: 0
 - Per-entry size scan: SESSION_LOG entries ≤110 cap maintained
 - New R32 series (34 checks): §0c priority order parity (R32-01..04), §3.5 FPFR section + 5 headings + closing line + §3 PLAN cross-ref (R32-05..12), §3b anti-hardcoding (R32-13..14), §5 rule 9 preserve-original (R32-15..16), §11a rules 6-10 — reply skeleton / emoji vocab / output-only / SSOT verbatim / register (R32-17..26), §11b Patch-only (R32-27..28), §11c Deep-Fix (R32-29..30), §13 Tooling Format Rules with 3 subsections (R32-31..34)
-- Pre-existing checks adjusted: S03 (section count) 23→28; #164/#165 wording updated from `wait for user confirmation` → `wait for user non-veto`; R11-01/R11-02 anchor tightened to `^**CORE RULES` heading-only pattern (DOC_SYNC mentions of "CORE RULES marker block" no longer trigger false match)
+- New R33 series (17 checks): Phase 1 Onboarding Wizard System — `dev/wizards/` directory + 4 schema files (R33-01..05), spec_starter.md + runbook_starter.md i18n parity (en=zh-TW=zh-CN=ja, R33-06..07), no-hardcoding blacklist (AGI / fintech / React / fashion / pharma, R33-08..09), AGENTS.md + INIT.md FILE 1 mirror §3.6 Onboarding Wizard System parity (R33-10..11), §5a backup list PROFILE.md+RUNBOOK.md presence (R33-12..13, check_gte to handle prose mentions in §3 PLAN), INIT.md install POST-INSTALL: Profile Selection step (R33-14), Gap #1+#2+#5 follow-on: §3 PLAN reads PROFILE.md + handles wizard_disabled_spec flag (R33-15..16, check_gte) + INIT.md PROFILE.md template includes wizard_disabled_spec field (R33-17)
+- Pre-existing checks adjusted: S02 (INIT.md fence count) 28→30 (Phase 1 added 1 fenced block for `dev/PROFILE.md` template content); S03 (AGENTS.md section count) 28→29 (§3.6 Onboarding Wizard System added); EXPECTED_INDEX_COUNTER 315→332 (R33 series); R29-07 verifies docs/site/index.html stat counter against new total
 
 **Run automated checks:** `bash docs/qa/run_checks.sh` (from project root, ~10 seconds, auto-chains legacy)
 

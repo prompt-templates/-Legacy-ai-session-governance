@@ -31,6 +31,8 @@
 | Patch-only delivery format changed (§11b) | AGENTS.md §11b + §11 cross-ref; INIT.md FILE 1 mirror; CORE RULES marker block; harness grep parity for anchor + BEFORE/AFTER + Changelog requirements | bash docs/qa/run_checks.sh + grep parity |
 | Deep-Fix / Final-Landing trigger changed (§11c) | AGENTS.md §11c; INIT.md FILE 1 mirror; harness grep parity for trigger keywords + 4-step requirement | bash docs/qa/run_checks.sh + grep parity |
 | Tooling format rules changed (§13 calc / JSON / Mermaid) | AGENTS.md §13.1 / §13.2 / §13.3; INIT.md FILE 1 mirror; harness grep parity for each subsection presence | bash docs/qa/run_checks.sh + grep parity |
+| Wizard schema added or changed (`dev/wizards/*.md`) | AGENTS.md §3.6 + INIT.md FILE 1 §3.6 mirror; affected schema file in `dev/wizards/`; `dev/wizards/_visual_frame.md` if a new label key is needed; `dev/wizards/README.md` if list of wizards / hard rules changed; harness R33 series — file existence + 4-lang completeness (en / zh-TW / zh-CN / ja) + no-hardcoding blacklist check | bash docs/qa/run_checks.sh + grep parity (R33 series) |
+| Profile selector logic changed (INIT.md install flow / `dev/PROFILE.md` format / supported profile values) | INIT.md install Quick Start `POST-INSTALL: Profile Selection` step; AGENTS.md §3.6 supported profile enumeration; `dev/wizards/README.md` profile awareness section; AGENTS.md §5a backup list (`dev/PROFILE.md` entry); INIT.md FILE 1 §5a mirror; harness R33 series for backup list + profile section parity | bash docs/qa/run_checks.sh + grep parity |
 | _[Add project-specific rows below this line]_ | | |
 
 ## Anti-pattern: No Matching Row

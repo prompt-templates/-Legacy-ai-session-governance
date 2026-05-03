@@ -39,8 +39,8 @@ I="INIT.md"
 # Category 1: Fence Counts & File Structure
 # ============================================================
 check "S01" "Fence count AGENTS.md = 16" "16" "$(grep -c '^```' $A)"
-check "S02" "Fence count INIT.md = 28" "28" "$(grep -c '^```' $I)"
-check "S03" "Section count AGENTS.md = 28" "28" "$(grep -c '^## ' $A)"
+check "S02" "Fence count INIT.md = 30" "30" "$(grep -c '^```' $I)"
+check "S03" "Section count AGENTS.md = 29" "29" "$(grep -c '^## ' $A)"
 check "S04" "AGENTS.md fences even" "0" "$(( $(grep -c '^```' $A) % 2 ))"
 check "S05" "INIT.md fences even" "0" "$(( $(grep -c '^```' $I) % 2 ))"
 
@@ -268,7 +268,7 @@ check "R29-05" "docs/releases/${LATEST_STABLE_TAG}.md release notes file exists"
 check_gte "R29-06" "docs/qa/LATEST.md references latest stable tag" "1" "$(grep -c "$LATEST_STABLE_TAG" docs/qa/LATEST.md)"
 # index.html stat counter must reflect total checks (main + legacy);
 # value is hardcoded against current run total so any harness check change forces an update.
-EXPECTED_INDEX_COUNTER="315"
+EXPECTED_INDEX_COUNTER="332"
 check "R29-07" "docs/site/index.html stat counter = $EXPECTED_INDEX_COUNTER" "1" "$(grep -c "data-target=\"$EXPECTED_INDEX_COUNTER\"" docs/site/index.html)"
 check "R29-08" "DOC_SYNC_CHECKLIST has Release published row" "1" "$(grep -c 'Release published' dev/DOC_SYNC_CHECKLIST.md)"
 # README must mention latest stable tag in ≥2 places (version-table row + Snapshot/text body) — guards against
@@ -369,6 +369,53 @@ check "R32-31" "§13 Tooling Format Rules section present (AGENTS)" "1" "$(grep 
 check "R32-32" "§13 Tooling Format Rules section present (INIT mirror)" "1" "$(grep -c '^## 13) Tooling Format Rules' $I)"
 check "R32-33" "§13 three subsections present (AGENTS)" "3" "$(grep -cE '^### 13\.[123]' $A)"
 check "R32-34" "§13 three subsections present (INIT mirror)" "3" "$(grep -cE '^### 13\.[123]' $I)"
+
+# ============================================================
+# R33 series — v3.0.7 Phase 1: Onboarding Wizard System
+# §3.6 Onboarding Wizard System / dev/wizards/ schema files /
+# i18n parity (en / zh-TW / zh-CN / ja) / no-hardcoding blacklist /
+# §5a backup list extension (PROFILE.md + RUNBOOK.md) / INIT.md
+# install POST-INSTALL: Profile Selection step
+# ============================================================
+
+# File existence
+check "R33-01" "dev/wizards/ directory exists" "1" "$(test -d dev/wizards && echo 1 || echo 0)"
+check "R33-02" "dev/wizards/_visual_frame.md exists" "1" "$(test -f dev/wizards/_visual_frame.md && echo 1 || echo 0)"
+check "R33-03" "dev/wizards/spec_starter.md exists" "1" "$(test -f dev/wizards/spec_starter.md && echo 1 || echo 0)"
+check "R33-04" "dev/wizards/runbook_starter.md exists" "1" "$(test -f dev/wizards/runbook_starter.md && echo 1 || echo 0)"
+check "R33-05" "dev/wizards/README.md exists" "1" "$(test -f dev/wizards/README.md && echo 1 || echo 0)"
+
+# i18n 4-language parity (en line count must equal zh-TW, zh-CN, ja line counts)
+SPEC=dev/wizards/spec_starter.md
+RUNBOOK=dev/wizards/runbook_starter.md
+spec_en=$(grep -c '^- en:' $SPEC 2>/dev/null || echo 0)
+spec_tw=$(grep -c '^- zh-TW:' $SPEC 2>/dev/null || echo 0)
+spec_cn=$(grep -c '^- zh-CN:' $SPEC 2>/dev/null || echo 0)
+spec_ja=$(grep -c '^- ja:' $SPEC 2>/dev/null || echo 0)
+runbook_en=$(grep -c '^- en:' $RUNBOOK 2>/dev/null || echo 0)
+runbook_tw=$(grep -c '^- zh-TW:' $RUNBOOK 2>/dev/null || echo 0)
+runbook_cn=$(grep -c '^- zh-CN:' $RUNBOOK 2>/dev/null || echo 0)
+runbook_ja=$(grep -c '^- ja:' $RUNBOOK 2>/dev/null || echo 0)
+
+check "R33-06" "spec_starter.md i18n parity (en=zh-TW=zh-CN=ja, all >0)" "1" "$([ $spec_en -gt 0 ] && [ $spec_en = $spec_tw ] && [ $spec_en = $spec_cn ] && [ $spec_en = $spec_ja ] && echo 1 || echo 0)"
+check "R33-07" "runbook_starter.md i18n parity (en=zh-TW=zh-CN=ja, all >0)" "1" "$([ $runbook_en -gt 0 ] && [ $runbook_en = $runbook_tw ] && [ $runbook_en = $runbook_cn ] && [ $runbook_en = $runbook_ja ] && echo 1 || echo 0)"
+
+# No-hardcoding: schemas must use placeholders, not specific industry/domain names
+# Blacklist: common hardcoded domain markers from prompt-engineering / AI tool examples
+check "R33-08" "spec_starter.md no hardcoded domains (AGI/fintech/React/fashion/pharma)" "0" "$(grep -cE 'AGI|fintech|React|fashion|pharma' $SPEC 2>/dev/null || true)"
+check "R33-09" "runbook_starter.md no hardcoded domains (AGI/fintech/React/fashion/pharma)" "0" "$(grep -cE 'AGI|fintech|React|fashion|pharma' $RUNBOOK 2>/dev/null || true)"
+
+# Governance parity (AGENTS.md + INIT.md FILE 1 mirror)
+check "R33-10" "§3.6 Onboarding Wizard System present (AGENTS)" "1" "$(grep -c '^## 3.6) Onboarding Wizard System' $A)"
+check "R33-11" "§3.6 Onboarding Wizard System present (INIT mirror)" "1" "$(grep -c '^## 3.6) Onboarding Wizard System' $I)"
+check_gte "R33-12" "§5a backup list includes PROFILE.md + RUNBOOK.md (AGENTS)" "1" "$(grep -c 'dev/PROFILE.md.*dev/RUNBOOK.md' $A)"
+check_gte "R33-13" "§5a backup list includes PROFILE.md + RUNBOOK.md (INIT mirror)" "1" "$(grep -c 'dev/PROFILE.md.*dev/RUNBOOK.md' $I)"
+check "R33-14" "INIT.md install POST-INSTALL: Profile Selection step present" "1" "$(grep -c 'POST-INSTALL: Profile Selection (for first-time install only' $I)"
+
+# Wizard decline persistence (PROFILE.md wizard_disabled_* flags)
+check_gte "R33-15" "§3 PLAN onboarding check reads PROFILE.md + handles wizard_disabled_spec (AGENTS)" "1" "$(grep -c 'wizard_disabled_spec' $A)"
+check_gte "R33-16" "§3 PLAN onboarding check reads PROFILE.md + handles wizard_disabled_spec (INIT mirror)" "1" "$(grep -c 'wizard_disabled_spec' $I)"
+check "R33-17" "INIT.md install POST-INSTALL: Profile Selection PROFILE.md template includes wizard_disabled_spec field" "1" "$(grep -c '^wizard_disabled_spec: false' $I)"
 
 # ============================================================
 # Category 15: Legacy Harness Health (staleness detection)

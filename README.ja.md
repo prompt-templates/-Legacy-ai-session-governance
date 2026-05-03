@@ -230,6 +230,16 @@ wrap up
 
 ![なぜ手動で貼り付けるのか](ref_doc/why_paste_handoff_ja.svg)
 
+### :small_blue_diamond: 4) スタータープロジェクト spec または runbook を作成(guided wizard)
+
+```text
+build master spec
+```
+
+(または `build runbook` で繰り返し実行する手順の runbook を作成)
+
+> **何をするか：** AI が 5-7 ステップの Q&A 形式の wizard を実行します。各ステップで事前入力された答え、2-3 個の代替選択肢、AI の推奨理由を提示 — あなたは選択するだけ(または「skip」と入力)。`PROJECT_MASTER_SPEC.md` や `RUNBOOK.md` に何を書くべきかわからない新規ユーザー向けに設計されています。Wizard スキーマは `dev/wizards/` ディレクトリにあり、星テーマ(✦)のフレームで 4 言語(en / zh-TW / zh-CN / ja)に対応。初回インストール時(`INIT.md` の POST-INSTALL: Profile Selection ステップ)に自動的に一度起動するため、新規ユーザーは wizard の存在を知らなくても利用できます。
+
 ---
 
 ## :bookmark_tabs: 配分切り替え引き継ぎフロー
