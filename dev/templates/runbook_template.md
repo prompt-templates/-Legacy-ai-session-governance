@@ -69,7 +69,7 @@ If user self-fills this template without AI, replace `via guided wizard, AI-assi
 ## How to use this template
 
 1. **Self-fill path** — copy the field structure into `dev/RUNBOOK.md`, fill each field per procedure, drop the example placeholder lines. Write the header `Created:` line. Multi-procedure runbooks repeat fields 1–9 per procedure under second-level headings.
-2. **AI-assisted path** — invoke the wizard (say "build runbook" or accept the §3 PLAN onboarding offer triggered by deploy / publish / release / pipeline / recurring-procedure intent). AI reads this template + your 1-sentence procedure description, generates a one-shot draft with all fields filled + a numbered assumption list. Spot-check, correct, iterate, write. See `dev/wizards/playbook.md` for the loop.
+2. **AI-assisted path** — invoke the wizard. Triggers, draft+iterate loop, assumption rules, close-out signals all live in `dev/wizards/playbook.md` (single source of truth). The wizard reads this template + your 1-sentence procedure description and runs the playbook flow.
 
 ---
 

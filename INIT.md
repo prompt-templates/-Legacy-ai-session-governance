@@ -898,7 +898,7 @@ Rule if exists: preserve all existing rows; ensure the universal rows in the tem
 | Patch-only delivery format changed (§11b) | AGENTS.md §11b + §11 cross-ref; INIT.md FILE 1 mirror; CORE RULES marker block | grep parity check |
 | Deep-Fix / Final-Landing trigger changed (§11c) | AGENTS.md §11c; INIT.md FILE 1 mirror | grep parity check |
 | Tooling format rules changed (§13 calc / JSON / Mermaid) | AGENTS.md §13.1 / §13.2 / §13.3; INIT.md FILE 1 mirror | grep parity check |
-| Wizard schema added or changed (`dev/wizards/*.md`) | AGENTS.md §3.6 + INIT.md FILE 1 §3.6 mirror; affected schema file in `dev/wizards/`; `dev/wizards/_visual_frame.md` if a new label key is needed; `dev/wizards/README.md` if list of wizards / hard rules changed; harness R33 series — file existence + 4-lang completeness + no-hardcoding blacklist check | grep parity check |
+| Wizard playbook or template added or changed (`dev/wizards/playbook.md`, `dev/templates/*.md`) | AGENTS.md §3.6 + INIT.md FILE 1 §3.6 mirror; affected file in `dev/wizards/` or `dev/templates/`; `dev/wizards/README.md` if list of templates / paradigm rules changed; harness R33 series — playbook + template existence checks | grep parity check |
 | Profile selector logic changed (INIT.md install flow / `dev/PROFILE.md` format / supported profile values) | INIT.md install Quick Start `POST-INSTALL: Profile Selection` step; AGENTS.md §3.6 supported profile enumeration; `dev/wizards/README.md` profile awareness section; AGENTS.md §5a backup list; INIT.md FILE 1 §5a mirror; harness R33 series | grep parity check |
 | _[Add project-specific rows below this line]_ | | |
 
