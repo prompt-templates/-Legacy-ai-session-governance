@@ -1,7 +1,7 @@
 # QA Regression Report
 
 Date: 2026-05-03 (UTC)
-Scope: v3.0.6 baseline + Phase 1 Onboarding Wizard System + Wizard Paradigm Shift (post-tag, no version bump) — form-fill schemas retired (`_visual_frame.md` / `spec_starter.md` / `runbook_starter.md` deleted); draft+iterate paradigm shipped (`dev/wizards/playbook.md` behavior layer + `dev/templates/` content layer); §3.6 + §3 PLAN + INIT install Wizard Auto-Trigger block updated; README × 4 Quick Op 4 user-facing description rewritten; R33 series 17 → 14 checks (retire 6 / rewrite 1 / add 3)
+Scope: **v3.0.7 release** — onboarding wizard paradigm shift (form-fill schemas retired; draft+iterate paradigm shipped via `dev/wizards/playbook.md` + `dev/templates/`); matrix-qc audit-logic root-fix (Boundary-Aware Divergence + prescriptive-verb ban); playbook dogfood patches (closure classification, hallucination guardrail, explicit per-field assumption); README × 4 locale heading drift fix; landing-page f12 wizard feature card (4 languages); R33 series 17 → 14 checks (retire 6 / rewrite 1 / add 3); LATEST_STABLE_TAG v3.0.6 → v3.0.7
 
 ## Summary
 
