@@ -33,14 +33,15 @@ If the description is too vague to draft a useful first cut → see "Vague-input
 ### Step 2 — Generate one-shot draft + assumption list
 Read the relevant template (`dev/templates/spec_template.md` or `dev/templates/runbook_template.md`) for field structure, then:
 
-1. Fill every field with a plausible value inferred from the seed + context.
+1. Fill every field with a plausible value inferred from the seed + context. **Hallucination guardrail:** for optional fields without any ground truth in the seed or surrounding context (e.g., References / prior art / specific external products / specific dates without a stated timeline), write `(待補)` or `TBD` — do NOT fabricate plausible-sounding entries. Generic defaults that hold for almost any project of the type (e.g., "Phase 1 = MVP" / "Audience = primary user group") are acceptable but must surface in the assumption list as low-confidence inferences.
 2. List every key assumption made as a numbered short-bullet (typical 5–12 items, terse). Cover both high- and low-confidence assumptions — do NOT filter to low-confidence only; high-confidence assumptions may still be wrong and need challenge.
 3. Surface the draft + assumption list in one reply.
 
 Format invariants for the assumption list:
 - One numbered list. No per-section grouping.
 - Each item ≤ 1 line, terse.
-- Includes target audience, deliverable form, scope, success criteria, constraints (whichever apply per template).
+- **Each filled template field gets at least one explicit assumption** stating the primary inference (e.g., for Tech stack write `④ 技術 stack 推 React + Node + PostgreSQL 而非 native iOS / Java`; do NOT bury the inference in a vague entry like `④ 技術 stack`). Implicit inferences erode the transparency contract.
+- Cover target audience, deliverable form, scope, success criteria, constraints (whichever apply per template).
 
 ### Step 3 — Spot-check and iterate
 User responds. Common patterns:
@@ -51,15 +52,21 @@ User responds. Common patterns:
 Each iteration produces a new full draft + refreshed assumption list. Do NOT show only the diff — the user spot-checks the whole, and a stale assumption list erodes the transparency contract.
 
 ### Step 4 — Close-out signal detection
-Watch for either:
-- Two consecutive turns with no new modifications (user confirms / replies with non-correction content).
-- Closure language: "ready", "down", "啱晒", "得", "OK 寫", "好".
+Two classes of signals — treat them differently:
 
-Then propose write:
+**(a) Soft closure** — user signals satisfaction but hasn't explicitly requested write. Examples: "ready", "down", "啱晒", "得", "好", "OK" (without write verb), or two consecutive turns with no new modifications.
+
+→ AI proposes write, waits for explicit confirmation:
 
 > "我寫入 `<output_path>`?"
 
-User can confirm ("寫" / "yes" / "go") → write file. User can defer ("等等仲要改 X") → loop continues.
+User confirms ("寫" / "yes" / "go") → write file (Step 5). User defers ("等等仲要改 X") → loop continues.
+
+**(b) Explicit write request** — user directly requests file write. Examples: "寫", "寫入", "OK 寫", "write it", "go write", "write 落去", or any phrase with an imperative write verb.
+
+→ AI skips the propose step and writes directly per Step 5. No extra confirmation turn — re-asking after an explicit write request adds a redundant round-trip and feels hesitant.
+
+If unsure which class a signal falls into (e.g., short ambiguous reply "OK 啦"), default to (a) soft closure — the extra confirmation turn is cheaper than a wrong write.
 
 ### Step 5 — Write
 On confirmation:
