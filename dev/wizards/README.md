@@ -59,7 +59,7 @@ Created by INIT.md install POST-INSTALL: Profile Selection step. Fields:
 
 ```
 profile: <one of the 6 supported values above>
-language: <auto-detected user language preference; defaults to en>
+language: <auto-detected user language preference; used as wizard render fallback when current chat language is unclear; defaults to en>
 created: <YYYY-MM-DD UTC>
 wizard_disabled_spec: <true|false>     # default false; set true by spec_starter Step 0 C-path
 wizard_disabled_runbook: <true|false>  # default false; set true by runbook_starter Step 0 C-path
