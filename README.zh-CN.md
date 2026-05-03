@@ -245,7 +245,7 @@ build master spec
 ## :bookmark_tabs: 配额切换交接流程
 
 1. 在命令行工具 A 的配额即将耗尽前，先完成本次收尾
-2. 复制 `NEXT SESSION HANDOFF PROMPT (COPY/PASTE)` 区块
+2. 复制 `NEXT SESSION OPENING MESSAGE` 区块
 3. 在命令行工具 B 原文粘贴，不要改动内容
 4. 工具 B 会依据 `SESSION_HANDOFF.md` 与 `SESSION_LOG.md` 接续执行
 

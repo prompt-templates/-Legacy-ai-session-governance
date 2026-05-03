@@ -245,7 +245,7 @@ build master spec
 ## :bookmark_tabs: 配分切り替え引き継ぎフロー
 
 1. コマンドラインツールAの配分上限が近づいたら、先にセッション収束を実行する
-2. `NEXT SESSION HANDOFF PROMPT (COPY/PASTE)` ブロックをコピーする
+2. `NEXT SESSION OPENING MESSAGE` ブロックをコピーする
 3. コマンドラインツールBへ原文のまま貼り付ける
 4. ツールBは `SESSION_HANDOFF.md` と `SESSION_LOG.md` を基準に継続実行する
 
