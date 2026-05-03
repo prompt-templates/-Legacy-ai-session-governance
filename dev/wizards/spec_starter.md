@@ -42,55 +42,55 @@
 - ja:    テーマ分類
 
 ### Question (i18n)
-- en:    Which common type does your project most resemble?
-- zh-TW: 你嘅項目最似邊種常見類型?
-- zh-CN: 你的项目最像哪种常见类型?
-- ja:    あなたのプロジェクトはどの一般的な種類に最も近いですか?
+- en:    What kind of project is this primarily? Pick the closest match.
+- zh-TW: 你個 project 主要係邊類?揀最接近嗰個。
+- zh-CN: 你的 project 主要是哪类?选最接近的那个。
+- ja:    このプロジェクトは主にどの種類ですか?最も近いものを選んでください。
 
 ### Option A
-- en:    Domain mapping — survey a [domain]'s landscape, players, or literature
-- zh-TW: 領域整理 — 梳理一個 [domain] 嘅整體面貌、主要對手或文獻
-- zh-CN: 领域整理 — 梳理一个 [domain] 的整体面貌、主要对手或文献
-- ja:    領域マッピング — ある [domain] の全体像、主要なプレイヤー、文献を整理
+- en:    Marketing — campaign / content / copy / ads
+- zh-TW: Marketing — 推廣活動 / 內容 / 文案 / 廣告
+- zh-CN: Marketing — 推广活动 / 内容 / 文案 / 广告
+- ja:    Marketing — キャンペーン / コンテンツ / コピー / 広告
 
 ### Option B
-- en:    Comparative analysis — compare [N] alternatives or main parties in [domain]
-- zh-TW: 比較分析 — 喺 [domain] 入面比較 [N] 個方案或主要對手
-- zh-CN: 比较分析 — 在 [domain] 中比较 [N] 个方案或主要对手
-- ja:    比較分析 — [domain] における [N] 個の選択肢または主要なプレイヤーを比較
+- en:    Research — reports / literature review / data analysis
+- zh-TW: Research — 報告 / 文獻整理 / 數據分析
+- zh-CN: Research — 报告 / 文献整理 / 数据分析
+- ja:    Research — レポート / 文献整理 / データ分析
 
 ### Option C
-- en:    Build / implement — create [thing] that solves [problem]
-- zh-TW: 建造 / 實作 — 整一個解決 [problem] 嘅 [thing]
-- zh-CN: 构建 / 实现 — 做一个解决 [problem] 的 [thing]
-- ja:    構築 / 実装 — [problem] を解決する [thing] を作る
+- en:    Coding — packages / tools / systems
+- zh-TW: Coding — 套件 / 工具 / 系統
+- zh-CN: Coding — 软件包 / 工具 / 系统
+- ja:    Coding — パッケージ / ツール / システム
 
 ### Option D
-- en:    Establish governance — define rules / verification / harness for [activity]
-- zh-TW: 建立治理 — 為 [activity] 定立規則 / 驗證機制 / 檢查 harness
-- zh-CN: 建立治理 — 为 [activity] 定立规则 / 验证机制 / 检查 harness
-- ja:    ガバナンス確立 — [activity] のためのルール / 検証メカニズム / 検査 harness を定義
+- en:    Writing — articles / documentation / teaching materials / books
+- zh-TW: Writing — 文章 / 文檔 / 教材 / 書
+- zh-CN: Writing — 文章 / 文档 / 教材 / 书
+- ja:    Writing — 記事 / ドキュメント / 教材 / 書籍
 
 ### Option E
-- en:    Compile reference — assemble structured reference / runbook / SOP for [domain]
-- zh-TW: 編寫參考 — 為 [domain] 整理結構化 reference / runbook / SOP
-- zh-CN: 编写参考 — 为 [domain] 整理结构化 reference / runbook / SOP
-- ja:    リファレンス編纂 — [domain] のための構造化された reference / runbook / SOP を整理
+- en:    Agent / Pipeline design — AI agent / workflow / pipeline
+- zh-TW: Agent / Pipeline 設計 — AI agent / 工作流 / pipeline
+- zh-CN: Agent / Pipeline 设计 — AI agent / 工作流 / pipeline
+- ja:    Agent / Pipeline 設計 — AI agent / ワークフロー / pipeline
 
 ### Option F
-- en:    Hybrid / other — combination of above types or doesn't fit any single class
-- zh-TW: 混合 / 其他 — 上述類型嘅組合,或者唔屬於任何單一類別
-- zh-CN: 混合 / 其他 — 上述类型的组合,或者不属于任何单一类别
-- ja:    ハイブリッド / その他 — 上記の組み合わせ、またはどの単一カテゴリにも該当しない
+- en:    Other / Hybrid — doesn't fit any single category above, or combines multiple
+- zh-TW: 其他 / 混合 — 唔屬於上述任何單一類別,或者係跨類型組合
+- zh-CN: 其他 / 混合 — 不属于上述任何单一类别,或者是跨类型组合
+- ja:    その他 / ハイブリッド — 上記のいずれの単一カテゴリにも該当しない、または複数を組み合わせる
 
 ### AI execution guidance (config)
-- profile=research      → recommend A
-- profile=writing       → recommend A or E (E if reference compilation)
-- profile=data-analysis → recommend A or B (ask user without recommendation if ambiguous)
+- profile=writing       → recommend A or D (A if marketing copy / campaign, D if articles / documentation)
+- profile=research      → recommend B
 - profile=coding        → recommend C
-- profile=agent-design  → recommend C or D (D if governance / verification / harness focus); attach note `agent_flow_note` for C
-- profile=general       → infer from user prior message; if no signal → present options without recommendation
-- hybrid signal (multiple Step 1 types apply, or fit unclear) → recommend F
+- profile=agent-design  → recommend E, attach note `agent_flow_note`
+- profile=data-analysis → recommend B (research-adjacent) or F (if visualization-heavy or non-fit)
+- profile=general       → infer from user prior message keywords (campaign / report / package / article / agent); if no signal → present options without recommendation
+- hybrid signal (multiple categories apply or fit unclear) → recommend F
 
 ## Step 2 — Topic specifics
 
