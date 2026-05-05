@@ -5,7 +5,7 @@ This file defines **how** the AI conducts an onboarding wizard for non-trivial g
 - `dev/templates/spec_template.md` — field structure for `PROJECT_MASTER_SPEC.md`
 - `dev/templates/runbook_template.md` — field structure for `RUNBOOK.md`
 
-The behavior here is paradigm-aligned with modern Agentic AI collaboration: **user supplies a 1-sentence project description → AI generates a one-shot full draft + numbered assumption list → user spot-checks and corrects → AI iterates → AI proposes write**. This replaces a prior 5–7 step structured Q&A schema (retired 2026-05-03).
+The behavior here is paradigm-aligned with modern Agentic AI collaboration: **user describes the project briefly (and optionally points to reference signals — local files / URLs / known decisions) → AI actively reads any provided sources before drafting → AI generates a one-shot full draft + numbered assumption list (each item labeled by source) → user spot-checks and corrects → AI iterates → AI proposes write**. This replaces a prior 5–7 step structured Q&A schema (retired 2026-05-03).
 
 ---
 
@@ -23,25 +23,57 @@ In all cases the offer must include a clear decline path (A run now / B defer / 
 
 ## The draft + iterate loop
 
-### Step 1 — Take the seed
-Ask the user for a short project description. One sentence is enough. Keep the prompt short — no multi-question form.
+### Step 1 — Take the seed (main question + optional supplements)
 
-> "俾我 1 句項目描述就得 — 我會即刻 draft 全份。"
+Ask the user for a brief project description as the **main question**, plus three optional supplements presented as low-friction prompts. Frame: low cognitive barrier on the main question, supplements explicitly optional with an escape phrase ("answering only the main question is fine").
 
-If the description is too vague to draft a useful first cut → see "Vague-input fallback" below.
+The prompt MUST contain three structural parts in this order:
 
-### Step 2 — Generate one-shot draft + assumption list
-Read the relevant template (`dev/templates/spec_template.md` or `dev/templates/runbook_template.md`) for field structure, then:
+1. **Main question** — one short open-ended ask: what the project is, who it's for. One sentence to a short paragraph is enough.
+2. **Optional supplements** — three bullets, each prefaced with "if you have any":
+   - 📁 Reference files (PRD, prior spec, meeting notes, design docs) — provide paths
+   - 🔗 Relevant URLs (product page, docs, competitors) — paste links
+   - 📌 Known decisions / constraints (tech choice, deadlines, must-haves / must-not-haves) — one line each
+3. **Escape phrase** — explicitly tell the user that answering only the main question is sufficient. This protects against the supplements being read as a four-field form. Example phrasing: "If you don't have time, just answer the main question; I'll fill the rest from inference and surface assumptions for you to spot-check."
 
-1. Fill every field with a plausible value inferred from the seed + context. **Hallucination guardrail:** for optional fields without any ground truth in the seed or surrounding context (e.g., References / prior art / specific external products / specific dates without a stated timeline), write `(待補)` or `TBD` — do NOT fabricate plausible-sounding entries. Generic defaults that hold for almost any project of the type (e.g., "Phase 1 = MVP" / "Audience = primary user group") are acceptable but must surface in the assumption list as low-confidence inferences.
-2. List every key assumption made as a numbered short-bullet (typical 5–12 items, terse). Cover both high- and low-confidence assumptions — do NOT filter to low-confidence only; high-confidence assumptions may still be wrong and need challenge.
-3. Surface the draft + assumption list in one reply.
+The supplements are **never converted into mandatory questions**. They are hints at what would help, not a checklist.
 
-Format invariants for the assumption list:
+The prompt is rendered in the user's chat language — example phrasing above is illustrative only, not a verbatim mandate.
+
+If the description is still too vague even after main + supplements → see "Vague-input fallback" below.
+
+### Step 2 — Read sources, then generate one-shot draft + labeled assumption list
+
+**Step 2a — Source grounding (mandatory before drafting):**
+
+Before generating the draft, AI MUST process every reference signal the user provided in Step 1:
+
+- **Local file path** → read it via the Read tool.
+- **URL** → fetch it via WebFetch (or equivalent).
+- **Keyword / project name to look up** → grep across the project / search where applicable.
+
+Silent fabrication of references / third-party product names / competitor details is **prohibited**. If a reference signal cannot be processed (file missing, URL unreachable, fetch blocked), surface the failure to the user before drafting; do not invent content to fill the gap. If the user mentions an external product / competitor without providing a source link, treat it as inference territory and label accordingly in Step 2c.
+
+**Step 2b — Draft:**
+
+Read the relevant template (`dev/templates/spec_template.md` or `dev/templates/runbook_template.md`) for field structure, then fill every field with a plausible value inferred from the seed + processed sources. **Hallucination guardrail:** for optional fields without any ground truth in the seed, processed sources, or surrounding context (e.g., References / prior art / specific external products / specific dates without a stated timeline), write `(待補)` or `TBD` — do NOT fabricate plausible-sounding entries. Generic defaults that hold for almost any project of the type (e.g., "Phase 1 = MVP" / "Audience = primary user group") are acceptable but must surface in the assumption list as low-confidence inferences.
+
+**Step 2c — Labeled assumption list:**
+
+List every key assumption as a numbered short-bullet (typical 5–12 items, terse). Cover both high- and low-confidence assumptions — do NOT filter to low-confidence only; high-confidence assumptions may still be wrong and need challenge.
+
+Each item MUST be tagged by source at the start:
+
+- `[from your input]` — derived from user-provided seed / files / URLs / decisions. The user spot-checks whether AI read the source correctly.
+- `[my inference]` — AI-estimated where ground truth was absent. The user knows this is the "AI fills the gap" zone and reviews more carefully.
+
+Format invariants:
 - One numbered list. No per-section grouping.
-- Each item ≤ 1 line, terse.
-- **Each filled template field gets at least one explicit assumption** stating the primary inference (e.g., for Tech stack write `④ 技術 stack 推 React + Node + PostgreSQL 而非 native iOS / Java`; do NOT bury the inference in a vague entry like `④ 技術 stack`). Implicit inferences erode the transparency contract.
+- Each item ≤ 1 line, terse, with the source tag at the start.
+- **Each filled template field gets at least one explicit assumption** stating the primary inference, naming the chosen direction over plausible alternatives (e.g., `④ [my inference] <dimension> 推 <chosen-option-A> 而非 <alternative-option-B>`; do NOT bury the inference in a vague entry like `④ <dimension>`). Implicit inferences erode the transparency contract.
 - Cover target audience, deliverable form, scope, success criteria, constraints (whichever apply per template).
+
+**Step 2d — Surface draft + labeled assumption list in one reply.**
 
 ### Step 3 — Spot-check and iterate
 User responds. Common patterns:
@@ -80,17 +112,17 @@ On confirmation:
 
 If the user's seed is too sparse to draft a useful first cut (e.g., a request to build the doc with zero project context), use AGENTS.md §11a rule 2 choice format with **mandatory escape hatch**.
 
-Format invariant — every choice prompt at this paradigm step reads as:
+Format invariant — every choice prompt at this paradigm step must offer A/B/C interpretations PLUS a free-form context path. Example pattern (rendered in the user's chat language; phrasing below is illustrative only):
 
 > A. `<interpretation 1, with concrete user-experience preview>`
 > B. `<interpretation 2>`
 > C. `<interpretation 3>`
-> **揀 A/B/C 或者俾多少少 context**
+> **Pick A/B/C, or share a bit more context**
 
 If user picks A/B/C → use that interpretation as seed, return to draft+iterate loop.
-If user gives free-form context (the "D" / context path) → use that as seed, return to draft+iterate loop.
+If user gives free-form context (the "share more context" path) → use that as seed, return to draft+iterate loop.
 
-**Hard rule:** the escape hatch (`或者俾多少少 context`) must NEVER be stripped. Without it, the prompt regresses to a small forced-choice form-fill, contradicting paradigm intent.
+**Hard rule:** the escape hatch (the free-form "share more context" path) must NEVER be stripped. Without it, the prompt regresses to a small forced-choice form-fill, contradicting paradigm intent.
 
 ---
 

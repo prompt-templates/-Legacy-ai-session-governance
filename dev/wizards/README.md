@@ -10,7 +10,9 @@ This directory + the sibling `dev/templates/` directory implement the onboarding
 
 ## Paradigm
 
-User supplies a 1-sentence project description → AI generates a one-shot full draft + numbered assumption list → user spot-checks and corrects → AI iterates → AI proposes write. The behavior loop is in `playbook.md`; the field structure is in templates.
+User describes the project briefly (and optionally points to reference signals — local files / URLs / known decisions / constraints) → AI actively reads any provided sources before drafting → AI generates a one-shot full draft + numbered assumption list with each item labeled by source (`[from your input]` vs `[my inference]`) → user spot-checks and corrects → AI iterates → AI proposes write. The behavior loop is in `playbook.md`; the field structure is in templates.
+
+Operational details — Step 1 prompt frame (main question + optional supplements + escape phrase), Step 2a source-grounding discipline, Step 2c labeled assumption list — live in `playbook.md` as the single source of truth. This README only orients the reader; do not duplicate the details here.
 
 Templates have **standalone value** — a user can self-fill `dev/PROJECT_MASTER_SPEC.md` or `dev/RUNBOOK.md` from the template without invoking AI.
 

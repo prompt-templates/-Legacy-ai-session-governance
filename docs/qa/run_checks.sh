@@ -258,7 +258,7 @@ done
 # ============================================================
 # Latest stable tag string — bump explicitly when releasing a new stable version.
 # This single-source variable is what regression checks below assert against.
-LATEST_STABLE_TAG="v3.0.7"
+LATEST_STABLE_TAG="v3.0.8"
 
 check "R29-01" "README.md contains latest stable tag row ($LATEST_STABLE_TAG)" "1" "$(grep -c "^| \*\*$LATEST_STABLE_TAG\*\*" README.md)"
 check "R29-02" "README.zh-TW.md contains latest stable tag row" "1" "$(grep -c "^| \*\*$LATEST_STABLE_TAG\*\*" README.zh-TW.md)"
@@ -268,7 +268,7 @@ check "R29-05" "docs/releases/${LATEST_STABLE_TAG}.md release notes file exists"
 check_gte "R29-06" "docs/qa/LATEST.md references latest stable tag" "1" "$(grep -c "$LATEST_STABLE_TAG" docs/qa/LATEST.md)"
 # index.html stat counter must reflect total checks (main + legacy);
 # value is hardcoded against current run total so any harness check change forces an update.
-EXPECTED_INDEX_COUNTER="329"
+EXPECTED_INDEX_COUNTER="336"
 check "R29-07" "docs/site/index.html stat counter = $EXPECTED_INDEX_COUNTER" "1" "$(grep -c "data-target=\"$EXPECTED_INDEX_COUNTER\"" docs/site/index.html)"
 check "R29-08" "DOC_SYNC_CHECKLIST has Release published row" "1" "$(grep -c 'Release published' dev/DOC_SYNC_CHECKLIST.md)"
 # README must mention latest stable tag in ≥2 places (version-table row + Snapshot/text body) — guards against
@@ -397,6 +397,15 @@ check "R33-14" "INIT.md install POST-INSTALL: Profile Selection step present" "1
 check_gte "R33-15" "§3 PLAN onboarding check reads PROFILE.md + handles wizard_disabled_spec (AGENTS)" "1" "$(grep -c 'wizard_disabled_spec' $A)"
 check_gte "R33-16" "§3 PLAN onboarding check reads PROFILE.md + handles wizard_disabled_spec (INIT mirror)" "1" "$(grep -c 'wizard_disabled_spec' $I)"
 check "R33-17" "INIT.md install POST-INSTALL: Profile Selection PROFILE.md template includes wizard_disabled_spec field" "1" "$(grep -c '^wizard_disabled_spec: false' $I)"
+
+# Paradigm patch (2026-05-05): source-grounding discipline + labeled assumption tags + install two-message split
+check_gte "R33-21" "§3.6 Source-grounding discipline present (AGENTS)" "1" "$(grep -c 'Source-grounding discipline' $A)"
+check_gte "R33-22" "§3.6 Source-grounding discipline present (INIT mirror)" "1" "$(grep -c 'Source-grounding discipline' $I)"
+check_gte "R33-23" "Labeled assumption tag [from your input] present (playbook)" "1" "$(grep -c '\[from your input\]' dev/wizards/playbook.md)"
+check_gte "R33-24" "Labeled assumption tag [my inference] present (playbook)" "1" "$(grep -c '\[my inference\]' dev/wizards/playbook.md)"
+check "R33-25" "INIT.md install POST-INSTALL: Setup Completion + Optional Wizard section present" "1" "$(grep -c 'POST-INSTALL: Setup Completion + Optional Wizard' $I)"
+check_gte "R33-26" "INIT.md install Message 1 'Governance framework ready' present" "1" "$(grep -c 'Governance framework ready' $I)"
+check_gte "R33-27" "INIT.md install two-message split discipline ('two separate messages') present" "1" "$(grep -c 'two separate messages' $I)"
 
 # ============================================================
 # Category 15: Legacy Harness Health (staleness detection)

@@ -1,17 +1,17 @@
 # QA Regression Report
 
-Date: 2026-05-03 (UTC)
-Scope: **v3.0.7 release** — onboarding wizard paradigm shift (form-fill schemas retired; draft+iterate paradigm shipped via `dev/wizards/playbook.md` + `dev/templates/`); matrix-qc audit-logic root-fix (Boundary-Aware Divergence + prescriptive-verb ban); playbook dogfood patches (closure classification, hallucination guardrail, explicit per-field assumption); README × 4 locale heading drift fix; landing-page f12 wizard feature card (4 languages); R33 series 17 → 14 checks (retire 6 / rewrite 1 / add 3); LATEST_STABLE_TAG v3.0.6 → v3.0.7
+Date: 2026-05-05 (UTC)
+Scope: **v3.0.7 release (shipped 2026-05-03) + post-tag paradigm response patch (2026-05-05, in main, awaiting v3.0.8 release decision)** — v3.0.7: onboarding wizard paradigm shift, matrix-qc audit-logic root-fix, playbook dogfood patches, README × 4 locale heading drift fix, landing-page f12 wizard feature card. Paradigm response patch: Profile Selection 6-options reflow inline → markdown list; install flow split into two separate messages (Setup Completion + Optional Wizard); wizard Step 1 reframed (main question + 3 optional supplements + escape phrase); Source-grounding discipline added (active source reading, ban silent fabrication); labeled assumption list (`[from your input]` vs `[my inference]`); vague-input escape hatch user-language-agnostic; 4 prior Chinese-mixed-into-English defects cleaned; hardcoded tech-stack example generalized; harness R33 series extended (R33-21..27, +7 checks); EXPECTED_INDEX_COUNTER 329 → 336.
 
 ## Summary
 
-- Total checks: 329 — 240 main (`docs/qa/run_checks.sh`) + 89 legacy auto-chain (`docs/qa/legacy_checks.sh`)
-- Pass: 329
+- Total checks: 336 — 247 main (`docs/qa/run_checks.sh`) + 89 legacy auto-chain (`docs/qa/legacy_checks.sh`)
+- Pass: 336
 - Fail: 0
 - Per-entry size scan: SESSION_LOG entries ≤110 cap maintained
 - New R32 series (34 checks): §0c priority order parity (R32-01..04), §3.5 FPFR section + 5 headings + closing line + §3 PLAN cross-ref (R32-05..12), §3b anti-hardcoding (R32-13..14), §5 rule 9 preserve-original (R32-15..16), §11a rules 6-10 — reply skeleton / emoji vocab / output-only / SSOT verbatim / register (R32-17..26), §11b Patch-only (R32-27..28), §11c Deep-Fix (R32-29..30), §13 Tooling Format Rules with 3 subsections (R32-31..34)
-- R33 series (14 checks after paradigm shift): Onboarding Wizard System — `dev/wizards/` directory (R33-01), `dev/wizards/playbook.md` behavior layer (R33-04), `dev/wizards/README.md` (R33-05), `dev/templates/` namespace + `spec_template.md` + `runbook_template.md` (R33-18..20), AGENTS.md + INIT.md FILE 1 mirror §3.6 Onboarding Wizard System parity (R33-10..11), §5a backup list PROFILE.md+RUNBOOK.md presence (R33-12..13), INIT.md install POST-INSTALL: Profile Selection step (R33-14), §3 PLAN reads PROFILE.md + handles wizard_disabled_spec flag (R33-15..16), INIT.md PROFILE.md template includes wizard_disabled_spec field (R33-17). Retired this round: R33-02/03 (deleted file existence checks), R33-06/07 (i18n parity for deleted schema files), R33-08/09 (no-hardcoding blacklist for deleted schema files).
-- Pre-existing checks adjusted: EXPECTED_INDEX_COUNTER 332→329 (R33 series rework); R29-07 verifies docs/site/index.html stat counter against new total
+- R33 series (21 checks after 2026-05-05 paradigm response): Onboarding Wizard System — `dev/wizards/` directory (R33-01), `dev/wizards/playbook.md` behavior layer (R33-04), `dev/wizards/README.md` (R33-05), `dev/templates/` namespace + `spec_template.md` + `runbook_template.md` (R33-18..20), AGENTS.md + INIT.md FILE 1 mirror §3.6 Onboarding Wizard System parity (R33-10..11), §5a backup list PROFILE.md+RUNBOOK.md presence (R33-12..13), INIT.md install POST-INSTALL: Profile Selection step (R33-14), §3 PLAN reads PROFILE.md + handles wizard_disabled_spec flag (R33-15..16), INIT.md PROFILE.md template includes wizard_disabled_spec field (R33-17). **2026-05-05 additions (R33-21..27): Source-grounding discipline parity (R33-21/22), labeled assumption tags `[from your input]` / `[my inference]` (R33-23/24), INIT.md install Setup Completion + Optional Wizard section (R33-25), Message 1 'Governance framework ready' (R33-26), two-separate-messages discipline (R33-27).** Retired in v3.0.7: R33-02/03 (deleted file existence checks), R33-06/07 (i18n parity for deleted schema files), R33-08/09 (no-hardcoding blacklist for deleted schema files).
+- Pre-existing checks adjusted: EXPECTED_INDEX_COUNTER 329→336 (paradigm response +7 checks); R29-07 verifies docs/site/index.html stat counter against new total
 
 **Run automated checks:** `bash docs/qa/run_checks.sh` (from project root, ~10 seconds, auto-chains legacy)
 

@@ -11,23 +11,22 @@
 - Root governance/install files: `AGENTS.md`, `INIT.md`, `CLAUDE.md`, `GEMINI.md`
 - Runtime session state: `dev/SESSION_HANDOFF.md`, `dev/SESSION_LOG.md`, `dev/archive/`
 - Doc sync registry: `dev/DOC_SYNC_CHECKLIST.md`
-- QA tooling: `docs/qa/run_checks.sh`, `docs/qa/session_log_maintenance.py`, `docs/qa/*.md`
+- QA tooling: `docs/qa/run_checks.sh` (main+legacy regression harness), `docs/qa/legacy_checks.sh` (auto-chained legacy harness), `docs/qa/session_log_maintenance.py` (optional dev utility — self-test + manual archive simulation only; NOT the runtime archive gate), `docs/qa/*.md` (baselines + reports)
 - Design/implementation plans: `docs/plans/*.md`
 - Reference assets: `ref_doc/*.png` and related media
 
 ## Key Entry Points
 - Primary SSOT for governance behavior: `AGENTS.md`
 - Bootstrap/install orchestration: `INIT.md`
-- Regression harness: `docs/qa/run_checks.sh`
-- Session-log archive maintenance gate: `docs/qa/session_log_maintenance.py`
+- Regression harness: `docs/qa/run_checks.sh` (auto-chains `legacy_checks.sh`)
+- Session-log archive gate: AGENTS.md §4a — triggers evaluated directly from `dev/SESSION_LOG.md` at closeout (line count > 400 OR oldest entry > 30 days); shell-evaluated, no Python or non-default runtime required
 - Operator-facing overview: `README.md` + localized README variants
 
 ## Build & Run
 - Session startup command (operator): `Follow AGENTS.md`
-- Full QA regression: `bash docs/qa/run_checks.sh`
-- Session log trigger check: `python docs/qa/session_log_maintenance.py --check --session-log dev/SESSION_LOG.md`
-- Session log archive apply: `python docs/qa/session_log_maintenance.py --apply --session-log dev/SESSION_LOG.md --archive-dir dev/archive`
-- Session log matrix self-test: `python docs/qa/session_log_maintenance.py --self-test`
+- Full QA regression: `bash docs/qa/run_checks.sh` (auto-chains legacy harness)
+- Session log archive: handled by AGENTS.md §4a at closeout — AI evaluates triggers from `dev/SESSION_LOG.md` directly (no command to run); on trigger fire, AI moves entries to `dev/archive/SESSION_LOG_YYYY_QN.md` before writing the new closeout entry
+- Optional dev utility — `python docs/qa/session_log_maintenance.py --self-test` simulates the trigger logic for local verification; not part of the runtime closeout flow
 
 ## External Services
 ### GitHub Repository / Release Hosting
@@ -57,13 +56,15 @@
 ## Key Decisions
 - `AGENTS.md` is governance SSOT; `CLAUDE.md` / `GEMINI.md` are pointers.
 - Startup sequence is mandatory and includes `SESSION_HANDOFF -> SESSION_LOG -> CODEBASE_CONTEXT -> PROJECT_MASTER_SPEC`.
-- `SESSION_LOG` long-term growth is controlled by executable maintenance gate (`session_log_maintenance.py`) instead of reminder-only policy.
+- `SESSION_LOG` long-term growth is controlled by AGENTS.md §4a — AI evaluates triggers directly from the file (line count > 400 OR oldest entry > 30 days) at closeout and archives without requiring Python or any non-default runtime. The `session_log_maintenance.py` script is preserved as an optional dev utility (self-test only), not the runtime gate.
 - Handoff compactness is governed by explicit budget caps in `AGENTS.md` §4.
 
 ## AI Maintenance Log
 - Created: 2026-04-19 (Codex_20260419_1533)
-- Last updated: 2026-04-19 (Codex_20260419_1533)
-- Change summary: First-time generation because `dev/CODEBASE_CONTEXT.md` was missing at startup.
+- Last updated: 2026-05-05 (Claude_20260505_paradigm-response)
+- Change summary:
+  - 2026-04-19 (Codex_20260419_1533): First-time generation because `dev/CODEBASE_CONTEXT.md` was missing at startup.
+  - 2026-05-05 (Claude_20260505): Synced session-log archive description to AGENTS.md §4a (shell-evaluated triggers, no Python at runtime). Prior wording described `session_log_maintenance.py` as the active gate; the §4a rewrite (v3.0.5) moved enforcement into closeout-time AI trigger evaluation. Script preserved as dev self-test utility.
 - Source files scanned (present):
   - `README.md`
   - `README.zh-TW.md`

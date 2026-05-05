@@ -251,7 +251,7 @@ One sentence linking to the authoritative source (cite specific location, e.g., 
 ---
 
 ## 3.6) Onboarding Wizard System (Mandatory when applicable)
-**Purpose:** Help users author non-trivial governance docs (`PROJECT_MASTER_SPEC.md` / `RUNBOOK.md` / future) via AI-led draft+iterate flow instead of blank-template fill-in or cold-question form-fill. Paradigm: user supplies a 1-sentence project description → AI generates one-shot full draft + numbered assumption list → user spot-checks and corrects → AI iterates → AI proposes write.
+**Purpose:** Help users author non-trivial governance docs (`PROJECT_MASTER_SPEC.md` / `RUNBOOK.md` / future) via AI-led draft+iterate flow instead of blank-template fill-in or cold-question form-fill. Paradigm: user describes the project briefly (and optionally points to reference signals — local files / URLs / known decisions / constraints) → AI actively reads any provided sources before drafting → AI generates a one-shot full draft + numbered assumption list (each item labeled by source: derived from user input vs AI inference) → user spot-checks and corrects → AI iterates → AI proposes write.
 
 **Behavior + content separation:**
 - `dev/wizards/playbook.md` — behavior layer (when to engage / draft+iterate loop / assumption rules / close-out signals / vague-input escape hatch).
@@ -259,11 +259,13 @@ One sentence linking to the authoritative source (cite specific location, e.g., 
 
 **Detection triggers (mandatory at §3 PLAN):** see §3 PLAN onboarding readiness check. Decline persists via `dev/PROFILE.md` `wizard_disabled_*` flags (see schema below); explicit user request always runs regardless of flag.
 
-**Vague-input fallback (mandatory):** when user seed is too sparse to draft, AI uses §11a rule 2 choice format with mandatory escape hatch — every choice prompt at this paradigm step reads as `揀 A/B/C 或者俾多少少 context`. The escape hatch must never be stripped; without it the prompt regresses to a small forced-choice form-fill.
+**Vague-input fallback (mandatory):** when user seed is too sparse to draft, AI uses §11a rule 2 choice format with a mandatory escape hatch — every choice prompt at this paradigm step must let the user either pick an option or share more context (e.g. "pick A/B/C, or share a bit more context"). The escape hatch is rendered in the user's chat language, not hardcoded English. Without it, the prompt regresses to a small forced-choice form-fill.
 
-**Assumption list discipline:** AI surfaces all key assumptions as a numbered short-bullet list (typical 5–12 items, terse), covering both high- and low-confidence — do not filter to low-confidence only. User targets by index or natural language.
+**Assumption list discipline:** AI surfaces all key assumptions as a numbered short-bullet list (typical 5–12 items, terse), each item labeled by source — `[from your input]` (derived from user-provided files / URLs / sentences) or `[my inference]` (AI estimated, lower confidence). Cover both high- and low-confidence; do not filter to low-confidence only. User targets by index or natural language.
 
-**Close-out signal:** AI watches for two consecutive turns with no modifications, or closure language ("OK", "啱", "夠", "ready", "good"), then proposes write. User confirms or defers.
+**Source-grounding discipline:** When the user points to a reference signal (local file path, URL, keyword / project name to look up), AI must actively read or fetch it before drafting — read local files via Read tool, fetch URLs via WebFetch, grep keywords across the project — instead of paraphrasing the user's mention or imagining content. Silent fabrication of references / third-party product names / competitor details is prohibited; if AI lacks ground truth for a field, mark the assumption as `[my inference]` and offer to fetch / verify.
+
+**Close-out signal:** AI watches for two consecutive turns with no modifications, or closure language ("OK", "ready", "good", "done", or equivalent in the user's language), then proposes write. User confirms or defers.
 
 **Profile awareness:** Wizards may use `dev/PROFILE.md` (set at INIT.md install) to tune draft assumptions. Profile influence is suggestion-only — user override always wins. Supported profile values: `general` / `research` / `coding` / `writing` / `agent-design` / `data-analysis`.
 
@@ -317,9 +319,9 @@ Whenever a task involves a merge, release, deploy, publish, GA, or hotfix comple
 
 **Phase 3 — Post-Release Cleanup:**
 
-6. Merge-source branch cleanup: if release shipped via PR, delete merge-source branch from both local and remote (`git branch -d <branch>` + `git push origin --delete <branch>`). PR永久保留於 GitHub 作歷史，不可刪除. Verify `git branch -a` shows only `main` plus any protected branches.
+6. Merge-source branch cleanup: if release shipped via PR, delete merge-source branch from both local and remote (`git branch -d <branch>` + `git push origin --delete <branch>`). PRs are preserved permanently on GitHub as history; do not delete. Verify `git branch -a` shows only `main` plus any protected branches.
 
-7. Fresh-environment validation (recommended for major releases): exercise the release artifact in a clean environment that simulates real user or production conditions — e.g. fresh sandbox install for repos shipping installers/templates; staging deploy for services; canary release for libraries. Run release-specific QC; confirm fixes真實 effective vs merely theoretical (if hotfix is in scope).
+7. Fresh-environment validation (recommended for major releases): exercise the release artifact in a clean environment that simulates real user or production conditions — e.g. fresh sandbox install for repos shipping installers/templates; staging deploy for services; canary release for libraries. Run release-specific QC; confirm fixes are actually effective vs merely theoretical (if hotfix is in scope).
 
 **Phase 4 — Observability:**
 
@@ -927,12 +929,12 @@ Ask the user:
 
 > "One last setup step — pick the profile that best matches your workflow. This influences how the onboarding wizards frame their questions, but does not change governance rules. You can change this anytime by editing `dev/PROFILE.md`.
 >
-> ▸  A. **research** — academic / market / domain research work
-> ▸  B. **coding** — software development, libraries, applications
-> ▸  C. **writing** — documentation, articles, books, blog posts
-> ▸  D. **agent-design** — AI agent / workflow / pipeline design
-> ▸  E. **data-analysis** — data exploration, modeling, analysis reports
-> ▸  F. **general** — no specialization (recommended default if unsure)
+> - **A. research**       — academic / market / domain research work
+> - **B. coding**         — software development, libraries, applications
+> - **C. writing**        — documentation, articles, books, blog posts
+> - **D. agent-design**   — AI agent / workflow / pipeline design
+> - **E. data-analysis**  — data exploration, modeling, analysis reports
+> - **F. general**        — no specialization (recommended default if unsure)
 >
 > Reply with a letter (A-F) or the profile name."
 
@@ -946,21 +948,35 @@ wizard_disabled_spec: false
 wizard_disabled_runbook: false
 ```
 
-POST-INSTALL: Onboarding Wizard Auto-Trigger (for first-time install only — skip if `dev/PROJECT_MASTER_SPEC.md` already exists)
+POST-INSTALL: Setup Completion + Optional Wizard
 
-Ask the user:
+After `dev/PROFILE.md` is created, AI MUST present setup completion and the optional wizard prompt as **two separate messages** — never combined into one. The first message declares governance setup complete and is final for the install flow; the second message offers an optional next step. Combining them confuses the user about whether the wizard reply is required to finish setup.
 
-> "Profile saved. Want to build a starter `dev/PROJECT_MASTER_SPEC.md` now via the guided wizard? Give me a 1-sentence project description; AI generates a full draft + numbered assumption list, you spot-check and correct, AI iterates, then writes the file. Future sessions read the spec at startup so context resumes without re-explaining.
+**Message 1 — declare governance setup complete (always send):**
+
+> "✅ **Governance framework ready.**
 >
-> ▸  A. Run wizard now
-> ▸  B. Skip — I'll run it later by saying 'build master spec'
-> ▸  C. Skip — this is a one-off project, no need for a master spec"
+> Profile saved to `dev/PROFILE.md`. AGENTS.md / dev/SESSION_HANDOFF.md / dev/SESSION_LOG.md are in place. AI will follow the AGENTS.md §1 startup sequence at every new session."
 
-If user picks A → run the wizard per `dev/wizards/playbook.md` (read playbook + `dev/templates/spec_template.md` for field structure, prompt user for 1-sentence seed, draft + iterate, write `dev/PROJECT_MASTER_SPEC.md` per the template).
+**Message 2 — offer optional wizard** (skip Message 2 entirely if `dev/PROJECT_MASTER_SPEC.md` already exists; proceed directly to Quick Start):
+
+> "💡 **Optional next step — build a starter `dev/PROJECT_MASTER_SPEC.md`?**
+>
+> A master spec is your project's long-term specification. AI reads it at the start of every session, so you don't need to re-explain background each time.
+>
+> The wizard works like this: you describe the project briefly (and optionally point me to reference files / URLs / known decisions if handy); AI drafts the full file + a numbered assumption list; you spot-check and correct; AI iterates; then writes the file.
+>
+> - **A. Run wizard now**
+> - **B. Skip — say "build master spec" anytime to run it later**
+> - **C. Skip — this is a one-off project, no spec needed (won't ask again)**"
+
+If user picks A → run the wizard per `dev/wizards/playbook.md` (read playbook + `dev/templates/spec_template.md` for field structure; follow playbook Step 1 main-question + optional supplements frame; draft + iterate; write `dev/PROJECT_MASTER_SPEC.md` per the template).
 If user picks B → proceed to Quick Start without running wizard. AGENTS.md §3 PLAN onboarding readiness check will re-offer the wizard at first task PLAN of the next session (because `wizard_disabled_spec` stays `false`).
 If user picks C → set `wizard_disabled_spec: true` in `dev/PROFILE.md`, then proceed to Quick Start. AGENTS.md §3 PLAN will not auto-prompt for the master spec wizard in any future session. User can still trigger the wizard manually by saying "build master spec" — explicit request bypasses the flag.
 
-Then say: "Governance setup complete.
+Then say (Quick Start reference card — separate message):
+
+"
 
 ════════════════════════════════════════
  QUICK START — copy and paste as needed

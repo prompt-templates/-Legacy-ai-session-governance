@@ -237,7 +237,7 @@ One sentence linking to the authoritative source (cite specific location, e.g., 
 ---
 
 ## 3.6) Onboarding Wizard System (Mandatory when applicable)
-**Purpose:** Help users author non-trivial governance docs (`PROJECT_MASTER_SPEC.md` / `RUNBOOK.md` / future) via AI-led draft+iterate flow instead of blank-template fill-in or cold-question form-fill. Paradigm: user supplies a 1-sentence project description → AI generates one-shot full draft + numbered assumption list → user spot-checks and corrects → AI iterates → AI proposes write.
+**Purpose:** Help users author non-trivial governance docs (`PROJECT_MASTER_SPEC.md` / `RUNBOOK.md` / future) via AI-led draft+iterate flow instead of blank-template fill-in or cold-question form-fill. Paradigm: user describes the project briefly (and optionally points to reference signals — local files / URLs / known decisions / constraints) → AI actively reads any provided sources before drafting → AI generates a one-shot full draft + numbered assumption list (each item labeled by source: derived from user input vs AI inference) → user spot-checks and corrects → AI iterates → AI proposes write.
 
 **Behavior + content separation:**
 - `dev/wizards/playbook.md` — behavior layer (when to engage / draft+iterate loop / assumption rules / close-out signals / vague-input escape hatch).
@@ -245,11 +245,13 @@ One sentence linking to the authoritative source (cite specific location, e.g., 
 
 **Detection triggers (mandatory at §3 PLAN):** see §3 PLAN onboarding readiness check. Decline persists via `dev/PROFILE.md` `wizard_disabled_*` flags (see schema below); explicit user request always runs regardless of flag.
 
-**Vague-input fallback (mandatory):** when user seed is too sparse to draft, AI uses §11a rule 2 choice format with mandatory escape hatch — every choice prompt at this paradigm step reads as `揀 A/B/C 或者俾多少少 context`. The escape hatch must never be stripped; without it the prompt regresses to a small forced-choice form-fill.
+**Vague-input fallback (mandatory):** when user seed is too sparse to draft, AI uses §11a rule 2 choice format with a mandatory escape hatch — every choice prompt at this paradigm step must let the user either pick an option or share more context (e.g. "pick A/B/C, or share a bit more context"). The escape hatch is rendered in the user's chat language, not hardcoded English. Without it, the prompt regresses to a small forced-choice form-fill.
 
-**Assumption list discipline:** AI surfaces all key assumptions as a numbered short-bullet list (typical 5–12 items, terse), covering both high- and low-confidence — do not filter to low-confidence only. User targets by index or natural language.
+**Assumption list discipline:** AI surfaces all key assumptions as a numbered short-bullet list (typical 5–12 items, terse), each item labeled by source — `[from your input]` (derived from user-provided files / URLs / sentences) or `[my inference]` (AI estimated, lower confidence). Cover both high- and low-confidence; do not filter to low-confidence only. User targets by index or natural language.
 
-**Close-out signal:** AI watches for two consecutive turns with no modifications, or closure language ("OK", "啱", "夠", "ready", "good"), then proposes write. User confirms or defers.
+**Source-grounding discipline:** When the user points to a reference signal (local file path, URL, keyword / project name to look up), AI must actively read or fetch it before drafting — read local files via Read tool, fetch URLs via WebFetch, grep keywords across the project — instead of paraphrasing the user's mention or imagining content. Silent fabrication of references / third-party product names / competitor details is prohibited; if AI lacks ground truth for a field, mark the assumption as `[my inference]` and offer to fetch / verify.
+
+**Close-out signal:** AI watches for two consecutive turns with no modifications, or closure language ("OK", "ready", "good", "done", or equivalent in the user's language), then proposes write. User confirms or defers.
 
 **Profile awareness:** Wizards may use `dev/PROFILE.md` (set at INIT.md install) to tune draft assumptions. Profile influence is suggestion-only — user override always wins. Supported profile values: `general` / `research` / `coding` / `writing` / `agent-design` / `data-analysis`.
 
@@ -303,9 +305,9 @@ Whenever a task involves a merge, release, deploy, publish, GA, or hotfix comple
 
 **Phase 3 — Post-Release Cleanup:**
 
-6. Merge-source branch cleanup: if release shipped via PR, delete merge-source branch from both local and remote (`git branch -d <branch>` + `git push origin --delete <branch>`). PR永久保留於 GitHub 作歷史，不可刪除. Verify `git branch -a` shows only `main` plus any protected branches.
+6. Merge-source branch cleanup: if release shipped via PR, delete merge-source branch from both local and remote (`git branch -d <branch>` + `git push origin --delete <branch>`). PRs are preserved permanently on GitHub as history; do not delete. Verify `git branch -a` shows only `main` plus any protected branches.
 
-7. Fresh-environment validation (recommended for major releases): exercise the release artifact in a clean environment that simulates real user or production conditions — e.g. fresh sandbox install for repos shipping installers/templates; staging deploy for services; canary release for libraries. Run release-specific QC; confirm fixes真實 effective vs merely theoretical (if hotfix is in scope).
+7. Fresh-environment validation (recommended for major releases): exercise the release artifact in a clean environment that simulates real user or production conditions — e.g. fresh sandbox install for repos shipping installers/templates; staging deploy for services; canary release for libraries. Run release-specific QC; confirm fixes are actually effective vs merely theoretical (if hotfix is in scope).
 
 **Phase 4 — Observability:**
 
