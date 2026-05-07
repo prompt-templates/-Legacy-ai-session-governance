@@ -258,7 +258,7 @@ done
 # ============================================================
 # Latest stable tag string — bump explicitly when releasing a new stable version.
 # This single-source variable is what regression checks below assert against.
-LATEST_STABLE_TAG="v3.0.8"
+LATEST_STABLE_TAG="v3.0.9"
 
 check "R29-01" "README.md contains latest stable tag row ($LATEST_STABLE_TAG)" "1" "$(grep -c "^| \*\*$LATEST_STABLE_TAG\*\*" README.md)"
 check "R29-02" "README.zh-TW.md contains latest stable tag row" "1" "$(grep -c "^| \*\*$LATEST_STABLE_TAG\*\*" README.zh-TW.md)"
@@ -268,7 +268,7 @@ check "R29-05" "docs/releases/${LATEST_STABLE_TAG}.md release notes file exists"
 check_gte "R29-06" "docs/qa/LATEST.md references latest stable tag" "1" "$(grep -c "$LATEST_STABLE_TAG" docs/qa/LATEST.md)"
 # index.html stat counter must reflect total checks (main + legacy);
 # value is hardcoded against current run total so any harness check change forces an update.
-EXPECTED_INDEX_COUNTER="336"
+EXPECTED_INDEX_COUNTER="350"
 check "R29-07" "docs/site/index.html stat counter = $EXPECTED_INDEX_COUNTER" "1" "$(grep -c "data-target=\"$EXPECTED_INDEX_COUNTER\"" docs/site/index.html)"
 check "R29-08" "DOC_SYNC_CHECKLIST has Release published row" "1" "$(grep -c 'Release published' dev/DOC_SYNC_CHECKLIST.md)"
 # README must mention latest stable tag in ≥2 places (version-table row + Snapshot/text body) — guards against
@@ -406,6 +406,24 @@ check_gte "R33-24" "Labeled assumption tag [my inference] present (playbook)" "1
 check "R33-25" "INIT.md install POST-INSTALL: Setup Completion + Optional Wizard section present" "1" "$(grep -c 'POST-INSTALL: Setup Completion + Optional Wizard' $I)"
 check_gte "R33-26" "INIT.md install Message 1 'Governance framework ready' present" "1" "$(grep -c 'Governance framework ready' $I)"
 check_gte "R33-27" "INIT.md install two-message split discipline ('two separate messages') present" "1" "$(grep -c 'two separate messages' $I)"
+
+# Reply-tone hard-rule patch (2026-05-07): plain-language strengthen + outcome-first option framing + backup list cleanup + startup inventory cleanup
+check_gte "R33-28" "§11a rule 5 inline-English-mixing ban (AGENTS)" "1" "$(grep -c 'do not weave English mid-sentence' $A)"
+check_gte "R33-29" "§11a rule 5 inline-English-mixing ban (INIT mirror)" "1" "$(grep -c 'do not weave English mid-sentence' $I)"
+check_gte "R33-30" "§11a rule 5 ground truth carve-out (AGENTS)" "1" "$(grep -c 'Ground truth identifiers (file path, git SHA' $A)"
+check_gte "R33-31" "§11a rule 5 ground truth carve-out (INIT mirror)" "1" "$(grep -c 'Ground truth identifiers (file path, git SHA' $I)"
+check_gte "R33-32" "§11a rule 2 outcome-first option framing (AGENTS)" "1" "$(grep -c 'label must lead with impact / outcome' $A)"
+check_gte "R33-33" "§11a rule 2 outcome-first option framing (INIT mirror)" "1" "$(grep -c 'label must lead with impact / outcome' $I)"
+check_gte "R33-34" "§5a backup list includes dev/wizards/playbook.md (AGENTS)" "1" "$(grep -c 'dev/wizards/playbook.md' $A)"
+check_gte "R33-35" "§5a backup list includes dev/wizards/playbook.md (INIT mirror)" "1" "$(grep -c 'dev/wizards/playbook.md' $I)"
+check_gte "R33-36" "Header startup inventory includes §0a (AGENTS)" "1" "$(grep -c 'MANDATORY STARTUP — read every session: §0 §0a §0c' $A)"
+check_gte "R33-37" "Header startup inventory includes §0a (INIT mirror)" "1" "$(grep -c 'MANDATORY STARTUP — read every session: §0 §0a §0c' $I)"
+
+# Work-pool boundary patch (2026-05-07 round 2): hard-separate handoff seed context from this session's work pool / record
+check_gte "R33-38" "§1 Work-pool boundary present (AGENTS)" "1" "$(grep -c 'Work-pool boundary (mandatory)' $A)"
+check_gte "R33-39" "§1 Work-pool boundary present (INIT mirror)" "1" "$(grep -c 'Work-pool boundary (mandatory)' $I)"
+check_gte "R33-40" "§4 Session work-pool boundary present (AGENTS)" "1" "$(grep -c 'Session work-pool boundary (mandatory)' $A)"
+check_gte "R33-41" "§4 Session work-pool boundary present (INIT mirror)" "1" "$(grep -c 'Session work-pool boundary (mandatory)' $I)"
 
 # ============================================================
 # Category 15: Legacy Harness Health (staleness detection)
