@@ -17,6 +17,19 @@ Date: YYYY-MM-DD (UTC)
   - "Headline" must be readable in 30 seconds without governance domain knowledge.
   - "What you'll feel" is mandatory — this is the section users actually scan.
   - Skip sections that don't apply ("Industry alignment" is optional).
+  - README × 4 "Recent releases / 近期版本" table rows MUST follow the same rules.
+    Before writing a new row: read the prior 1-2 rows' first sentence + "Why it matters"
+    first sentence to anchor the register. If prior rows lead with user experience
+    ("AI replies feel like a colleague writing in your language"), the new row leads
+    with user experience too — NOT with internal mechanism (e.g., NOT "Worktree
+    session startup respects the skip-worktree convention"; instead "Worktree
+    sessions just work" or "If you use git worktrees with Claude Code, session
+    startup is now reliable"). Forbidden as new-row sentence subjects: § codes,
+    R-check numbers, harness check IDs (H01 / R27-10), internal variable names
+    (LATEST_STABLE_TAG / EXPECTED_INDEX_COUNTER), governance term-of-art
+    ("skip-worktree convention" / "canonical execution locus" / "work-pool boundary").
+    Technical detail belongs in docs/releases/<version>.md "What changed" section,
+    not in the README row.
 -->
 
 ## Headline
