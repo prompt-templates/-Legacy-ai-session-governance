@@ -69,6 +69,8 @@ At the start of every new session, the AI must read the following files in this 
 
 If `dev/SESSION_HANDOFF.md` or `dev/SESSION_LOG.md` is missing, the AI must create a minimal version before beginning development.
 
+**Worktree fallback (mandatory):** Inside a git worktree, `dev/SESSION_HANDOFF.md` and `dev/SESSION_LOG.md` may be filtered out of the worktree's working tree (skip-worktree convention used to keep these local-only state files out of git history). When a worktree session starts and these files are absent in the worktree path, the AI must read them from the main repo path before falling back to the "create a minimal version" rule above. Detect the worktree case via `git rev-parse --git-common-dir` (returns the shared `.git` directory; its parent is the main repo path) or by inspecting the current path for `.claude/worktrees/`. The "create a minimal version" rule applies only when both worktree and main repo lack the files (genuinely missing, not skip-worktree filtered).
+
 If `dev/CODEBASE_CONTEXT.md` does not exist, generate it on first session:
 0. If the file already exists for any reason, back it up to `dev/init_backup/<YYYYMMDD_HHMMSS_UTC>/` before changes
 1. Scan present project files (not limited to): docs (`README*.md`, `CONTRIBUTING.md`, `DEVELOPMENT.md`, `docs/**/*.md`); package manifests (`package.json`, `pyproject.toml`, `go.mod`, `Cargo.toml`, `Gemfile`, `requirements.txt`, `composer.json`); service / env clues (`.env.example`, `docker-compose*.yml`, `*.yaml` / `*.yml` in root or `config/`)
@@ -294,6 +296,7 @@ Whenever a task involves a merge, release, deploy, publish, GA, or hotfix comple
    - Run the project's applicable build / type-check / lint / tests / regression / consistency checks
    - If the project has multiple harness layers (e.g. main + legacy / extended quarantine), all layers must execute; bypass flags (e.g. `LEGACY_SKIP`) are forbidden during release verification
    - Doc-sync verification: query `dev/DOC_SYNC_CHECKLIST.md` for the `Release published` row and confirm every listed file has been updated to reflect the new version (README variants, release notes, QA reports, public site / introduction pages, etc.); regression checks for these files must PASS
+   - Canonical execution locus: harness must run from the main repo path (resolve via `git rev-parse --git-common-dir` parent dir, or `git worktree list` first entry). Worktree-path execution triggers spurious harness failures (`H01` `.legacy_last_run` cross-tree drift, `R27-10` skip-worktree files absent in worktree) that are by-design per skip-worktree convention — not real failures. AI must explicitly cd to main repo path before invoking the harness during release verification.
 
 3. Evidence Check
    - To claim ready / merged / released / GA, corresponding verification evidence must exist

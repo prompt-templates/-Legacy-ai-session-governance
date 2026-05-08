@@ -78,11 +78,11 @@
 
 | 版本 | 變更內容 | 對你的意義 |
 |---|---|---|
+| **v3.0.10** | Worktree session 啟動現可正確處理 skip-worktree 慣例：在 git worktree 中開啟 Claude Code 時，governance 會從主 repo 路徑讀取 `dev/SESSION_HANDOFF.md` 與 `dev/SESSION_LOG.md`，而非 file-not-found 失敗或在 worktree 中靜默建立空白備援檔。Worktree 偵測經 `git rev-parse --git-common-dir`（其父目錄即主 repo 路徑），原本的「建立精簡版本」規則僅在 worktree 與主 repo 雙雙缺失時才會觸發。發佈驗收 harness 同步明文化：`bash docs/qa/run_checks.sh` 應從主 repo 路徑執行——在 worktree 路徑執行會觸發 spurious `H01`（`.legacy_last_run` 跨樹漂移）與 `R27-10`（worktree 中找不到 skip-worktree 檔）失敗，屬 by-design，非真實失敗。同步附帶細收尾：README.zh-TW.md v3.0.8 列的 `入面` / `令` / `用戶` 殘留 token 統一收斂至正式書面語體，對齊 v3.0.9 sweep 政策。 | 如果你以 git worktree 進行平行功能開發或為每個 session 隔離工作區，governance 規則現與實際情況對齊——worktree session 啟動毋須手動複製檔案或建立空白備援檔即可正常運作。發佈驗收結果不再因執行路徑而異；harness 文檔亦明文公開 skip-worktree 慣例，免去使用者透過 spurious failures 自行發現的成本。README.zh-TW.md v3.0.8 列現已通篇收斂為正式書面語體。 |
 | **v3.0.9** | AI 回覆會跟你寫嘅語言：當你切換中文（或其他非英文語言）時，AI 全程用你嘅語言回覆，不會逐句中英混雜（英文只用於專有名詞、無乾淨翻譯嘅既有術語、或括號補註）。當 AI 俾你揀選項時，每個選項嘅標題以「對你工作嘅意義」開頭——例如「任何 clone main 嘅用戶即時拎到新行為」，而非「commit + push main + cut tag」嘅機制角度。重新安裝已有 wizards / templates 嘅項目時，呢 4 個檔案（`dev/wizards/playbook.md`、`dev/wizards/README.md`、`dev/templates/spec_template.md`、`dev/templates/runbook_template.md`）不再漏備份。最重要：每個工作階段嘅 SESSION_LOG 不再帶過上階段嘅「完成項」——結束時只記錄今次對話真正做過嘅工作；跨階段持續嘅工作項只記今次嘅進度增量，不重複累計完成。 | 回覆似返一個用你語言寫嘢嘅同事，不再係夾住英文碎片嘅半翻譯段落。選擇題嘅權衡喺第一行半已經清楚——你毋須讀實作細節先理解每個選項對你工作嘅意義。重新安裝已有 wizards / templates 嘅項目，呢 4 個檔案不再漏備份。最重要：SESSION_LOG 唔再每階段漂移——舊版 INIT.md 用戶反映過反覆要修「上階段完成項俾人抄入本階段記錄」嘅漂移痛點，而家由治理規則直接終止，不再靠 AI 心智追蹤。 |
-| **v3.0.8** | 安裝流程 UX 變得更明晰：Profile 揀項嘅 6 個選項由連在一段變為清晰列表（每項自己一行），不再擠成一塊。Setup 完成同 wizard 可選提問現分為兩個獨立訊息——`Governance framework ready` 自成一條訊息，wizard 提問為另一條獨立訊息——清楚顯示 wizard 回覆係可選，並非完成 setup 嘅必要動作。Wizard 第一條提問由單一冷問題演變為主問加三個可選補充（順手提供參考檔、URL 或已決定事項），AI 收到後會主動讀取你提供嘅資料先草擬。草稿入面每條假設都標示 `[from your input]` 或 `[my inference]`，等你一眼睇出邊條源於你嘅輸入、邊條係 AI 估算。INIT.md / AGENTS.md 中 4 處中英混雜失誤已清理。 | 首次安裝流程不再令用戶疑惑 wizard 回覆係咪完成 setup 嘅必要動作。Wizard 草擬出嘅 spec 紮實有據——AI 會讀取你嘅參考檔／URL 而非憑空想像，spot-check 時可以分清邊條係事實、邊條係 AI 估算。 |
+| **v3.0.8** | 安裝流程 UX 變得更明晰：Profile 揀項嘅 6 個選項由連在一段變為清晰列表（每項自己一行），不再擠成一塊。Setup 完成同 wizard 可選提問現分為兩個獨立訊息——`Governance framework ready` 自成一條訊息，wizard 提問為另一條獨立訊息——清楚顯示 wizard 回覆係可選，並非完成 setup 嘅必要動作。Wizard 第一條提問由單一冷問題演變為主問加三個可選補充（順手提供參考檔、URL 或已決定事項），AI 收到後會主動讀取你提供嘅資料先草擬。草稿中每條假設都標示 `[from your input]` 或 `[my inference]`，等你一眼睇出邊條源於你嘅輸入、邊條係 AI 估算。INIT.md / AGENTS.md 中 4 處中英混雜失誤已清理。 | 首次安裝流程不再讓使用者困惑 wizard 回覆是否完成 setup 嘅必要動作。Wizard 草擬出嘅 spec 紮實有據——AI 會讀取你嘅參考檔／URL 而非憑空想像，spot-check 時可以分清邊條係事實、邊條係 AI 估算。 |
 | **v3.0.7** | 全新 onboarding wizard 系統：AI 根據你提供的 1 句項目描述，生成完整的 `PROJECT_MASTER_SPEC.md` 或 `RUNBOOK.md` 草稿，並列出所有假設清單供你逐項檢查，AI 重新草擬直至滿意——不再使用冷冰冰的問題清單。取代舊有 5-7 步結構化 Q&A schema，過於僵硬不適合模糊的長期項目願景。Matrix-QC 審查工具加入「邊界感知差異」規則 + 禁用 prescriptive 動詞，令審查 findings 保持中性描述（fix 由人決定，並非由審查工具決定）。Playbook 從 dogfood 歸納 3 條紀律（explicit write vs soft closure 分類、防作假規定使用 `(待補)`、逐欄位明確假設）。Landing page 加入 wizard 系統 feature card。 | 新用戶不再面對空白的 `PROJECT_MASTER_SPEC.md` 模板——AI 從最少輸入產生完整草稿，每個假設明確列出供你 spot-check。長期項目願景模糊、不適合冷冰冰問題清單的情況皆獲 first-class 支援。審查工具不再對故意保留的安裝模板邊界誤報。Playbook 迭代減少不必要的來回。 |
 | **v3.0.6** | 收尾介面優化：6 款重新設計的工作階段啟動/收尾視覺、「貼上此區塊」說明從 3 行縮為 1 行、README 安裝/升級流程從 9 步縮為 5 步並加上「AI 背後執行」說明區塊。README 接續區段首次解釋為何手動貼上 OPENING MESSAGE 比 `Follow AGENTS.md` 更可靠（約 95% vs 約 70-85%）。修補既有 harness exit code 漏洞（R27-10）。 | 新用戶安裝流程大幅精簡。工作階段啟動/收尾畫面更美觀。「為何手動貼上」的解釋消除常見困惑。 |
-| **v3.0.5** | 完整回覆協議現入治理，不再只是「universal subset」。回覆會先用 `🔎` 重點 bullet（≤3 行）、再交付清單、再正文。選擇題用一致格式 `🚀 *下一步揀一條*` + A/B/C + `💡 推薦`。多檔或治理改動觸發全圖優先計劃，5 個固定區段（END-STATE / DELIVERABLES / METRICS / ACCEPTANCE / GOAL LINK）+ 收尾句 — 不再有「同意 A？同意 B？」逐項批准。代碼 / spec / 設定改動以補丁交付：精準 anchor 在 code block 外、BEFORE / AFTER 兩個 code block 內只放 verbatim 文字、加 Changelog。數值答案展示四步。JSON 先定 schema。Mermaid 用 `flowchart TB` 加 `"..."` 包覆 text label。當兩條規則衝突時 AI 依明文優先序（事實可驗收 > 穩定性 > 根因 > 完整性 > 最小改動），不再隨機選擇。 | 回覆體驗一致、可掃讀：頂置重點 → 清單 → 正文，surface text 不再夾雜 `§` codes。非 trivial 工作的計劃永遠是全圖優先，所以你可以一眼 veto / 修改整個 plan，無需逐項批准。Patch 易審可貼。仲裁規則令 AI 不再為「diff 較小」犧牲事實可驗收 — 事實可驗收永遠勝出。 |
 
 ---
 
@@ -357,9 +357,9 @@ build master spec
 - [docs/VERIFICATION.md](docs/VERIFICATION.md)
 - 最新 QA 回歸驗收報告： [docs/qa/LATEST.md](docs/qa/LATEST.md)
 
-截至 2026-05-07（v3.0.9）的摘要如下：
-- AGENTS/INIT 規則同步：已驗證（350 項自動化回歸 — 261 主 + 89 legacy auto-chain）
-- AGENTS.md governance 範圍：530 → 687 行（+29.6%）為 v3.0.5 Tier 2 整合；v3.0.6 視覺更新與用語簡化對行數中性；累計 −6.4% 對比 v2.x baseline (734)；所有規則與 325 個 grep-anchor 完整保留（212 baseline + R29×12 + R30×6 + entry-cap×3 + reply-behavior×6 + R31×17 + R32×34 + R33×35）
+截至 2026-05-08（v3.0.10）的摘要如下：
+- AGENTS/INIT 規則同步：已驗證（356 項自動化回歸 — 267 主 + 89 legacy auto-chain）
+- AGENTS.md governance 範圍：530 → 687 行（+29.6%）為 v3.0.5 Tier 2 整合；v3.0.6 視覺更新與用語簡化對行數中性；累計 −6.4% 對比 v2.x baseline (734)；所有規則與 331 個 grep-anchor 完整保留（212 baseline + R29×12 + R30×6 + entry-cap×3 + reply-behavior×6 + R31×17 + R32×34 + R33×41）
 - Sandbox 安裝實戰驗收：3 個 HIGH 風險情景 PASS（含 user 自建檔的 re-install / §5a `pwd ≠ git root` mismatch / §4 closeout 端到端）
 - Matrix QC 10 維審計（sandbox install）：PASS（rc.1 的 LOW finding 已由 rc.2 hotfix 解除）
 - 交接效率驗證：仍有效（v2.7 的 30 組情景矩陣；在保留必要交接欄位下，啟動 payload 顯著下降）

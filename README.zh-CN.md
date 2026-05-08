@@ -78,11 +78,11 @@
 
 | 版本 | 变更内容 | 对你的意义 |
 |---|---|---|
+| **v3.0.10** | Worktree session 启动现可正确处理 skip-worktree 惯例：在 git worktree 中打开 Claude Code 时，governance 会从主 repo 路径读取 `dev/SESSION_HANDOFF.md` 与 `dev/SESSION_LOG.md`，而非 file-not-found 失败或在 worktree 中静默创建空白备援文件。Worktree 检测经 `git rev-parse --git-common-dir`（其父目录即主 repo 路径），原本的「创建精简版本」规则仅在 worktree 与主 repo 双双缺失时才会触发。发布验收 harness 同步明文化：`bash docs/qa/run_checks.sh` 应从主 repo 路径执行——在 worktree 路径执行会触发 spurious `H01`（`.legacy_last_run` 跨树漂移）与 `R27-10`（worktree 中找不到 skip-worktree 文件）失败，属 by-design，非真实失败。同步附带细收尾：README.zh-TW.md v3.0.8 行的 `入面` / `令` / `用戶` 残留 token 统一收敛至正式书面语体，对齐 v3.0.9 sweep 策略。 | 如果你以 git worktree 进行并行功能开发或为每个 session 隔离工作区，governance 规则现与实际情况对齐——worktree session 启动无需手动复制文件或创建空白备援文件即可正常运行。发布验收结果不再因执行路径而异；harness 文档也明文公开 skip-worktree 惯例，免去用户通过 spurious failures 自行发现的成本。README.zh-TW.md v3.0.8 行现已通篇收敛为正式书面语体。 |
 | **v3.0.9** | AI 回复会跟你写的语言：当你切换中文（或其他非英文语言）时，AI 全程用你的语言回复，不会逐句中英混杂（英文仅用于专有名词、无干净翻译的既有术语、或括号补注）。当 AI 给你选选项时，每个选项的标题以「对你工作的意义」开头——例如「任何 clone main 的用户即时拿到新行为」，而非「commit + push main + cut tag」的机制角度。重新安装已有 wizards / templates 的项目时，这 4 个文件（`dev/wizards/playbook.md`、`dev/wizards/README.md`、`dev/templates/spec_template.md`、`dev/templates/runbook_template.md`）不再漏备份。最重要：每个工作阶段的 SESSION_LOG 不再带过上阶段的「完成项」——结束时只记录本次对话真正做过的工作；跨阶段持续的工作项只记本次的进度增量，不重复累计完成。 | 回复像一个用你语言写东西的同事，不再是夹着英文碎片的半翻译段落。选择题的权衡在第一行半就已经清楚——你无需读实现细节才理解每个选项对你工作的意义。重新安装已有 wizards / templates 的项目，这 4 个文件不再漏备份。最重要：SESSION_LOG 不再每阶段漂移——旧版 INIT.md 用户反映过反复要修「上阶段完成项被抄进本阶段记录」的漂移痛点，现在由治理规则直接终止，不再靠 AI 心智追踪。 |
 | **v3.0.8** | 安装流程 UX 变得更清晰：Profile 选项的 6 个选项由连在一段变为清晰列表（每项自占一行），不再挤成一块。Setup 完成与 wizard 可选提问现分为两条独立消息——`Governance framework ready` 自成一条消息，wizard 提问为另一条独立消息——清楚显示 wizard 回复是可选的，并非完成 setup 的必要动作。Wizard 第一条提问由单一冷问题演变为主问加三个可选补充（顺手提供参考文件、URL 或已决定事项），AI 收到后会主动读取你提供的资料再草拟。草稿中每条假设都标注 `[from your input]` 或 `[my inference]`，让你一眼分清哪条来自你的输入、哪条是 AI 估算。INIT.md / AGENTS.md 中 4 处中英混杂失误已清理。 | 首次安装流程不再让用户困惑 wizard 回复是否完成 setup 的必要动作。Wizard 草拟出的 spec 扎实有据 — AI 会读取你的参考文件／URL 而非凭空想象，spot-check 时可以分清哪条是事实、哪条是 AI 估算。 |
 | **v3.0.7** | 全新 onboarding wizard 系统：AI 根据你提供的 1 句项目描述，draft 完整的 `PROJECT_MASTER_SPEC.md` 或 `RUNBOOK.md` 草稿，列出所有假设清单供你逐项挑错，AI 重 draft 直到满意 — 不再用冷冰冰的问题清单。取代旧有 5-7 步结构化 Q&A schema，过于僵硬不适合模糊的长期项目愿景。Matrix-QC 审查工具加入「边界感知差异」规则 + 禁用 prescriptive 动词，令审查 findings 保持中性描述（fix 由人决定，不是审查工具决定）。Playbook 从 dogfood 中归纳 3 条纪律（explicit write vs soft closure 分类、防作假规定用 `(待补)`、逐字段明确假设）。Landing page 加入 wizard 系统 feature card。 | 新用户不再面对空白的 `PROJECT_MASTER_SPEC.md` 模板 — AI 从最少输入产生完整草稿，每个假设明确列出供你 spot-check。长期项目愿景模糊、不适合冷冰冰问题清单的情况 first-class 支持。审查工具不再对故意保留的安装模板边界误报。Playbook 迭代减少不必要的来回。 |
 | **v3.0.6** | 收尾界面优化：6 款重新设计的工作阶段启动/收尾视觉、「粘贴此区块」说明从 3 行缩为 1 行、README 安装/升级流程从 9 步缩为 5 步并加上「AI 背后执行」说明区块。README 接续区段首次解释为何手动粘贴 OPENING MESSAGE 比 `Follow AGENTS.md` 更可靠（约 95% vs 约 70-85%）。修补既有 harness exit code 漏洞（R27-10）。 | 新用户安装流程大幅精简。工作阶段启动/收尾画面更美观。「为何手动粘贴」的解释消除常见困惑。 |
-| **v3.0.5** | 完整回复协议现入治理，不再只是「universal subset」。回复会先用 `🔎` 重点 bullet（≤3 行）、再交付清单、再正文。选择题用一致格式 `🚀 *下一步揀一條*` + A/B/C + `💡 推薦`。多档或治理改动触发全图优先计划，5 个固定区段（END-STATE / DELIVERABLES / METRICS / ACCEPTANCE / GOAL LINK）+ 收尾句 — 不再有「同意 A？同意 B？」逐项批准。代码 / spec / 设定改动以补丁交付：精准 anchor 在 code block 外、BEFORE / AFTER 两个 code block 内只放 verbatim 文字、加 Changelog。数值答案展示四步。JSON 先定 schema。Mermaid 用 `flowchart TB` 加 `"..."` 包覆 text label。当两条规则冲突时 AI 依明文优先序（事实可验收 > 稳定性 > 根因 > 完整性 > 最小改动），不再随机选择。 | 回复体验一致、可扫读：顶置重点 → 清单 → 正文，surface text 不再夹杂 `§` codes。非 trivial 工作的计划永远是全图优先，所以你可以一眼 veto / 修改整个 plan，无需逐项批准。Patch 易审可贴。仲裁规则令 AI 不再为「diff 较小」牺牲事实可验收 — 事实可验收永远胜出。 |
 
 ---
 
@@ -357,9 +357,9 @@ build master spec
 - [docs/VERIFICATION.md](docs/VERIFICATION.md)
 - 最新 QA 回归验收报告： [docs/qa/LATEST.md](docs/qa/LATEST.md)
 
-截至 2026-05-07（v3.0.9）的摘要如下：
-- AGENTS/INIT 规则同步：已验证（350 项自动化回归 — 261 主 + 89 legacy auto-chain）
-- AGENTS.md governance 范围：530 → 687 行（+29.6%）为 v3.0.5 Tier 2 整合；v3.0.6 视觉更新与措辞简化对行数中性；累计 −6.4% 对比 v2.x baseline (734)；所有规则与 325 个 grep-anchor 完整保留（212 baseline + R29×12 + R30×6 + entry-cap×3 + reply-behavior×6 + R31×17 + R32×34 + R33×35）
+截至 2026-05-08（v3.0.10）的摘要如下：
+- AGENTS/INIT 规则同步：已验证（356 项自动化回归 — 267 主 + 89 legacy auto-chain）
+- AGENTS.md governance 范围：530 → 687 行（+29.6%）为 v3.0.5 Tier 2 整合；v3.0.6 视觉更新与措辞简化对行数中性；累计 −6.4% 对比 v2.x baseline (734)；所有规则与 331 个 grep-anchor 完整保留（212 baseline + R29×12 + R30×6 + entry-cap×3 + reply-behavior×6 + R31×17 + R32×34 + R33×41）
 - Sandbox 安装实战验收：3 个 HIGH 风险场景 PASS（含 user 自建文件的 re-install / §5a `pwd ≠ git root` mismatch / §4 closeout 端到端）
 - Matrix QC 10 维审计（sandbox install）：PASS（rc.1 的 LOW finding 已由 rc.2 hotfix 解除）
 - 交接效率验证：仍有效（v2.7 的 30 组场景矩阵；在保留必要交接字段下，启动 payload 明显下降）

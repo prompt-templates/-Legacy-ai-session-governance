@@ -258,7 +258,7 @@ done
 # ============================================================
 # Latest stable tag string — bump explicitly when releasing a new stable version.
 # This single-source variable is what regression checks below assert against.
-LATEST_STABLE_TAG="v3.0.9"
+LATEST_STABLE_TAG="v3.0.10"
 
 check "R29-01" "README.md contains latest stable tag row ($LATEST_STABLE_TAG)" "1" "$(grep -c "^| \*\*$LATEST_STABLE_TAG\*\*" README.md)"
 check "R29-02" "README.zh-TW.md contains latest stable tag row" "1" "$(grep -c "^| \*\*$LATEST_STABLE_TAG\*\*" README.zh-TW.md)"
@@ -268,7 +268,7 @@ check "R29-05" "docs/releases/${LATEST_STABLE_TAG}.md release notes file exists"
 check_gte "R29-06" "docs/qa/LATEST.md references latest stable tag" "1" "$(grep -c "$LATEST_STABLE_TAG" docs/qa/LATEST.md)"
 # index.html stat counter must reflect total checks (main + legacy);
 # value is hardcoded against current run total so any harness check change forces an update.
-EXPECTED_INDEX_COUNTER="350"
+EXPECTED_INDEX_COUNTER="356"
 check "R29-07" "docs/site/index.html stat counter = $EXPECTED_INDEX_COUNTER" "1" "$(grep -c "data-target=\"$EXPECTED_INDEX_COUNTER\"" docs/site/index.html)"
 check "R29-08" "DOC_SYNC_CHECKLIST has Release published row" "1" "$(grep -c 'Release published' dev/DOC_SYNC_CHECKLIST.md)"
 # README must mention latest stable tag in ≥2 places (version-table row + Snapshot/text body) — guards against
@@ -424,6 +424,14 @@ check_gte "R33-38" "§1 Work-pool boundary present (AGENTS)" "1" "$(grep -c 'Wor
 check_gte "R33-39" "§1 Work-pool boundary present (INIT mirror)" "1" "$(grep -c 'Work-pool boundary (mandatory)' $I)"
 check_gte "R33-40" "§4 Session work-pool boundary present (AGENTS)" "1" "$(grep -c 'Session work-pool boundary (mandatory)' $A)"
 check_gte "R33-41" "§4 Session work-pool boundary present (INIT mirror)" "1" "$(grep -c 'Session work-pool boundary (mandatory)' $I)"
+
+# Worktree edge case patch (v3.0.10): §1 fallback for skip-worktree files + §3c canonical execution locus for harness
+check_gte "R33-42" "§1 Worktree fallback present (AGENTS)" "1" "$(grep -c 'Worktree fallback (mandatory)' $A)"
+check_gte "R33-43" "§1 Worktree fallback present (INIT mirror)" "1" "$(grep -c 'Worktree fallback (mandatory)' $I)"
+check_gte "R33-44" "§3c Canonical execution locus present (AGENTS)" "1" "$(grep -c 'Canonical execution locus' $A)"
+check_gte "R33-45" "§3c Canonical execution locus present (INIT mirror)" "1" "$(grep -c 'Canonical execution locus' $I)"
+check_gte "R33-46" "§1+§3c skip-worktree convention reference (AGENTS)" "1" "$(grep -c 'skip-worktree convention' $A)"
+check_gte "R33-47" "§1+§3c skip-worktree convention reference (INIT mirror)" "1" "$(grep -c 'skip-worktree convention' $I)"
 
 # ============================================================
 # Category 15: Legacy Harness Health (staleness detection)

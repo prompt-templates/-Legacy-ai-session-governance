@@ -58,13 +58,15 @@
 - Startup sequence is mandatory and includes `SESSION_HANDOFF -> SESSION_LOG -> CODEBASE_CONTEXT -> PROJECT_MASTER_SPEC`.
 - `SESSION_LOG` long-term growth is controlled by AGENTS.md §4a — AI evaluates triggers directly from the file (line count > 400 OR oldest entry > 30 days) at closeout and archives without requiring Python or any non-default runtime. The `session_log_maintenance.py` script is preserved as an optional dev utility (self-test only), not the runtime gate.
 - Handoff compactness is governed by explicit budget caps in `AGENTS.md` §4.
+- Worktree edge cases (v3.0.10): `dev/SESSION_HANDOFF.md` and `dev/SESSION_LOG.md` are kept on `git update-index --skip-worktree` so they stay as local-only state in the main repo. AGENTS.md §1 Worktree fallback rule directs AI to resolve these files from the main repo path (`git rev-parse --git-common-dir` parent dir) when running inside a worktree, before falling back to the "create a minimal version" rule. Release verification harness has canonical execution locus = main repo path (AGENTS.md §3c Phase 1 step 2) — worktree-path harness execution triggers spurious `H01` / `R27-10` failures that are by-design per skip-worktree convention, not real failures.
 
 ## AI Maintenance Log
 - Created: 2026-04-19 (Codex_20260419_1533)
-- Last updated: 2026-05-05 (Claude_20260505_paradigm-response)
+- Last updated: 2026-05-08 (Claude_20260508_v3.0.10)
 - Change summary:
   - 2026-04-19 (Codex_20260419_1533): First-time generation because `dev/CODEBASE_CONTEXT.md` was missing at startup.
   - 2026-05-05 (Claude_20260505): Synced session-log archive description to AGENTS.md §4a (shell-evaluated triggers, no Python at runtime). Prior wording described `session_log_maintenance.py` as the active gate; the §4a rewrite (v3.0.5) moved enforcement into closeout-time AI trigger evaluation. Script preserved as dev self-test utility.
+  - 2026-05-08 (Claude_20260508_v3.0.10): Added Key Decisions worktree convention note synced to AGENTS.md §1 Worktree fallback (mandatory) + §3c Canonical execution locus addition. v3.0.10 release — codifies skip-worktree convention for `dev/SESSION_HANDOFF.md` / `dev/SESSION_LOG.md` (worktree-path session reads from main repo) and harness canonical execution locus (main repo path; worktree-path execution triggers spurious `H01` / `R27-10` by-design).
 - Source files scanned (present):
   - `README.md`
   - `README.zh-TW.md`
