@@ -476,6 +476,8 @@ Scope: §0b applies when the AI writes, executes, or debugs code / commands that
 
 When a task involves external platforms, frameworks, APIs, CLIs, deployment systems, cloud services, third-party SDKs, package managers, or official toolchains: do not guess commands, parameters, limitations, version differences, or platform behavior from memory. Before related work, align against: official documentation; release notes / changelog; official repo / original specifications; relevant SSOT / runbook / integration docs in this project. If alignment is not completed: do not treat guesses as conclusions; do not output high-risk commands; label what is verified vs pending.
 
+Same alignment principle applies to local CLI tools, installed SDKs, package-manager invocations, and project-level skills: prefer documented sources (project SSOT > skill description / runbook > `--help` / `--version` self-check > official docs) over training-memory syntax. When uncertainty remains about a flag, parameter, or skill behavior, flag it as `UNVERIFIED` per §11a rule 4 before invoking — do not silently fall back to training-memory guesses.
+
 ### External API Code Safety (Mandatory when writing API-calling code)
 
 Before writing any code that calls an external API endpoint:

@@ -268,7 +268,7 @@ check "R29-05" "docs/releases/${LATEST_STABLE_TAG}.md release notes file exists"
 check_gte "R29-06" "docs/qa/LATEST.md references latest stable tag" "1" "$(grep -c "$LATEST_STABLE_TAG" docs/qa/LATEST.md)"
 # index.html stat counter must reflect total checks (main + legacy);
 # value is hardcoded against current run total so any harness check change forces an update.
-EXPECTED_INDEX_COUNTER="356"
+EXPECTED_INDEX_COUNTER="358"
 check "R29-07" "docs/site/index.html stat counter = $EXPECTED_INDEX_COUNTER" "1" "$(grep -c "data-target=\"$EXPECTED_INDEX_COUNTER\"" docs/site/index.html)"
 check "R29-08" "DOC_SYNC_CHECKLIST has Release published row" "1" "$(grep -c 'Release published' dev/DOC_SYNC_CHECKLIST.md)"
 # README must mention latest stable tag in ≥2 places (version-table row + Snapshot/text body) — guards against
@@ -432,6 +432,10 @@ check_gte "R33-44" "§3c Canonical execution locus present (AGENTS)" "1" "$(grep
 check_gte "R33-45" "§3c Canonical execution locus present (INIT mirror)" "1" "$(grep -c 'Canonical execution locus' $I)"
 check_gte "R33-46" "§1+§3c skip-worktree convention reference (AGENTS)" "1" "$(grep -c 'skip-worktree convention' $A)"
 check_gte "R33-47" "§1+§3c skip-worktree convention reference (INIT mirror)" "1" "$(grep -c 'skip-worktree convention' $I)"
+
+# §0b local-tool / SDK / skill alignment principle (post-v3.0.10 governance extension)
+check_gte "R33-48" "§0b local-tool alignment principle (AGENTS)" "1" "$(grep -c 'Same alignment principle applies to local' $A)"
+check_gte "R33-49" "§0b local-tool alignment principle (INIT mirror)" "1" "$(grep -c 'Same alignment principle applies to local' $I)"
 
 # ============================================================
 # Category 15: Legacy Harness Health (staleness detection)
