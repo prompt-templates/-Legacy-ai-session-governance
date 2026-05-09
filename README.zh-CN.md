@@ -99,7 +99,7 @@
 
 1. **安装**（一次性）：将 **[INIT.md](INIT.md)** 粘贴到你的 AI 工具，按提示回复 `INSTALL_ROOT_OK: <absolute_path>` 与 `INSTALL_WRITE_OK`。
 2. **开始工作阶段**：输入 `Follow AGENTS.md`，AI 会接续你上次的进度。
-3. **工作**：让 AI 开发功能、修 bug、写文档 — 任何事都可以。
+3. **工作**：让 AI 草拟、修改、修复、分析 — 任何事都可以。
 4. **结束**：输入 `收工`。AI 会给你一张 **NEXT SESSION OPENING MESSAGE** 字条。
 5. **下次工作阶段**：把那张字条粘贴成你的第一条消息 — 就回到步骤 2 了。
 
@@ -275,8 +275,7 @@ build master spec
 本模板可保留基线、待办、风险与验证状态，避免重述上下文。
 
 ### :small_blue_diamond: 场景 2 — 一个项目，多个 AI 工具协作
-例如由 Codex 编写代码、Claude 处理文档、Gemini 协助调试基础设施 — 或者一个研究项目、写作草稿、数据分析工作本、agent 设计规格的不同部分由不同 AI 工具处理。  
-通过共用交接文档与工作日志，可避免各工具对项目状态产生分歧。
+一个 AI 起草、另一个审视结构、第三个核对资料。研究项目（资料来源 / 分析 / 撰写）、软件项目（功能 / 文档 / 基础设施）、agent 设计（规格 / playbook / 例子）——共用交接记录让各工具状态保持一致。
 
 ### :small_blue_diamond: 场景 3 — 长期项目治理开始漂移
 修复逐步累积、规则持续扩张、文档彼此矛盾。  
@@ -294,8 +293,8 @@ build master spec
 ### :small_blue_diamond: 2) 第一天就需要 `PROJECT_MASTER_SPEC.md` 吗？
 不需要。先用 `AGENTS.md` + `SESSION_HANDOFF.md` + `SESSION_LOG.md` 已经足够。日后想加时，只需对 AI 说「build master spec」，AI 会根据你一句项目描述自动生成完整草稿（v3.0.7+）。
 
-### :small_blue_diamond: 3) 这是编码标准吗？
-不是。它规范 AI 怎么读、改、验证、交接——不管你怎么写代码。本模板适用于 AI 协助的任何项目：研究、写作、数据分析、agent 设计、编码皆受用 — §3.6 wizard 的 profile selector 明示支持 `research` / `writing` / `agent-design` / `data-analysis` / `coding`。
+### :small_blue_diamond: 3) 这只适合 coding 工作吗？
+不是。它规范 AI 怎么读、改、验证、交接——适用于任何跨 session、跨 AI 工具的项目。研究笔记、写作草稿、数据分析、agent 设计、软件开发——只要需要 multi-session 连续性。
 
 ### :small_blue_diamond: 4) 这会拖慢 AI 吗？
 开始时有一点读取时间，通常比重复交代情况和修正错误省时。

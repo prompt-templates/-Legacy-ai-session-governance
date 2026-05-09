@@ -252,7 +252,7 @@
     <p class="section-desc" data-i18n="arch_desc"></p>
   </div>
   <div class="reveal" style="margin-top:1rem">
-    <svg viewBox="0 0 900 740" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;display:block;margin:0 auto" role="img" aria-label="ai-session-governance architecture diagram">
+    <svg viewBox="0 0 900 510" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;display:block;margin:0 auto" role="img" aria-label="ai-session-governance architecture diagram">
       <defs>
         <marker id="ar1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#6c63ff"/></marker>
         <marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#4ecdc4"/></marker>
@@ -318,28 +318,6 @@
       <rect x="580" y="134" width="200" height="32" rx="6" fill="#1a1a28" stroke="#ff6b6b" stroke-width="1" stroke-dasharray="3,2"/>
       <text x="680" y="148" text-anchor="middle" fill="#ff6b6b" font-size="11" font-weight="600" data-i18n="svg_paste_t1">paste OPENING MESSAGE</text>
       <text x="680" y="161" text-anchor="middle" fill="#ff6b6b" font-size="10" font-style="italic" data-i18n="svg_paste_t2">→ next session resumes</text>
-      <text x="450" y="525" text-anchor="middle" fill="#707085" font-size="11" letter-spacing="2">AUTO SAFEGUARDS · 自動防護（governance enforces, AI can't skip）</text>
-      <rect x="50" y="545" width="260" height="160" rx="12" fill="#12121a" stroke="#2a2a40" stroke-width="1"/>
-      <text x="180" y="572" text-anchor="middle" fill="#4ecdc4" font-size="13" font-weight="700">🛡 Legacy quarantine</text>
-      <text x="180" y="600" text-anchor="middle" fill="#a0a0b0" font-size="11">89 historical drift checks</text>
-      <text x="180" y="618" text-anchor="middle" fill="#a0a0b0" font-size="11">isolated in 2nd-layer harness</text>
-      <text x="180" y="640" text-anchor="middle" fill="#a0a0b0" font-size="11">main run auto-chains them</text>
-      <text x="180" y="660" text-anchor="middle" fill="#ff6b6b" font-size="11">LEGACY_SKIP forbidden at release</text>
-      <text x="180" y="685" text-anchor="middle" fill="#707085" font-size="10">[history bugs can't silently revive]</text>
-      <rect x="320" y="545" width="260" height="160" rx="12" fill="#12121a" stroke="#2a2a40" stroke-width="1"/>
-      <text x="450" y="572" text-anchor="middle" fill="#4ecdc4" font-size="13" font-weight="700">⏰ Staleness check</text>
-      <text x="450" y="600" text-anchor="middle" fill="#a0a0b0" font-size="11">If 30+ days no legacy run</text>
-      <text x="450" y="618" text-anchor="middle" fill="#a0a0b0" font-size="11">→ main harness fails</text>
-      <text x="450" y="640" text-anchor="middle" fill="#a0a0b0" font-size="11">forces re-verification</text>
-      <text x="450" y="660" text-anchor="middle" fill="#ff6b6b" font-size="11">can't drift over time</text>
-      <text x="450" y="685" text-anchor="middle" fill="#707085" font-size="10">[zero human-memory dependency]</text>
-      <rect x="590" y="545" width="260" height="160" rx="12" fill="#12121a" stroke="#2a2a40" stroke-width="1"/>
-      <text x="720" y="572" text-anchor="middle" fill="#4ecdc4" font-size="13" font-weight="700">📚 Release-doc sync</text>
-      <text x="720" y="600" text-anchor="middle" fill="#a0a0b0" font-size="11">After each release, AI verifies</text>
-      <text x="720" y="618" text-anchor="middle" fill="#a0a0b0" font-size="11">README × 4 · index.html · notes</text>
-      <text x="720" y="640" text-anchor="middle" fill="#a0a0b0" font-size="11">DOC_SYNC_CHECKLIST entries</text>
-      <text x="720" y="660" text-anchor="middle" fill="#ff6b6b" font-size="11">any drift → harness fails</text>
-      <text x="720" y="685" text-anchor="middle" fill="#707085" font-size="10">[R29 + R30 series, 18 checks]</text>
     </svg>
   </div>
 </section>
@@ -437,22 +415,22 @@ hero_cta:"30 秒快速開始",
 stat_tests:"回歸測試覆蓋",stat_platforms:"AI 平台支援",stat_seconds:"秒完成安裝",
 pain_label:"問題",pain_title:"你有遇過這些情況嗎？",pain_desc:"用 AI 寫程式一開始很順——但時間一長，麻煩就開始了。",
 pain1_t:"「你誰？我們之前做了什麼？」",pain1_d:"新 session 開始，AI 對你的專案一無所知。你花了 10 分鐘重新解釋技術棧、當前進度、上次做到哪。",
-pain2_t:"修了 A 壞了 B，再修 B 又壞了 C",pain2_d:"AI 沒有歷史記憶，不知道上一輪為什麼做那個決定。每次修改都可能踩到之前踩過的坑。",
+pain2_t:"改一處，壞另一處，改完再改又壞回來",pain2_d:"AI 沒有歷史記憶，不知道上一輪為什麼做那個決定。每次修改都可能踩到之前踩過的坑。",
 pain3_t:"配額用完，進度歸零",pain3_d:"Claude 用完換 Gemini、Gemini 用完換 Codex——每次切換都要從頭說明，等於付了雙倍時間。",
-pain4_t:"文件說一套，程式做一套",pain4_d:"README 寫的是三個月前的版本，SESSION_LOG 兩週沒更新。AI 照著過時的文件改，你又要再修一輪。",
+pain4_t:"文件說一套，實際做的又是另一套",pain4_d:"說明文件寫的是三個月前的版本，記錄兩週沒更新。AI 跟著過時的內容做，你又要再修一輪。",
 pain5_t:"規則越來越多，矛盾越來越大",pain5_d:"每次出問題就加一條規則。半年後規則相互衝突，AI 不知道該聽哪一條。",
-pain6_t:"API 參數用猜的",pain6_d:"AI 「記得」一個 endpoint 長什麼樣——但那是訓練資料裡的舊版。code 寫了，跑不動，debug 半天。",cause_label:"根本原因",cause_title:"為什麼 AI 會「斷片」？",cause_desc:"不是 AI 不聰明——這是目前所有大型語言模型的結構性限制。",
+pain6_t:"靠記憶猜出來的資料都過時了",pain6_d:"AI 「記得」某些規格、命名、參數的樣子——但那是訓練資料裡的舊版。做完才發現過時，要花時間返工。",cause_label:"根本原因",cause_title:"為什麼 AI 會「斷片」？",cause_desc:"不是 AI 不聰明——這是目前所有大型語言模型的結構性限制。",
 cause1_t:"🪟 Context Window 有上限",cause1_d:"AI 的對話視窗像白板——容量有限，寫滿就要擦掉。每次新 session 開始，白板是空的。這是技術限制，不是 bug。",
 cause2_t:"🚫 沒有內建「筆記本」",cause2_d:"AI 不會主動幫你記上次做了什麼。如果你不給它看「上班筆記」，它每次都像新來的實習生——聰明但一無所知。",
 cause3_t:"🔀 工具之間不通訊",cause3_d:"Claude、Gemini、Codex——各自有自己的 context，彼此不會自動分享。就像三個不同的員工，你得一個一個交代。",
 cmp_label:"對比",cmp_title:"同一個任務，兩種體驗",cmp_desc:"假設你昨天用 Claude 做了一半的功能，今天換 Gemini 繼續。",
 cmp_bad:"❌ 沒有 Session Governance",cmp_good:"✅ 使用 Session Governance",
-cmp_b1:"繼續昨天的工作",cmp_b2:"我是新的對話，無法知道你昨天做了什麼。可以告訴我你的專案使用什麼技術棧嗎？",
-cmp_b3:"（嘆氣）React + Express + PostgreSQL，已經做好了登入功能，正在做購物車…",cmp_b4:"好的。購物車的資料結構是什麼樣的？目前的 API 路由有哪些？",
+cmp_b1:"繼續昨天的工作",cmp_b2:"我是新的對話，不知道你昨天做了什麼。可以告訴我你正在做的項目嗎？",
+cmp_b3:"（嘆氣）Q3 策略報告——5 個章節中已 draft 3 個，資料來源做完相互引用，上次停在 executive summary 大綱…",cmp_b4:"好的。引用了什麼資料來源？Executive summary 的角度是？",
 cmp_b5:"（又要重新解釋 15 分鐘…）",cmp_b_sum:"⏱ 浪費 15-30 分鐘重建 context",
 cmp_g1:"請依 AGENTS.md 開始本次工作階段",cmp_g2:"讀取 SESSION_HANDOFF.md… SESSION_LOG.md… 完成。",
-cmp_g3:"📋 目前狀態：React+Express+PostgreSQL，登入完成（已測試），購物車 API 路由 3/5 完成。上次停在 cart/checkout endpoint。",
-cmp_g4:"好，繼續",cmp_g5:"PLAN：完成 cart/checkout 與 cart/remove endpoint…",
+cmp_g3:"📋 目前狀態：Q3 策略報告，3/5 章節已 draft（審過），資料來源相互引用完成。上次停在 executive summary 大綱。",
+cmp_g4:"好，繼續",cmp_g5:"PLAN：用分析的 3 條主要 thesis points 起 executive summary…",
 cmp_g_sum:"⚡ 大幅減少重複說明時間（無法保證 100% 零遺漏）",how_label:"運作原理",how_title:"就像醫院的輪班交接",
 how_desc:"護士下班時會寫交班紀錄：病人狀況、用藥、注意事項。下一班護士看完紀錄就能直接照顧，不用重新問病人。<br><br>AI Session Governance 做的事一模一樣——只是對象從「病人」換成了「你的專案」。",
 wf1_t:"1. 讀交班 — READ",wf1_d:"新 session 開始時，AI 先讀 HANDOFF（目前狀態）和 LOG（歷史紀錄），不用你口述。",
@@ -477,7 +455,7 @@ f12_t:"AI 草擬 spec / runbook",f12_d:"不知道 PROJECT_MASTER_SPEC.md 或 RUN
 sc_label:"應用情境",sc_title:"誰適合用？",sc_desc:"不管你是一個人開發還是團隊協作，只要用 AI 寫 code 就會遇到這些狀況。",
 sc_tab1:"配額切換",sc_tab2:"多工具協作",sc_tab3:"長期專案",
 sc1_t:"配額用完，換工具繼續",sc1_d:"Claude 用完換 Gemini、Gemini 用完換 Codex——交接文件讓下一個工具直接接續，不用從頭解釋。",sc1_h:"💡 實測：從 Claude 切到 Gemini，透過 SESSION_HANDOFF 可大幅減少重複說明的時間。",
-sc2_t:"一個項目，多個 AI 分工",sc2_d:"Codex 寫程式、Claude 寫文件、Gemini 處理基礎設施 — 或者一個研究項目、寫作草稿、數據分析工作本、agent 設計規格的不同部分由不同 AI 工具處理。共用交接紀錄，各工具對項目狀態保持一致。",sc2_h:"💡 共享 SESSION_LOG 讓不同工具看到一致的歷史記錄。",
+sc2_t:"一個項目，多個 AI 分工",sc2_d:"一個 AI 起草、另一個審視結構、第三個核對資料。研究項目（資料來源 / 分析 / 撰寫）、軟件項目（功能 / 文件 / 基礎設施）、agent 設計（規格 / playbook / 例子）——共用交接紀錄令各工具狀態保持一致。",sc2_h:"💡 共享 SESSION_LOG 讓不同工具看到一致的歷史記錄。",
 sc3_t:"半年後規則開始打架",sc3_d:"修復累積、規則膨脹、文件矛盾。「先整合、後新增」的紀律幫你控制複雜度。",sc3_h:"💡 整合紀律要求每次新增規則前先檢查有無重疊——從源頭防止衝突。",
 qs_label:"快速開始",qs_title:"30 秒搞定",qs_desc:"不需要手動複製檔案。用 INIT.md 一鍵安裝，AI 會自動處理合併。",
 qs1:"開啟 <a href='https://github.com/prompt-templates/ai-session-governance/blob/main/INIT.md' target='_blank' style='color:var(--accent)'>INIT.md</a>，點 <strong>Raw</strong>，全選複製，貼到你的 AI 命令列工具。",
@@ -487,7 +465,7 @@ qs3:"安裝完成後，每次新 session 開始時輸入：",qs3_cmd:"請依 AGE
 qs4:"工作結束時，輸入：",qs4_cmd:"請為本次工作階段完成收尾與完整交接。",qs4_note:"AI 會更新 HANDOFF 和 LOG，並輸出交接區塊供下一個工具使用。",
 qs5:"下次換工具時，直接貼上上一輪輸出的交接區塊：",qs5_c1:"# 貼上 NEXT SESSION HANDOFF PROMPT",qs5_c2:"# (整段原文不改)",qs5_note:"這就是完整的使用循環：<strong>啟動 → 工作 → 收尾交接 → 下一個工具接續</strong>。",
 faq_label:"常見問題",faq_title:"FAQ",
-faqs:[{q:"這只適合大型專案嗎？",a:"不是。小型專案馬上就有效果，大型專案時間拉長效益更明顯。"},{q:"第一天就需要 PROJECT_MASTER_SPEC.md 嗎？",a:"不用。先用 AGENTS.md + SESSION_HANDOFF.md + SESSION_LOG.md 就夠了，日後需要再加。"},{q:"這是編碼標準嗎？",a:"不是。它規範 AI 怎麼讀、改、驗證、交接——不管你怎麼寫程式。本範本適用於 AI 協助的任何項目：研究、寫作、數據分析、agent 設計、編碼皆受用，wizard 的 profile selector 明示支援 research / writing / agent-design / data-analysis / coding。"},{q:"這會拖慢 AI 嗎？",a:"開始時有一小段讀取時間，通常比重複交代情況和修正錯誤省時得多。"},{q:"能跟我現有的 README 和內部規則共存嗎？",a:"可以。安裝時會跟你現有檔案合併，不會覆蓋掉你的內容。"}],
+faqs:[{q:"這只適合大型專案嗎？",a:"不是。小型專案馬上就有效果，大型專案時間拉長效益更明顯。"},{q:"第一天就需要 PROJECT_MASTER_SPEC.md 嗎？",a:"不用。先用 AGENTS.md + SESSION_HANDOFF.md + SESSION_LOG.md 就夠了，日後需要再加。"},{q:"這只適合 coding 工作嗎？",a:"不是。它規範 AI 怎麼讀、改、驗證、交接——適用於任何跨 session、跨 AI 工具的項目。研究筆記、寫作草稿、數據分析、agent 設計、軟件開發——只要需要 multi-session 連續性。"},{q:"這會拖慢 AI 嗎？",a:"開始時有一小段讀取時間，通常比重複交代情況和修正錯誤省時得多。"},{q:"能跟我現有的 README 和內部規則共存嗎？",a:"可以。安裝時會跟你現有檔案合併，不會覆蓋掉你的內容。"}],
 cta_title:"準備好讓 AI 交接<br>不再從零開始了嗎？",cta_desc:"開源、免費、30 秒安裝。讓你的每一次 AI 工作階段都建立在上一次的基礎上。",cta_btn:"前往 GitHub 開始使用",cta_readme:"📖 閱讀完整 README →",
 footer_by:"由",footer_tagline:"Vibe Coding 的時代，人人都能打造屬於自己的 AI 世界。",
 arch_label:"架構",arch_title:"完整流程一目了然",arch_desc:"由任何 AI 工具，到治理規則、交接檔案、自動防護——全部串起來。",
@@ -502,23 +480,23 @@ hero_cta:"30-Second Quick Start",
 stat_tests:"Regression Tests",stat_platforms:"AI Platforms",stat_seconds:"Sec to Install",
 pain_label:"THE PROBLEM",pain_title:"Sound Familiar?",pain_desc:"AI coding starts great — but over time, the cracks start showing.",
 pain1_t:"\"Who are you? What did we do last time?\"",pain1_d:"New session starts, AI knows nothing about your project. You spend 10 minutes re-explaining your tech stack, current progress, and where you left off.",
-pain2_t:"Fixed A, broke B, fixed B, broke C",pain2_d:"AI has no memory of why decisions were made last time. Every fix risks stepping on a landmine you already defused.",
+pain2_t:"Fixed one thing, broke another. Repeat.",pain2_d:"AI has no memory of why decisions were made last time. Every change risks stepping on a landmine you already defused.",
 pain3_t:"Quota gone, progress gone",pain3_d:"Claude runs out, switch to Gemini. Gemini runs out, switch to Codex. Each switch means re-explaining everything — double the time cost.",
-pain4_t:"Docs say one thing, code does another",pain4_d:"README is 3 months old, SESSION_LOG hasn\'t been updated in weeks. AI follows stale docs and you fix it again.",
+pain4_t:"Notes say one thing, the actual work goes another way",pain4_d:"README is 3 months old, the log hasn\'t been updated in weeks. AI follows stale notes, and you redo the work.",
 pain5_t:"Rules pile up, contradictions multiply",pain5_d:"Every problem adds a new rule. Six months later rules contradict each other and AI doesn\'t know which to follow.",
-pain6_t:"API params from hallucination",pain6_d:"AI \"remembers\" an endpoint — but it\'s from stale training data. Code compiles, doesn\'t run, debug for hours.",
+pain6_t:"Specs guessed from training memory go stale",pain6_d:"AI \"remembers\" specs, names, parameters — but those are from stale training data. You finish the work, discover it\'s outdated, then redo.",
 cause_label:"ROOT CAUSE",cause_title:"Why Does AI \"Forget\"?",cause_desc:"It\'s not that AI isn\'t smart — this is a structural limitation of all current large language models.",
 cause1_t:"🪟 Context Window Has Limits",cause1_d:"AI\'s conversation window is like a whiteboard — limited capacity, must be erased when full. Every new session starts with a blank board. This is a technical constraint, not a bug.",
 cause2_t:"🚫 No Built-in Notebook",cause2_d:"AI won\'t proactively save what you did last time. Without \"shift notes\", every session is like a brilliant new intern — smart but clueless.",
 cause3_t:"🔀 Tools Don\'t Talk to Each Other",cause3_d:"Claude, Gemini, Codex — each has its own context, none auto-share. Like three separate employees you must brief individually.",
 cmp_label:"COMPARE",cmp_title:"Same Task, Two Experiences",cmp_desc:"Imagine you built half a feature with Claude yesterday, switching to Gemini today.",
 cmp_bad:"❌ Without Session Governance",cmp_good:"✅ With Session Governance",
-cmp_b1:"Continue yesterday\'s work",cmp_b2:"I\'m a new conversation and have no knowledge of what you did yesterday. Could you tell me your tech stack?",
-cmp_b3:"(Sigh) React + Express + PostgreSQL, login is done, working on shopping cart…",cmp_b4:"Got it. What\'s the cart data structure? What API routes exist so far?",
+cmp_b1:"Continue yesterday\'s work",cmp_b2:"I\'m a new conversation and have no context. Could you tell me what you\'re working on?",
+cmp_b3:"(Sigh) Q3 strategy report — 3 of 5 sections drafted, sources cross-referenced, last stopped at the executive summary outline…",cmp_b4:"Got it. What sources did you use? What\'s the executive summary\'s angle?",
 cmp_b5:"(Another 15 minutes of re-explaining…)",cmp_b_sum:"⏱ 15-30 min wasted rebuilding context",
 cmp_g1:"Follow AGENTS.md to start this session",cmp_g2:"Reading SESSION_HANDOFF.md… SESSION_LOG.md… Done.",
-cmp_g3:"📋 Current state: React+Express+PostgreSQL, login complete (tested), cart API 3/5 routes done. Last stopped at cart/checkout endpoint.",
-cmp_g4:"Good, continue",cmp_g5:"PLAN: Complete cart/checkout and cart/remove endpoints…",
+cmp_g3:"📋 Current state: Q3 strategy report, 3/5 sections drafted (reviewed), sources cross-referenced. Last stopped at executive summary outline.",
+cmp_g4:"Good, continue",cmp_g5:"PLAN: Draft executive summary using 3 main thesis points from the analysis…",
 cmp_g_sum:"⚡ Drastically reduced re-explanation time (not guaranteed 100% lossless)",
 how_label:"HOW IT WORKS",how_title:"Like Hospital Shift Handoff",
 how_desc:"When nurses end their shift, they write handoff notes: patient status, medications, things to watch. The next nurse reads the notes and continues care without re-asking the patient.<br><br>AI Session Governance does exactly the same — just replacing \"patient\" with \"your project\".",
@@ -544,7 +522,7 @@ f12_t:"AI-Drafted Spec / Runbook",f12_d:"Don\'t know what to put in PROJECT_MAST
 sc_label:"SCENARIOS",sc_title:"Who Is This For?",sc_desc:"Whether you work solo or in a team, if you use AI to write code, you\'ll hit these situations.",
 sc_tab1:"Quota Switch",sc_tab2:"Multi-Tool Collab",sc_tab3:"Long-Term Projects",
 sc1_t:"Quota Exhausted, Switch and Continue",sc1_d:"Claude runs out, switch to Gemini. Gemini runs out, switch to Codex — handoff docs let the next tool pick up directly without re-explaining.",sc1_h:"💡 Real test: Switching from Claude to Gemini via SESSION_HANDOFF drastically reduced re-explanation time.",
-sc2_t:"One Project, Multiple AI Agents",sc2_d:"Codex writes code, Claude handles docs, Gemini debugs infra — or different AI tools handle different parts of a research project, writing draft, data analysis workbook, or agent-design spec. Shared handoff records keep all tools aligned on project state.",sc2_h:"💡 Shared SESSION_LOG gives different tools a consistent history view.",
+sc2_t:"One Project, Multiple AI Agents",sc2_d:"One AI drafts, another reviews the structure, a third checks the data. Whether it's a research project (sources / analysis / write-up), a software project (feature / docs / infra), or an agent design (spec / playbook / examples) — shared handoff records keep all tools aligned.",sc2_h:"💡 Shared SESSION_LOG gives different tools a consistent history view.",
 sc3_t:"Six Months Later, Rules Start Fighting",sc3_d:"Fixes accumulate, rules bloat, docs contradict. The consolidate-before-adding discipline helps you control complexity.",sc3_h:"💡 Consolidation discipline requires checking for overlap before adding any rule — preventing conflicts at the source.",
 qs_label:"QUICK START",qs_title:"Done in 30 Seconds",qs_desc:"No manual file copying needed. Use INIT.md for one-click install — AI handles merging automatically.",
 qs1:"Open <a href=\'https://github.com/prompt-templates/ai-session-governance/blob/main/INIT.md\' target=\'_blank\' style=\'color:var(--accent)\'>INIT.md</a>, click <strong>Raw</strong>, select all, copy, and paste into your AI CLI.",
@@ -554,7 +532,7 @@ qs3:"After install, start each new session with:",qs3_cmd:"Follow AGENTS.md",qs3
 qs4:"When done working, enter:",qs4_cmd:"Wrap up this session with full closeout and handover.",qs4_note:"AI updates HANDOFF and LOG, outputs a handoff block for the next tool.",
 qs5:"Next time you switch tools, paste the handoff block from last session:",qs5_c1:"# Paste NEXT SESSION HANDOFF PROMPT",qs5_c2:"# (keep the entire block unchanged)",qs5_note:"That\'s the complete cycle: <strong>Start → Work → Closeout Handoff → Next Tool Continues</strong>.",
 faq_label:"FAQ",faq_title:"Frequently Asked Questions",
-faqs:[{q:"Is this only for large projects?",a:"No. Small projects benefit immediately; larger ones see more gain over time."},{q:"Do I need PROJECT_MASTER_SPEC.md on day one?",a:"No. Start with AGENTS.md + SESSION_HANDOFF.md + SESSION_LOG.md. Add more later as needed."},{q:"Is this a coding standard?",a:"No. It governs how AI reads, changes, verifies, and hands over any work — not how you write code. The framework applies to any AI-assisted project: research workspaces, writing drafts, data analysis workbooks, agent-design specs, or codebases alike — the wizard's profile selector explicitly supports research / writing / agent-design / data-analysis / coding."},{q:"Will this slow sessions down?",a:"There\'s a short read at startup. Usually less overhead than re-explaining context and redoing mistakes."},{q:"Can I keep my existing docs and internal rules?",a:"Yes. It merges with what you already have — it doesn\'t overwrite."}],
+faqs:[{q:"Is this only for large projects?",a:"No. Small projects benefit immediately; larger ones see more gain over time."},{q:"Do I need PROJECT_MASTER_SPEC.md on day one?",a:"No. Start with AGENTS.md + SESSION_HANDOFF.md + SESSION_LOG.md. Add more later as needed."},{q:"Is this only for coding?",a:"No. It governs how AI reads, changes, verifies, and hands over work — for any project that crosses sessions or AI tools. Research notes, writing drafts, data analysis, agent design, software development — anywhere multi-session continuity matters."},{q:"Will this slow sessions down?",a:"There\'s a short read at startup. Usually less overhead than re-explaining context and redoing mistakes."},{q:"Can I keep my existing docs and internal rules?",a:"Yes. It merges with what you already have — it doesn\'t overwrite."}],
 cta_title:"Ready to Stop AI Sessions<br>From Starting at Zero?",cta_desc:"Open source, free, 30-second install. Make every AI session build on the last one.",cta_btn:"Get Started on GitHub",cta_readme:"📖 Read the Full README →",
 footer_by:"By",footer_tagline:"In the Vibe Coding era, everyone can build their own AI-powered world.",
 arch_label:"ARCHITECTURE",arch_title:"How It All Connects",arch_desc:"From any AI tool down to handoff files, with auto safeguards built in.",
@@ -569,23 +547,23 @@ hero_cta:"30 秒快速开始",
 stat_tests:"回归测试覆盖",stat_platforms:"AI 平台支持",stat_seconds:"秒完成安装",
 pain_label:"问题",pain_title:"你有遇过这些情况吗？",pain_desc:"用 AI 写代码一开始很顺——但时间一长，麻烦就开始了。",
 pain1_t:"「你谁？我们之前做了什么？」",pain1_d:"新 session 开始，AI 对你的项目一无所知。你花了 10 分钟重新解释技术栈、当前进度、上次做到哪。",
-pain2_t:"修了 A 坏了 B，再修 B 又坏了 C",pain2_d:"AI 没有历史记忆，不知道上一轮为什么做那个决定。每次修改都可能踩到之前踩过的坑。",
+pain2_t:"改一处，坏另一处，改完再改又坏回来",pain2_d:"AI 没有历史记忆，不知道上一轮为什么做那个决定。每次修改都可能踩到之前踩过的坑。",
 pain3_t:"配额用完，进度归零",pain3_d:"Claude 用完换 Gemini、Gemini 用完换 Codex——每次切换都要从头说明，等于付了双倍时间。",
-pain4_t:"文档说一套，代码做一套",pain4_d:"README 写的是三个月前的版本，SESSION_LOG 两周没更新。AI 照着过时的文档改，你又要再修一轮。",
+pain4_t:"文档说一套，实际做的又是另一套",pain4_d:"说明文档写的是三个月前的版本，记录两周没更新。AI 跟着过时的内容做，你又要再修一轮。",
 pain5_t:"规则越来越多，矛盾越来越大",pain5_d:"每次出问题就加一条规则。半年后规则相互冲突，AI 不知道该听哪一条。",
-pain6_t:"API 参数用猜的",pain6_d:"AI「记得」一个 endpoint 长什么样——但那是训练数据里的旧版。代码写了，跑不动，debug 半天。",
+pain6_t:"靠记忆猜出来的资料都过时了",pain6_d:"AI「记得」某些规格、命名、参数的样子——但那是训练数据里的旧版。做完才发现过时，要花时间返工。",
 cause_label:"根本原因",cause_title:"为什么 AI 会「断片」？",cause_desc:"不是 AI 不聪明——这是目前所有大型语言模型的结构性限制。",
 cause1_t:"🪟 Context Window 有上限",cause1_d:"AI 的对话窗口像白板——容量有限，写满就要擦掉。每次新 session 开始，白板是空的。这是技术限制，不是 bug。",
 cause2_t:"🚫 没有内置「笔记本」",cause2_d:"AI 不会主动帮你记上次做了什么。如果你不给它看「上班笔记」，它每次都像新来的实习生——聪明但一无所知。",
 cause3_t:"🔀 工具之间不通讯",cause3_d:"Claude、Gemini、Codex——各自有自己的 context，彼此不会自动分享。就像三个不同的员工，你得一个一个交代。",
 cmp_label:"对比",cmp_title:"同一个任务，两种体验",cmp_desc:"假设你昨天用 Claude 做了一半的功能，今天换 Gemini 继续。",
 cmp_bad:"❌ 没有 Session Governance",cmp_good:"✅ 使用 Session Governance",
-cmp_b1:"继续昨天的工作",cmp_b2:"我是新的对话，无法知道你昨天做了什么。可以告诉我你的项目使用什么技术栈吗？",
-cmp_b3:"（叹气）React + Express + PostgreSQL，已经做好了登录功能，正在做购物车…",cmp_b4:"好的。购物车的数据结构是什么样的？目前的 API 路由有哪些？",
+cmp_b1:"继续昨天的工作",cmp_b2:"我是新的对话，不知道你昨天做了什么。可以告诉我你正在做的项目吗？",
+cmp_b3:"（叹气）Q3 策略报告——5 个章节中已 draft 3 个，资料来源做完相互引用，上次停在 executive summary 大纲…",cmp_b4:"好的。引用了什么资料来源？Executive summary 的角度是？",
 cmp_b5:"（又要重新解释 15 分钟…）",cmp_b_sum:"⏱ 浪费 15-30 分钟重建 context",
 cmp_g1:"请按 AGENTS.md 开始本次工作阶段",cmp_g2:"读取 SESSION_HANDOFF.md… SESSION_LOG.md… 完成。",
-cmp_g3:"📋 目前状态：React+Express+PostgreSQL，登录完成（已测试），购物车 API 路由 3/5 完成。上次停在 cart/checkout endpoint。",
-cmp_g4:"好，继续",cmp_g5:"PLAN：完成 cart/checkout 与 cart/remove endpoint…",
+cmp_g3:"📋 目前状态：Q3 策略报告，3/5 章节已 draft（审过），资料来源相互引用完成。上次停在 executive summary 大纲。",
+cmp_g4:"好，继续",cmp_g5:"PLAN：用分析的 3 条主要 thesis points 起 executive summary…",
 cmp_g_sum:"⚡ 大幅减少重复说明时间（无法保证 100% 零遗漏）",
 how_label:"运作原理",how_title:"就像医院的轮班交接",
 how_desc:"护士下班时会写交班记录：病人状况、用药、注意事项。下一班护士看完记录就能直接照顾，不用重新问病人。<br><br>AI Session Governance 做的事一模一样——只是对象从「病人」换成了「你的项目」。",
@@ -611,7 +589,7 @@ f12_t:"AI 草拟 spec / runbook",f12_d:"不知道 PROJECT_MASTER_SPEC.md 或 RUN
 sc_label:"应用场景",sc_title:"谁适合用？",sc_desc:"不管你是一个人开发还是团队协作，只要用 AI 写代码就会遇到这些状况。",
 sc_tab1:"配额切换",sc_tab2:"多工具协作",sc_tab3:"长期项目",
 sc1_t:"配额用完，换工具继续",sc1_d:"Claude 用完换 Gemini、Gemini 用完换 Codex——交接文档让下一个工具直接接续，不用从头解释。",sc1_h:"💡 实测：从 Claude 切到 Gemini，通过 SESSION_HANDOFF 可大幅减少重复说明的时间。",
-sc2_t:"一个项目，多个 AI 分工",sc2_d:"Codex 写代码、Claude 写文档、Gemini 处理基础设施 — 或者一个研究项目、写作草稿、数据分析工作本、agent 设计规格的不同部分由不同 AI 工具处理。共用交接记录，各工具对项目状态保持一致。",sc2_h:"💡 共享 SESSION_LOG 让不同工具看到一致的历史记录。",
+sc2_t:"一个项目，多个 AI 分工",sc2_d:"一个 AI 起草、另一个审视结构、第三个核对资料。研究项目（资料来源 / 分析 / 撰写）、软件项目（功能 / 文档 / 基础设施）、agent 设计（规格 / playbook / 例子）——共用交接记录让各工具状态保持一致。",sc2_h:"💡 共享 SESSION_LOG 让不同工具看到一致的历史记录。",
 sc3_t:"半年后规则开始打架",sc3_d:"修复累积、规则膨胀、文档矛盾。「先整合、后新增」的纪律帮你控制复杂度。",sc3_h:"💡 整合纪律要求每次新增规则前先检查有无重叠——从源头防止冲突。",
 qs_label:"快速开始",qs_title:"30 秒搞定",qs_desc:"不需要手动复制文件。用 INIT.md 一键安装，AI 会自动处理合并。",
 qs1:"打开 <a href=\'https://github.com/prompt-templates/ai-session-governance/blob/main/INIT.md\' target=\'_blank\' style=\'color:var(--accent)\'>INIT.md</a>，点 <strong>Raw</strong>，全选复制，粘贴到你的 AI 命令行工具。",
@@ -621,7 +599,7 @@ qs3:"安装完成后，每次新 session 开始时输入：",qs3_cmd:"请按 AGE
 qs4:"工作结束时，输入：",qs4_cmd:"请为本次工作阶段完成收尾与完整交接。",qs4_note:"AI 会更新 HANDOFF 和 LOG，并输出交接区块供下一个工具使用。",
 qs5:"下次换工具时，直接粘贴上一轮输出的交接区块：",qs5_c1:"# 粘贴 NEXT SESSION HANDOFF PROMPT",qs5_c2:"# (整段原文不改)",qs5_note:"这就是完整的使用循环：<strong>启动 → 工作 → 收尾交接 → 下一个工具接续</strong>。",
 faq_label:"常见问题",faq_title:"FAQ",
-faqs:[{q:"这只适合大型项目吗？",a:"不是。小型项目马上就有效果，大型项目时间拉长效益更明显。"},{q:"第一天就需要 PROJECT_MASTER_SPEC.md 吗？",a:"不用。先用 AGENTS.md + SESSION_HANDOFF.md + SESSION_LOG.md 就够了，日后需要再加。"},{q:"这是编码标准吗？",a:"不是。它规范 AI 怎么读、改、验证、交接——不管你怎么写代码。本模板适用于 AI 协助的任何项目：研究、写作、数据分析、agent 设计、编码皆受用，wizard 的 profile selector 明示支持 research / writing / agent-design / data-analysis / coding。"},{q:"这会拖慢 AI 吗？",a:"开始时有一小段读取时间，通常比重复交代情况和修正错误省时得多。"},{q:"能跟我现有的 README 和内部规则共存吗？",a:"可以。安装时会跟你现有文件合并，不会覆盖掉你的内容。"}],
+faqs:[{q:"这只适合大型项目吗？",a:"不是。小型项目马上就有效果，大型项目时间拉长效益更明显。"},{q:"第一天就需要 PROJECT_MASTER_SPEC.md 吗？",a:"不用。先用 AGENTS.md + SESSION_HANDOFF.md + SESSION_LOG.md 就够了，日后需要再加。"},{q:"这只适合 coding 工作吗？",a:"不是。它规范 AI 怎么读、改、验证、交接——适用于任何跨 session、跨 AI 工具的项目。研究笔记、写作草稿、数据分析、agent 设计、软件开发——只要需要 multi-session 连续性。"},{q:"这会拖慢 AI 吗？",a:"开始时有一小段读取时间，通常比重复交代情况和修正错误省时得多。"},{q:"能跟我现有的 README 和内部规则共存吗？",a:"可以。安装时会跟你现有文件合并，不会覆盖掉你的内容。"}],
 cta_title:"准备好让 AI 交接<br>不再从零开始了吗？",cta_desc:"开源、免费、30 秒安装。让你的每一次 AI 工作阶段都建立在上一次的基础上。",cta_btn:"前往 GitHub 开始使用",cta_readme:"📖 阅读完整 README →",
 footer_by:"由",footer_tagline:"Vibe Coding 的时代，人人都能打造属于自己的 AI 世界。",
 arch_label:"架构",arch_title:"完整流程一览",arch_desc:"从任何 AI 工具，到治理规则、交接文件、自动防护——全部串起来。",
@@ -636,23 +614,23 @@ hero_cta:"30秒クイックスタート",
 stat_tests:"回帰テスト",stat_platforms:"AIプラットフォーム",stat_seconds:"秒でインストール",
 pain_label:"課題",pain_title:"こんな経験ありませんか？",pain_desc:"AIコーディングは最初は順調——でも時間が経つと問題が出始めます。",
 pain1_t:"「誰？前回何をした？」",pain1_d:"新しいセッションが始まると、AIはプロジェクトについて何も知りません。技術スタック、進捗、前回の続きを10分かけて説明し直す羽目に。",
-pain2_t:"Aを直したらBが壊れ、Bを直したらCが壊れる",pain2_d:"AIには過去の判断の記憶がありません。修正のたびに、既に解決した地雷を踏む可能性があります。",
+pain2_t:"ひとつ直すと別が壊れる、また直すと元に戻る",pain2_d:"AIには過去の判断の記憶がありません。変更のたびに、既に解決した地雷を踏む可能性があります。",
 pain3_t:"配分切れ、進捗ゼロに",pain3_d:"Claude使い切ってGeminiへ、Gemini使い切ってCodexへ——切り替えるたびに最初から説明、時間コストは2倍。",
-pain4_t:"ドキュメントとコードが食い違う",pain4_d:"READMEは3ヶ月前の内容、SESSION_LOGは2週間更新なし。AIは古いドキュメントに従って変更し、また修正が必要に。",
+pain4_t:"メモと実際の作業が食い違う",pain4_d:"READMEは3ヶ月前の内容、ログは2週間更新なし。AIは古い記録に従って作業し、また修正が必要に。",
 pain5_t:"ルールが増え、矛盾も増える",pain5_d:"問題が起きるたびにルールを追加。半年後にはルール同士が矛盾し、AIはどれに従うべきかわからなくなる。",
-pain6_t:"APIパラメータは推測頼み",pain6_d:"AIはエンドポイントを「覚えている」——でもそれは訓練データの古い版。コードは書けても動かない、デバッグに半日。",
+pain6_t:"記憶頼みで推測した仕様は古い",pain6_d:"AIは仕様、名前、パラメータを「覚えている」——でもそれは訓練データの古い版。完成してから古いと気づき、やり直しに半日。",
 cause_label:"根本原因",cause_title:"なぜAIは「忘れる」のか？",cause_desc:"AIが賢くないわけではない——これは現在のすべての大規模言語モデルの構造的制約です。",
 cause1_t:"🪟 コンテキストウィンドウに上限がある",cause1_d:"AIの会話ウィンドウはホワイトボードのようなもの——容量に限りがあり、いっぱいになったら消す必要があります。新しいセッションは空白のボードから始まります。これはバグではなく技術的制約です。",
 cause2_t:"🚫 ビルトインの「ノート」がない",cause2_d:"AIは前回の作業を自発的にメモしません。「引き継ぎノート」を見せなければ、毎回優秀だが何も知らない新人インターンのように振る舞います。",
 cause3_t:"🔀 ツール間は通信しない",cause3_d:"Claude、Gemini、Codex——それぞれ独自のコンテキストを持ち、自動共有はしません。3人の別々の社員に個別ブリーフィングするようなものです。",
 cmp_label:"比較",cmp_title:"同じタスク、2つの体験",cmp_desc:"昨日Claudeで半分作った機能を、今日Geminiで続けるとします。",
 cmp_bad:"❌ Session Governanceなし",cmp_good:"✅ Session Governanceあり",
-cmp_b1:"昨日の作業を続けて",cmp_b2:"私は新しい会話で、昨日の作業内容を知りません。技術スタックを教えていただけますか？",
-cmp_b3:"（ため息）React + Express + PostgreSQL、ログイン機能は完成、ショッピングカートを作成中…",cmp_b4:"わかりました。カートのデータ構造は？既存のAPIルートは？",
+cmp_b1:"昨日の作業を続けて",cmp_b2:"私は新しい会話で、何の文脈もありません。何をされているか教えていただけますか？",
+cmp_b3:"（ため息）Q3 戦略レポート——5 章のうち 3 章を草案、情報源は相互参照済み、エグゼクティブサマリーの構成で停止中…",cmp_b4:"わかりました。情報源は何ですか？エグゼクティブサマリーの方向性は？",
 cmp_b5:"（また15分かけて説明し直す…）",cmp_b_sum:"⏱ コンテキスト再構築に15-30分浪費",
 cmp_g1:"AGENTS.mdに従ってこのセッションを開始してください",cmp_g2:"SESSION_HANDOFF.md… SESSION_LOG.md を読み込み中… 完了。",
-cmp_g3:"📋 現在の状態：React+Express+PostgreSQL、ログイン完了（テスト済み）、カートAPI 3/5ルート完了。前回はcart/checkoutエンドポイントで停止。",
-cmp_g4:"よし、続けて",cmp_g5:"PLAN：cart/checkoutとcart/removeエンドポイントを完成させる…",
+cmp_g3:"📋 現在の状態：Q3 戦略レポート、5 章のうち 3 章草案（レビュー済み）、情報源は相互参照済み。前回はエグゼクティブサマリーの構成で停止。",
+cmp_g4:"よし、続けて",cmp_g5:"PLAN：分析から 3 つの主要論点を使ってエグゼクティブサマリーを起草…",
 cmp_g_sum:"⚡ 再説明時間を大幅削減（100%ロスレスは保証できません）",
 how_label:"仕組み",how_title:"病院のシフト引き継ぎと同じ",
 how_desc:"看護師は退勤時に引き継ぎノートを書きます：患者の状態、投薬、注意事項。次の看護師はノートを読んで、患者に聞き直すことなくケアを続けられます。<br><br>AI Session Governanceもまったく同じです——「患者」を「あなたのプロジェクト」に置き換えただけ。",
@@ -678,7 +656,7 @@ f12_t:"AI が spec / runbook を起草",f12_d:"PROJECT_MASTER_SPEC.md や RUNBOO
 sc_label:"利用シナリオ",sc_title:"誰のため？",sc_desc:"個人開発でもチーム協業でも、AIでコードを書くなら必ずこれらの状況に遭遇します。",
 sc_tab1:"配分切替",sc_tab2:"マルチツール協業",sc_tab3:"長期プロジェクト",
 sc1_t:"配分切れ、ツールを切り替えて続行",sc1_d:"Claude使い切ってGemini、Gemini使い切ってCodex——引き継ぎ文書があれば次のツールが直接続行、再説明不要。",sc1_h:"💡 実測：ClaudeからGeminiへの切り替え時、SESSION_HANDOFFにより再説明時間を大幅に削減。",
-sc2_t:"1つのプロジェクト、複数のAIエージェント",sc2_d:"Codexがコード、Claudeがドキュメント、Geminiがインフラ — または研究プロジェクト、ライティング草稿、データ分析ワークブック、agent デザイン仕様の異なる部分を異なる AI ツールが処理。共有引き継ぎ記録で全ツールがプロジェクト状態を一致。",sc2_h:"💡 共有SESSION_LOGが異なるツールに一貫した履歴ビューを提供。",
+sc2_t:"1つのプロジェクト、複数のAIエージェント",sc2_d:"1つのAIが草案を作り、別のAIが構成を見直し、3つ目のAIがデータを確認。研究プロジェクト（情報源 / 分析 / 執筆）、ソフトウェアプロジェクト（機能 / 文書 / 基盤）、agent デザイン（仕様 / playbook / 事例）——共有引き継ぎ記録で全ツールの状態を揃えます。",sc2_h:"💡 共有SESSION_LOGが異なるツールに一貫した履歴ビューを提供。",
 sc3_t:"半年後、ルールが矛盾し始める",sc3_d:"修正の蓄積、ルールの肥大化、ドキュメントの矛盾。「追加前に統合」の規律で複雑さをコントロール。",sc3_h:"💡 統合規律はルール追加前に重複チェックを要求——ソースで矛盾を防止。",
 qs_label:"クイックスタート",qs_title:"30秒で完了",qs_desc:"手動でファイルをコピーする必要はありません。INIT.mdでワンクリックインストール、AIが自動でマージ処理。",
 qs1:"<a href=\'https://github.com/prompt-templates/ai-session-governance/blob/main/INIT.md\' target=\'_blank\' style=\'color:var(--accent)\'>INIT.md</a> を開き、<strong>Raw</strong> をクリック、全選択してコピー、AIコマンドラインツールに貼り付けます。",
@@ -688,7 +666,7 @@ qs3:"インストール後、新しいセッション開始時に入力：",qs3_
 qs4:"作業終了時に入力：",qs4_cmd:"このセッションを収束し、完全な引き継ぎまで実行してください。",qs4_note:"AIがHANDOFFとLOGを更新し、次のツール用の引き継ぎブロックを出力します。",
 qs5:"次にツールを切り替える時、前回出力の引き継ぎブロックをそのまま貼り付け：",qs5_c1:"# NEXT SESSION HANDOFF PROMPTを貼り付け",qs5_c2:"# (ブロック全体をそのまま)",qs5_note:"これが完全なサイクルです：<strong>開始 → 作業 → 収束引き継ぎ → 次のツールが続行</strong>。",
 faq_label:"FAQ",faq_title:"よくある質問",
-faqs:[{q:"大規模プロジェクト向けですか？",a:"違います。小規模でもすぐ効果があり、長期運用では規模が大きいほど差が出ます。"},{q:"初日からPROJECT_MASTER_SPEC.mdは必要？",a:"不要です。まずAGENTS.md + SESSION_HANDOFF.md + SESSION_LOG.mdだけで始められます。"},{q:"これはコーディング規約ですか？",a:"違います。AIがどう読み・変更し・検証し・引き継ぐかを決めるもので、コードの書き方は関係ありません。AI が支援するあらゆるプロジェクトに適用：リサーチ、ライティング、データ分析、agent デザイン、コーディングいずれも対応 — wizard の profile selector が research / writing / agent-design / data-analysis / coding を明示的にサポート。"},{q:"セッションは遅くなりますか？",a:"開始時に少し読み込みが増えます。再説明や修正のやり直しより通常は短いです。"},{q:"既存のREADMEや内部規則は残せますか？",a:"残せます。既存のものに合わせてマージします。上書きはしません。"}],
+faqs:[{q:"大規模プロジェクト向けですか？",a:"違います。小規模でもすぐ効果があり、長期運用では規模が大きいほど差が出ます。"},{q:"初日からPROJECT_MASTER_SPEC.mdは必要？",a:"不要です。まずAGENTS.md + SESSION_HANDOFF.md + SESSION_LOG.mdだけで始められます。"},{q:"コーディング専用ですか？",a:"違います。AIがどう読み・変更し・検証し・引き継ぐかを決めるもので、セッションをまたぐ、AIツールをまたぐあらゆるプロジェクトに適用。リサーチノート、ライティング草稿、データ分析、agent デザイン、ソフトウェア開発——マルチセッションの継続性が必要なところで効きます。"},{q:"セッションは遅くなりますか？",a:"開始時に少し読み込みが増えます。再説明や修正のやり直しより通常は短いです。"},{q:"既存のREADMEや内部規則は残せますか？",a:"残せます。既存のものに合わせてマージします。上書きはしません。"}],
 cta_title:"AIセッションをゼロから<br>始めるのをやめる準備はできましたか？",cta_desc:"オープンソース、無料、30秒インストール。すべてのAIセッションを前回の続きから始めましょう。",cta_btn:"GitHubで始める",cta_readme:"📖 完全なREADMEを読む →",
 footer_by:"デザイン：",footer_tagline:"Vibe Codingの時代、誰もが自分だけのAI世界をつくれる。",
 arch_label:"アーキテクチャ",arch_title:"全体の流れを一目で",arch_desc:"あらゆるAIツールから引き継ぎファイルへ、自動セーフガードも一緒に。",

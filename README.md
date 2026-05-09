@@ -99,7 +99,7 @@ After installing once, every session follows the same loop:
 
 1. **Install** (one-time): paste **[INIT.md](INIT.md)** into your AI tool, then confirm `INSTALL_ROOT_OK: <absolute_path>` and `INSTALL_WRITE_OK`.
 2. **Start a session**: type `Follow AGENTS.md`. AI catches up on what you were doing.
-3. **Work**: ask AI to build features, fix bugs, write docs — anything.
+3. **Work**: ask AI to draft, refine, fix, analyze — anything.
 4. **Close**: type `wrap up`. AI hands you a **NEXT SESSION OPENING MESSAGE** block.
 5. **Next session**: paste that block as your first message — and you're back at step 2 instantly.
 
@@ -271,8 +271,7 @@ You hit quota in one CLI and must switch immediately.
 This template preserves baseline, pending tasks, risks, and validation state so work continues without re-explaining context.
 
 ### :small_blue_diamond: Scenario 2 — One project, multiple AI agents
-Different agents handle code, docs, and infra — or different parts of a research project, writing draft, data analysis workbook, or agent-design spec.  
-Shared handoff/log discipline prevents parallel reality drift.
+One AI drafts, another reviews the structure, a third checks the data. Whether it's a research project (sources / analysis / write-up), a software project (feature / docs / infra), or an agent design (spec / playbook / examples) — shared handoff records keep all tools aligned.
 
 ### :small_blue_diamond: Scenario 3 — Long-lived repo with governance drift
 Fixes keep accumulating and docs diverge.  
@@ -290,8 +289,8 @@ No. Small repos benefit right away; larger ones see more gain over time.
 ### :small_blue_diamond: 2) Do I need `PROJECT_MASTER_SPEC.md` on day one?
 No. Start with `AGENTS.md` + `SESSION_HANDOFF.md` + `SESSION_LOG.md`. When you want one later, just say `build master spec` — AI drafts it from a 1-sentence project description (v3.0.7+).
 
-### :small_blue_diamond: 3) Is this a coding style guide?
-No. It governs how AI reads, changes, verifies, and hands over any work — not how you write code. The framework applies to any AI-assisted project: research workspaces, writing drafts, data analysis workbooks, agent-design specs, or codebases alike — the §3.6 wizard's profile selector explicitly supports `research` / `writing` / `agent-design` / `data-analysis` / `coding`.
+### :small_blue_diamond: 3) Is this only for coding?
+No. It governs how AI reads, changes, verifies, and hands over work — for any project that crosses sessions or AI tools. Research notes, writing drafts, data analysis, agent design, software development — anywhere multi-session continuity matters.
 
 ### :small_blue_diamond: 4) Will this slow sessions down?
 There's a short read at startup. Usually less overhead than re-explaining context and redoing mistakes.
