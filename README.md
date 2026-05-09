@@ -43,7 +43,7 @@ It also catches a few common AI mistakes:
 | **PLAN risk grading** | Proceeding with high-risk tasks (≥3 files, ambiguous scope, destructive ops, external systems) before confirming the AI understood correctly — high-risk plans pause for user confirmation |
 | **External API Code Safety** | Writing API-calling code from hallucinated endpoint / schema memory; requires doc-verified baseline before coding |
 | **Local tool / SDK / skill alignment** | Invoking local CLI flags, SDK syntax, package-manager commands, or skill behavior from training-memory guesses — same alignment principle as External API: prefer documented sources (project SSOT > skill description / runbook > `--help` / `--version` > official docs); flag UNVERIFIED before invoking |
-| **Codebase context snapshot** | Relearning tech stack, external services, and key decisions from scratch every session |
+| **Project context snapshot** | Relearning your project's tools, services, and key decisions from scratch every session |
 | **Test plan governance** | Merging changes without a scenario matrix — expected vs. actual outcomes untracked |
 | **Consolidation discipline** | Rule accumulation without checking whether existing rules should be updated first |
 | **Doc-sync registry** | Guessing which docs to update after a change — `DOC_SYNC_CHECKLIST.md` maps change category to required updates so AI looks up instead of self-assessing |
@@ -267,15 +267,15 @@ This is the primary design target of this repo.
 ## :bookmark_tabs: 3 scenarios
 
 ### :small_blue_diamond: Scenario 1 — Quota exhausted, switch AI and continue
-You hit quota in one CLI and must switch immediately.  
-This template preserves baseline, pending tasks, risks, and validation state so work continues without re-explaining context.
+You hit quota in one AI and must switch immediately — mid-research, mid-draft, mid-analysis, mid-feature, mid-anything.  
+Handoff records preserve current state, pending tasks, risks, and validation so the next AI continues without re-explaining context.
 
 ### :small_blue_diamond: Scenario 2 — One project, multiple AI agents
 One AI drafts, another reviews the structure, a third checks the data. Whether it's a research project (sources / analysis / write-up), a software project (feature / docs / infra), or an agent design (spec / playbook / examples) — shared handoff records keep all tools aligned.
 
-### :small_blue_diamond: Scenario 3 — Long-lived repo with governance drift
-Fixes keep accumulating and docs diverge.  
-Consolidation-before-adding rules reduce SOP sprawl and maintenance cost.
+### :small_blue_diamond: Scenario 3 — Long-lived project with drifting records
+Months in, your project's notes / specs / records pile up and start contradicting each other — same drift in research portfolios, writing drafts, ongoing analyses, or codebases.  
+Consolidate-before-adding discipline reduces sprawl and keeps records aligned with reality.
 
 ---
 
@@ -301,7 +301,7 @@ Yes. It merges with what you already have — it doesn't overwrite things.
 ### :small_blue_diamond: 6) When is this overkill?
 If you're asking a quick question, doing one-off research, or running a single session you won't come back to — skip this. The startup reads and closeout writes add overhead that only pays off when you'll return to the same project across multiple sessions.
 
-This template was built for ongoing development work: codebases you'll touch again tomorrow, repos where multiple AI tools take turns, projects where "what did we decide last week" actually matters. If your workflow doesn't involve files that change over time, the PLAN→READ→CHANGE→QC→PERSIST cycle has nothing to wrap around.
+This template was built for ongoing work: projects you'll touch again tomorrow, work where multiple AI tools take turns, anything where "what did we decide last week" actually matters. If your workflow doesn't involve files that change over time, the PLAN→READ→CHANGE→QC→PERSIST cycle has nothing to wrap around.
 
 ---
 
@@ -350,7 +350,7 @@ This template was built for ongoing development work: codebases you'll touch aga
 ## :bookmark_tabs: Governance principles
 
 1. Read before change
-2. Triage before debug
+2. Diagnose before fix
 3. Consolidate before adding
 4. Verify before claiming done
 5. Persist before leaving
