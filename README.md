@@ -42,6 +42,7 @@ It also catches a few common AI mistakes:
 |---|---|
 | **PLAN risk grading** | Proceeding with high-risk tasks (≥3 files, ambiguous scope, destructive ops, external systems) before confirming the AI understood correctly — high-risk plans pause for user confirmation |
 | **External API Code Safety** | Writing API-calling code from hallucinated endpoint / schema memory; requires doc-verified baseline before coding |
+| **Local tool / SDK / skill alignment** | Invoking local CLI flags, SDK syntax, package-manager commands, or skill behavior from training-memory guesses — same alignment principle as External API: prefer documented sources (project SSOT > skill description / runbook > `--help` / `--version` > official docs); flag UNVERIFIED before invoking |
 | **Codebase context snapshot** | Relearning tech stack, external services, and key decisions from scratch every session |
 | **Test plan governance** | Merging changes without a scenario matrix — expected vs. actual outcomes untracked |
 | **Consolidation discipline** | Rule accumulation without checking whether existing rules should be updated first |
