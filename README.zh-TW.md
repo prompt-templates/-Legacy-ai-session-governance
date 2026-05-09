@@ -274,9 +274,9 @@ build master spec
 當你在某個命令列工具用盡配額時，可能需要立即切換到另一個工具。  
 本範本可保留基線、待辦、風險與驗證狀態，避免重述上下文。
 
-### :small_blue_diamond: 情境 2 — 一個儲存庫，多個 AI 工具協作
-例如由 Codex 撰寫程式碼、Claude 處理文件、Gemini 協助除錯基礎設施。  
-透過共用交接文件與工作日誌，可避免各工具對專案狀態產生分歧。
+### :small_blue_diamond: 情境 2 — 一個項目，多個 AI 工具協作
+例如由 Codex 撰寫程式碼、Claude 處理文件、Gemini 協助除錯基礎設施 — 或者一個研究項目、寫作草稿、數據分析工作本、agent 設計規格的不同部分由不同 AI 工具處理。  
+透過共用交接文件與工作日誌，可避免各工具對項目狀態產生分歧。
 
 ### :small_blue_diamond: 情境 3 — 長期專案治理開始漂移
 修復逐步累積、規則持續擴張、文件彼此矛盾。  
@@ -295,7 +295,7 @@ build master spec
 不需要。先用 `AGENTS.md` + `SESSION_HANDOFF.md` + `SESSION_LOG.md` 已經足夠。日後想加時，只需對 AI 說「build master spec」，AI 會根據你一句項目描述自動生成完整草稿（v3.0.7+）。
 
 ### :small_blue_diamond: 3) 這是編碼標準嗎？
-不是。它規範 AI 怎麼讀、改、驗證、交接——不管你怎麼寫程式。
+不是。它規範 AI 怎麼讀、改、驗證、交接——不管你怎麼寫程式。本範本適用於 AI 協助的任何項目：研究、寫作、數據分析、agent 設計、編碼皆受用 — §3.6 wizard 的 profile selector 明示支援 `research` / `writing` / `agent-design` / `data-analysis` / `coding`。
 
 ### :small_blue_diamond: 4) 這會拖慢 AI 嗎？
 開始時有一點讀取時間，通常比重複交代情況和修正錯誤省時。

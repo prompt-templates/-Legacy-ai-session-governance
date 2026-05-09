@@ -270,8 +270,8 @@ This is the primary design target of this repo.
 You hit quota in one CLI and must switch immediately.  
 This template preserves baseline, pending tasks, risks, and validation state so work continues without re-explaining context.
 
-### :small_blue_diamond: Scenario 2 — One repo, multiple AI agents
-Different agents handle code, docs, and infra.  
+### :small_blue_diamond: Scenario 2 — One project, multiple AI agents
+Different agents handle code, docs, and infra — or different parts of a research project, writing draft, data analysis workbook, or agent-design spec.  
 Shared handoff/log discipline prevents parallel reality drift.
 
 ### :small_blue_diamond: Scenario 3 — Long-lived repo with governance drift
@@ -291,7 +291,7 @@ No. Small repos benefit right away; larger ones see more gain over time.
 No. Start with `AGENTS.md` + `SESSION_HANDOFF.md` + `SESSION_LOG.md`. When you want one later, just say `build master spec` — AI drafts it from a 1-sentence project description (v3.0.7+).
 
 ### :small_blue_diamond: 3) Is this a coding style guide?
-No. It governs how AI reads, changes, verifies, and hands over work — not how you write code.
+No. It governs how AI reads, changes, verifies, and hands over any work — not how you write code. The framework applies to any AI-assisted project: research workspaces, writing drafts, data analysis workbooks, agent-design specs, or codebases alike — the §3.6 wizard's profile selector explicitly supports `research` / `writing` / `agent-design` / `data-analysis` / `coding`.
 
 ### :small_blue_diamond: 4) Will this slow sessions down?
 There's a short read at startup. Usually less overhead than re-explaining context and redoing mistakes.
