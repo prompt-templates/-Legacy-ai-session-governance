@@ -303,6 +303,8 @@ If you're asking a quick question, doing one-off research, or running a single s
 
 This template was built for ongoing development work: codebases you'll touch again tomorrow, repos where multiple AI tools take turns, projects where "what did we decide last week" actually matters. If your workflow doesn't involve files that change over time, the PLAN→READ→CHANGE→QC→PERSIST cycle has nothing to wrap around.
 
+---
+
 ## :bookmark_tabs: Repository source layout
 
 ```text
@@ -319,7 +321,10 @@ This template was built for ongoing development work: codebases you'll touch aga
    ├─ archive/                 # auto-archived log entries (quarterly)
    ├─ DOC_SYNC_CHECKLIST.md    # doc-sync registry
    ├─ CODEBASE_CONTEXT.md      # auto-generated first session
-   └─ PROJECT_MASTER_SPEC.md   # optional
+   ├─ wizards/                 # guided wizard playbook (v3.0.7+)
+   ├─ templates/               # spec / runbook field templates (v3.0.7+)
+   ├─ PROJECT_MASTER_SPEC.md   # optional (build via `build master spec`)
+   └─ RUNBOOK.md               # optional (build via `build runbook`)
 ```
 
 ### :small_blue_diamond: Core files
@@ -333,7 +338,12 @@ This template was built for ongoing development work: codebases you'll touch aga
 - `dev/archive/` - auto-archived session log entries, organized by quarter; not read at startup
 - `dev/DOC_SYNC_CHECKLIST.md` - doc-sync registry: maps change category to required doc updates
 - `dev/CODEBASE_CONTEXT.md` - tech stack, external services, key decisions (auto-generated first session)
-- `dev/PROJECT_MASTER_SPEC.md` - optional long-term authority
+- `dev/wizards/playbook.md` - guided wizard behavior rules (v3.0.7+; AI-assisted spec / runbook drafting)
+- `dev/wizards/README.md` - wizard system overview pointer
+- `dev/templates/spec_template.md` - field structure for `PROJECT_MASTER_SPEC.md`
+- `dev/templates/runbook_template.md` - field structure for `RUNBOOK.md`
+- `dev/PROJECT_MASTER_SPEC.md` - optional long-term authority (build via `build master spec` wizard)
+- `dev/RUNBOOK.md` - optional recurring-procedure runbook (build via `build runbook` wizard)
 
 ---
 

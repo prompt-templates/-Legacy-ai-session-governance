@@ -307,6 +307,8 @@ build master spec
 
 このテンプレートは継続的な開発作業向けに作られています。明日もまた触るコードベース、複数のAIツールが交代で作業するリポジトリ、「先週何を決めたっけ」が本当に重要なプロジェクト。時間とともに変わるファイルが存在しないなら、PLAN→READ→CHANGE→QC→PERSISTサイクルには包むものがありません。
 
+---
+
 ## :bookmark_tabs: リポジトリ構成
 
 ```text
@@ -323,7 +325,10 @@ build master spec
    ├─ archive/                 # 自動アーカイブされた古いログ（四半期ごと）
    ├─ DOC_SYNC_CHECKLIST.md    # 文書同期レジストリ
    ├─ CODEBASE_CONTEXT.md      # 初回セッション自動生成
-   └─ PROJECT_MASTER_SPEC.md   # optional
+   ├─ wizards/                 # guided wizard 動作定義（v3.0.7+）
+   ├─ templates/               # spec / runbook フィールドテンプレート（v3.0.7+）
+   ├─ PROJECT_MASTER_SPEC.md   # optional（`build master spec` で生成）
+   └─ RUNBOOK.md               # optional（`build runbook` で生成）
 ```
 
 ### :small_blue_diamond: コアファイル
@@ -337,7 +342,12 @@ build master spec
 - `dev/archive/` - 自動アーカイブされた古いセッションログ、四半期ごとに整理；起動時は読み込まない
 - `dev/DOC_SYNC_CHECKLIST.md` - 文書同期レジストリ：変更カテゴリと必要な文書更新の対応表
 - `dev/CODEBASE_CONTEXT.md` - 技術スタック・外部サービス・主要決定（初回セッション自動生成）
-- `dev/PROJECT_MASTER_SPEC.md` - 任意の長期権威仕様
+- `dev/wizards/playbook.md` - guided wizard 動作ルール（v3.0.7+；AI 支援による spec / runbook 草稿生成）
+- `dev/wizards/README.md` - wizard システム概要ポインター
+- `dev/templates/spec_template.md` - `PROJECT_MASTER_SPEC.md` のフィールド構造テンプレート
+- `dev/templates/runbook_template.md` - `RUNBOOK.md` のフィールド構造テンプレート
+- `dev/PROJECT_MASTER_SPEC.md` - 任意の長期権威仕様（`build master spec` ウィザードで生成）
+- `dev/RUNBOOK.md` - 任意の繰り返し実行手順 runbook（`build runbook` ウィザードで生成）
 
 ---
 

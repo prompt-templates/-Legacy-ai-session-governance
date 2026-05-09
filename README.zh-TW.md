@@ -49,11 +49,11 @@
 | **工作日誌自動維護** | 工作日誌隨時間增長到數千行，佔用 AI 每次啟動的 context — 收尾時由 AI 依觸發條件自動整理舊記錄，保持啟動上下文精簡 |
 | **QC 失敗處理** | AI 靜默重試或放棄失敗的測試 — 測試或建置失敗時，AI 必須報告失敗內容、診斷原因，並等待用戶指示，而非自動重試 |
 | **收尾誤觸保護** | 「好了謝謝」之類的日常用語意外觸發完整 session closeout — 當語意模糊時，AI 會先確認是否真的要結束工作階段 |
-| **回覆行為治理** | AI 用假裝開放題反問推回用戶、選項夾差選項充數、過量澄清問題、未核對 facts 當已核對寫、surface text 用 `§` codes 做句子主語 — §11a（v3.0.3 baseline + v3.0.5 擴展）令 10 條 reply rules mandatory：judgement-first 加角色分工、規定選擇題格式（`🚀 *下一步揀一條*` + A/B/C + `💡 推薦`）、≤3 假設 + ≤3 問題、`UNVERIFIED` 同 `NA` 區分、surface text 用人話加反例正例、回覆骨架（`🔎` 重點 → 交付清單 → 正文）、功能 emoji 詞彙（🔎/✅/❌/⚠️/📌/💡/🚀）、Output-only mode override、SSOT 逐字對齊、回覆語體一致 |
+| **回覆行為治理** | AI 用假裝開放題反問推回用戶、選項夾差選項充數、過量澄清問題、未核對 facts 當已核對寫、surface text 用 `§` codes 做句子主語 — §11a（v3.0.3 baseline + v3.0.5 擴展）令 10 條 reply rules mandatory：judgement-first 與角色分工、規定選擇題格式（`🚀 *下一步揀一條*` + A/B/C + `💡 推薦`）、≤3 假設 + ≤3 問題、`UNVERIFIED` 與 `NA` 區分、surface text 用平實語言加反例正例、回覆骨架（`🔎` 重點 → 交付清單 → 正文）、功能 emoji 詞彙（🔎/✅/❌/⚠️/📌/💡/🚀）、Output-only mode override、SSOT 逐字對齊、回覆語體一致 |
 | **全圖優先計劃** | AI 將多檔或治理改動當散文堆，無 end-state、無交付、無指標、無驗收、無目標連結 — §3.5 FPFR（v3.0.5）規定：當涉及 ≥2 檔 / 新建檔 / 治理改動 / ≥2 階段計劃時，必須以 5 個固定區段 + 收尾句呈交；明禁「同意 A？同意 B？」逐項批准 |
-| **補丁式交付格式** | AI 將代碼 / spec / 設定改動當整段重生文字交，無 anchor、無 before/after，難審難 rollback — §11b（v3.0.5）規定：精準 anchor 喺 code block 外、BEFORE / AFTER 兩個 code block 內只放 verbatim 文字、Changelog 列出 added / removed / renamed / moved |
-| **跨規則仲裁** | AI 對住規則衝突（例如「最小改動」vs「根因治理」）隨機揀，無一致優先序 — §0c（v3.0.5）明文優先序：事實可驗收 > 穩定性 > 根因治理 > 完整性交付 > 最小改動；前 4 項永遠 override 第 5 項 |
-| **工具格式硬規則** | AI 計算唔展示步驟、JSON 無 schema、Mermaid 方向亂 — §13（v3.0.5）規定：計算四步法（逐位 + 判正負 + 顯示步驟 + 代回驗算）、JSON schema-first 必填欄位用 `null`、Mermaid `flowchart TB` 方向加 `"..."` 包覆 text label |
+| **補丁式交付格式** | AI 將代碼 / spec / 設定改動當整段重生文字交，無 anchor、無 before/after，難審難 rollback — §11b（v3.0.5）規定：精準 anchor 在 code block 外、BEFORE / AFTER 兩個 code block 內只放 verbatim 文字、Changelog 列出 added / removed / renamed / moved |
+| **跨規則仲裁** | AI 面對規則衝突（例如「最小改動」vs「根因治理」）隨機選擇，無一致優先序 — §0c（v3.0.5）明文優先序：事實可驗收 > 穩定性 > 根因治理 > 完整性交付 > 最小改動；前 4 項永遠 override 第 5 項 |
+| **工具格式硬規則** | AI 計算不展示步驟、JSON 無 schema、Mermaid 方向亂 — §13（v3.0.5）規定：計算四步法（逐位 + 判正負 + 顯示步驟 + 代回驗算）、JSON schema-first 必填欄位用 `null`、Mermaid `flowchart TB` 方向加 `"..."` 包覆 text label |
 
 ### :small_blue_diamond: SESSION_LOG.md 怎麼保持精簡
 
@@ -79,8 +79,8 @@
 | 版本 | 變更內容 | 對你的意義 |
 |---|---|---|
 | **v3.0.10** | Worktree session 用得安心。若你以 `git worktree` 配合 Claude Code 運作（每個 worktree 對應一個分支、或每個 session 一個 worktree、諸如此類），session 啟動不再因 `dev/SESSION_HANDOFF.md` / `dev/SESSION_LOG.md` 不存在於 worktree 結帳之中而卡住——AI 現會自動從主 repo 讀取，而非 file-not-found 失敗或在 worktree 中靜默建立空白備援檔。發佈驗收同步修正：在 worktree 執行 QA harness 時出現的 2 個「failures」現已寫入文檔為預期行為，使用者毋須再自行排查。同時包含一個小型 zh-TW 收尾，將 v3.0.8 列對齊至 v3.0.9 確立的正式書面語體。 | 如果你曾在 worktree 中開啟 Claude Code、看著 AI 在空目錄中尋找不存在的檔案，這個版本就終結這個現象。發佈驗收結果無論在何處執行都一致，「這兩個 failure 是否為真？」的疑慮消失。zh-TW 在近期版本之間讀感統一。 |
-| **v3.0.9** | AI 回覆會跟你寫嘅語言：當你切換中文（或其他非英文語言）時，AI 全程用你嘅語言回覆，不會逐句中英混雜（英文只用於專有名詞、無乾淨翻譯嘅既有術語、或括號補註）。當 AI 俾你揀選項時，每個選項嘅標題以「對你工作嘅意義」開頭——例如「任何 clone main 嘅用戶即時拎到新行為」，而非「commit + push main + cut tag」嘅機制角度。重新安裝已有 wizards / templates 嘅項目時，呢 4 個檔案（`dev/wizards/playbook.md`、`dev/wizards/README.md`、`dev/templates/spec_template.md`、`dev/templates/runbook_template.md`）不再漏備份。最重要：每個工作階段嘅 SESSION_LOG 不再帶過上階段嘅「完成項」——結束時只記錄今次對話真正做過嘅工作；跨階段持續嘅工作項只記今次嘅進度增量，不重複累計完成。 | 回覆似返一個用你語言寫嘢嘅同事，不再係夾住英文碎片嘅半翻譯段落。選擇題嘅權衡喺第一行半已經清楚——你毋須讀實作細節先理解每個選項對你工作嘅意義。重新安裝已有 wizards / templates 嘅項目，呢 4 個檔案不再漏備份。最重要：SESSION_LOG 唔再每階段漂移——舊版 INIT.md 用戶反映過反覆要修「上階段完成項俾人抄入本階段記錄」嘅漂移痛點，而家由治理規則直接終止，不再靠 AI 心智追蹤。 |
-| **v3.0.8** | 安裝流程 UX 變得更明晰：Profile 揀項嘅 6 個選項由連在一段變為清晰列表（每項自己一行），不再擠成一塊。Setup 完成同 wizard 可選提問現分為兩個獨立訊息——`Governance framework ready` 自成一條訊息，wizard 提問為另一條獨立訊息——清楚顯示 wizard 回覆係可選，並非完成 setup 嘅必要動作。Wizard 第一條提問由單一冷問題演變為主問加三個可選補充（順手提供參考檔、URL 或已決定事項），AI 收到後會主動讀取你提供嘅資料先草擬。草稿中每條假設都標示 `[from your input]` 或 `[my inference]`，等你一眼睇出邊條源於你嘅輸入、邊條係 AI 估算。INIT.md / AGENTS.md 中 4 處中英混雜失誤已清理。 | 首次安裝流程不再讓使用者困惑 wizard 回覆是否完成 setup 嘅必要動作。Wizard 草擬出嘅 spec 紮實有據——AI 會讀取你嘅參考檔／URL 而非憑空想像，spot-check 時可以分清邊條係事實、邊條係 AI 估算。 |
+| **v3.0.9** | AI 回覆會跟隨你書寫的語言：當你切換中文（或其他非英文語言）時，AI 全程用你的語言回覆，不會逐句中英混雜（英文只用於專有名詞、無乾淨翻譯的既有術語、或括號補註）。當 AI 提供選項給你選擇時，每個選項的標題以「對你工作的意義」開頭——例如「任何 clone main 的用戶即時取得新行為」，而非「commit + push main + cut tag」的機制角度。重新安裝已有 wizards / templates 的項目時，這 4 個檔案（`dev/wizards/playbook.md`、`dev/wizards/README.md`、`dev/templates/spec_template.md`、`dev/templates/runbook_template.md`）不再漏備份。最重要：每個工作階段的 SESSION_LOG 不再帶過上階段的「完成項」——結束時只記錄本次對話真正做過的工作；跨階段持續的工作項只記本次的進度增量，不重複累計完成。 | 回覆像一位以你的語言寫作的同事，不再是夾雜英文碎片的半翻譯段落。選擇題的權衡在第一行半已經清楚——你無須讀實作細節即可理解每個選項對你工作的意義。重新安裝已有 wizards / templates 的項目，這 4 個檔案不再漏備份。最重要：SESSION_LOG 不再每階段漂移——舊版 INIT.md 用戶反映過反覆要修「上階段完成項被抄入本階段記錄」的漂移痛點，現在由治理規則直接終止，不再依靠 AI 心智追蹤。 |
+| **v3.0.8** | 安裝流程 UX 變得更明晰：Profile 選擇的 6 個選項由連在一段變為清晰列表（每項自己一行），不再擠成一塊。Setup 完成與 wizard 可選提問現分為兩個獨立訊息——`Governance framework ready` 自成一條訊息，wizard 提問為另一條獨立訊息——清楚顯示 wizard 回覆是可選，並非完成 setup 的必要動作。Wizard 第一條提問由單一冷問題演變為主問加三個可選補充（順手提供參考檔、URL 或已決定事項），AI 收到後會主動讀取你提供的資料再草擬。草稿中每條假設都標示 `[from your input]` 或 `[my inference]`，讓你一眼看出哪一條源於你的輸入、哪一條是 AI 估算。INIT.md / AGENTS.md 中 4 處中英混雜失誤已清理。 | 首次安裝流程不再讓使用者困惑 wizard 回覆是否完成 setup 的必要動作。Wizard 草擬出的 spec 紮實有據——AI 會讀取你的參考檔／URL 而非憑空想像，spot-check 時可以分清哪一條是事實、哪一條是 AI 估算。 |
 | **v3.0.7** | 全新 onboarding wizard 系統：AI 根據你提供的 1 句項目描述，生成完整的 `PROJECT_MASTER_SPEC.md` 或 `RUNBOOK.md` 草稿，並列出所有假設清單供你逐項檢查，AI 重新草擬直至滿意——不再使用冷冰冰的問題清單。取代舊有 5-7 步結構化 Q&A schema，過於僵硬不適合模糊的長期項目願景。Matrix-QC 審查工具加入「邊界感知差異」規則 + 禁用 prescriptive 動詞，令審查 findings 保持中性描述（fix 由人決定，並非由審查工具決定）。Playbook 從 dogfood 歸納 3 條紀律（explicit write vs soft closure 分類、防作假規定使用 `(待補)`、逐欄位明確假設）。Landing page 加入 wizard 系統 feature card。 | 新用戶不再面對空白的 `PROJECT_MASTER_SPEC.md` 模板——AI 從最少輸入產生完整草稿，每個假設明確列出供你 spot-check。長期項目願景模糊、不適合冷冰冰問題清單的情況皆獲 first-class 支援。審查工具不再對故意保留的安裝模板邊界誤報。Playbook 迭代減少不必要的來回。 |
 | **v3.0.6** | 收尾介面優化：6 款重新設計的工作階段啟動/收尾視覺、「貼上此區塊」說明從 3 行縮為 1 行、README 安裝/升級流程從 9 步縮為 5 步並加上「AI 背後執行」說明區塊。README 接續區段首次解釋為何手動貼上 OPENING MESSAGE 比 `Follow AGENTS.md` 更可靠（約 95% vs 約 70-85%）。修補既有 harness exit code 漏洞（R27-10）。 | 新用戶安裝流程大幅精簡。工作階段啟動/收尾畫面更美觀。「為何手動貼上」的解釋消除常見困惑。 |
 
@@ -238,7 +238,7 @@ build master spec
 
 (或輸入 `build runbook` 建立一份重複執行流程的 runbook)
 
-> **作用：** 給 AI 一句項目描述(或重複執行流程描述)。AI 一次過生成完整草稿，欄位全部填好，再附一份有編號的「我假設咗 ...」清單。你逐項挑錯(用編號或者口語都得)，AI 重 draft。draft 啱晒，AI 主動問「我寫入 `dev/PROJECT_MASTER_SPEC.md` 啦？」(或者 `dev/RUNBOOK.md`)。專為長期項目願景模糊、唔想答冷冰冰問題清單嘅用戶設計。行為定義在 `dev/wizards/playbook.md`；欄位結構在 `dev/templates/spec_template.md` 同 `dev/templates/runbook_template.md`(兩個都可以唔用 AI 自己 fill)。第一次安裝時(`INIT.md` 的 POST-INSTALL: Profile Selection 步驟)會自動觸發一次，新用戶無需知道 wizard 存在也能受益。
+> **作用：** 給 AI 一句項目描述(或重複執行流程描述)。AI 一次性生成完整草稿，欄位全部填好，再附一份有編號的「我假設了 ...」清單。你逐項挑錯(用編號或自然語言皆可)，AI 重新草擬。草稿滿意後，AI 主動問「我寫入 `dev/PROJECT_MASTER_SPEC.md` 嗎？」(或者 `dev/RUNBOOK.md`)。專為長期項目願景模糊、不想回答冷冰冰問題清單的用戶設計。行為定義在 `dev/wizards/playbook.md`；欄位結構在 `dev/templates/spec_template.md` 與 `dev/templates/runbook_template.md`(兩者皆可不用 AI 自行填寫)。第一次安裝時(`INIT.md` 的 POST-INSTALL: Profile Selection 步驟)會自動觸發一次，新用戶無需知道 wizard 存在也能受益。
 
 ---
 
@@ -307,6 +307,8 @@ build master spec
 
 這套範本是為持續進行的開發工作設計的：明天還會碰的 codebase、多個 AI 工具輪流上的 repo、「上週我們決定了什麼」這句話真的很重要的專案。如果你的工作不涉及隨時間變化的檔案，PLAN→READ→CHANGE→QC→PERSIST 流程沒有東西可以包住。
 
+---
+
 ## :bookmark_tabs: 此儲存庫原始佈局
 
 ```text
@@ -323,7 +325,10 @@ build master spec
    ├─ archive/                 # 自動歸檔的舊記錄（按季度）
    ├─ DOC_SYNC_CHECKLIST.md    # 文件同步登錄表
    ├─ CODEBASE_CONTEXT.md      # 首次工作階段自動生成
-   └─ PROJECT_MASTER_SPEC.md   # 可選
+   ├─ wizards/                 # guided wizard 行為定義（v3.0.7+）
+   ├─ templates/               # spec / runbook 欄位範本（v3.0.7+）
+   ├─ PROJECT_MASTER_SPEC.md   # 可選（透過 `build master spec` 建立）
+   └─ RUNBOOK.md               # 可選（透過 `build runbook` 建立）
 ```
 
 ### :small_blue_diamond: 核心檔案
@@ -337,7 +342,12 @@ build master spec
 - `dev/archive/` - 自動歸檔的舊工作日誌，按季度整理；啟動時不讀取
 - `dev/DOC_SYNC_CHECKLIST.md` - 文件同步登錄表：將變更類別對應到必須更新的文件
 - `dev/CODEBASE_CONTEXT.md` - 技術棧、外部服務、關鍵決策（首次工作階段自動生成）
-- `dev/PROJECT_MASTER_SPEC.md` - 可選的長期權威規格
+- `dev/wizards/playbook.md` - guided wizard 行為規則（v3.0.7+；AI 協助草擬 spec / runbook）
+- `dev/wizards/README.md` - wizard 系統概覽指標
+- `dev/templates/spec_template.md` - `PROJECT_MASTER_SPEC.md` 欄位結構範本
+- `dev/templates/runbook_template.md` - `RUNBOOK.md` 欄位結構範本
+- `dev/PROJECT_MASTER_SPEC.md` - 可選的長期權威規格（透過 `build master spec` wizard 建立）
+- `dev/RUNBOOK.md` - 可選的重複執行流程 runbook（透過 `build runbook` wizard 建立）
 
 ---
 

@@ -307,6 +307,8 @@ build master spec
 
 这套模板是为持续进行的开发工作设计的：明天还会碰的 codebase、多个 AI 工具轮流上的 repo、「上周我们决定了什么」这句话真的很重要的项目。如果你的工作不涉及随时间变化的文件，PLAN→READ→CHANGE→QC→PERSIST 流程没有东西可以包住。
 
+---
+
 ## :bookmark_tabs: 此仓库原始布局
 
 ```text
@@ -323,7 +325,10 @@ build master spec
    ├─ archive/                 # 自动归档的旧记录（按季度）
    ├─ DOC_SYNC_CHECKLIST.md    # 文档同步注册表
    ├─ CODEBASE_CONTEXT.md      # 首次工作阶段自动生成
-   └─ PROJECT_MASTER_SPEC.md   # 可选
+   ├─ wizards/                 # guided wizard 行为定义（v3.0.7+）
+   ├─ templates/               # spec / runbook 字段模板（v3.0.7+）
+   ├─ PROJECT_MASTER_SPEC.md   # 可选（通过 `build master spec` 建立）
+   └─ RUNBOOK.md               # 可选（通过 `build runbook` 建立）
 ```
 
 ### :small_blue_diamond: 核心文件
@@ -337,7 +342,12 @@ build master spec
 - `dev/archive/` - 自动归档的旧工作日志，按季度整理；启动时不读取
 - `dev/DOC_SYNC_CHECKLIST.md` - 文档同步注册表：将变更类别映射到必须更新的文档
 - `dev/CODEBASE_CONTEXT.md` - 技术栈、外部服务、关键决策（首次工作阶段自动生成）
-- `dev/PROJECT_MASTER_SPEC.md` - 可选的长期权威规格
+- `dev/wizards/playbook.md` - guided wizard 行为规则（v3.0.7+；AI 协助草拟 spec / runbook）
+- `dev/wizards/README.md` - wizard 系统概览指针
+- `dev/templates/spec_template.md` - `PROJECT_MASTER_SPEC.md` 字段结构模板
+- `dev/templates/runbook_template.md` - `RUNBOOK.md` 字段结构模板
+- `dev/PROJECT_MASTER_SPEC.md` - 可选的长期权威规格（通过 `build master spec` wizard 建立）
+- `dev/RUNBOOK.md` - 可选的重复执行流程 runbook（通过 `build runbook` wizard 建立）
 
 ---
 
