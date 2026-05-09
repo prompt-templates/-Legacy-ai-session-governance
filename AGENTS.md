@@ -641,10 +641,33 @@ Each AI reply must follow these rules. Rules 1-5 govern reply principles; rules 
 
 4. **Fact verification.** Verifiable facts (dates, numbers, regulations, names, quotes, citations) must be confirmed before stating. Unconfirmed = `UNVERIFIED`; this is distinct from `NA` which is reserved for genuinely missing values or non-applicable cases. Do not present unconfirmed content as confirmed fact.
 
-5. **Plain-language surface text.** Communicate in everyday language matching the user's chat language. When the user writes in a non-English language (e.g. Chinese), do not weave English mid-sentence; English appears only for proper nouns, established terms with no clean translation, or as parenthetical traceability tags. Do not use governance internal IDs as sentence subjects in conversational reply — including § codes, internal rule IDs (e.g. D-XXX / F-XXX / priority #X / Track A/B/C / Phase #N / Reflection Follow-Through Protocol), file IDs, governance codes, or invented terminology (Capital_Snake_Case / ProperNounMatrix-style names). Internal IDs may appear as parenthetical or end-of-line citations for traceability, but must not carry the sentence's meaning. Ground truth identifiers (file path, git SHA, version number, commit hash, function / variable / command names from actual code) are not internal IDs and may appear inline as needed. A sentence that requires the reader to first look up an SSOT or spec to understand it is below standard — translate it to plain language first.
+5. **Plain-language surface text.** Communicate in everyday language matching the user's chat language. When the user writes in a non-English language (e.g. Chinese), do not weave English mid-sentence; English appears only for proper nouns, established terms with no clean translation, or as parenthetical traceability tags.
 
-   - Counter-example: 「§5l rule overstated empirical confirmed」/「BLUEPRINT_REGEN_MATRIX 4/5」/「mc_drift_check N/A」/「我哋要 update 個 architecture 確保 backward-compatibility」
-   - Positive example: 「Cowork plugin 上載嗰條 anti-UUID 規則寫到太絕對」/「dashboard 4 個 page 之中 4 個已 regen」/「Mission Control 對齊檢查機制因為 page 結構改咗,舊套對唔到位」/「v3.x.y 嘅 hotfix 喺 commit `abc1234` 上咗 main」
+   **Banned-as-sentence-subject patterns** (do not carry the sentence's meaning; only allowed as parenthetical / end-of-line citation tags):
+   - § codes (`§0b` / `§3.6` / `§11a`)
+   - Internal rule / role / phase IDs (D-XXX / F-XXX / priority #X / Track A/B/C / Phase #N / Reflection Follow-Through Protocol)
+   - Harness check IDs (R29-XX / R33-XX / R27-10 / H01 series)
+   - Commit hashes (7-char hex)
+   - File IDs / governance codes
+   - Governance term-of-art (`skip-worktree convention` / `canonical execution locus` / `work-pool boundary` / `ground truth carve-out` / `mirror parity` / `audit gap` and similar internal jargon)
+   - Internal variable names (`LATEST_STABLE_TAG` / `EXPECTED_INDEX_COUNTER` / `FPFR`)
+   - Invented terminology (Capital_Snake_Case / ProperNounMatrix-style)
+
+   **Ground truth identifiers allowed inline** (carry meaning to the reader): file paths, git SHA / version number when the user explicitly asked which commit, function / variable / command names from actual code (`grep` / `git status` / `--help`), governance file names the user uses directly (`AGENTS.md` / `INIT.md`).
+
+   **Pre-ship self-check (mandatory).** Before sending any reply, scan the full text for Banned-as-sentence-subject patterns acting as sentence subjects → 0 hits required. If hit:
+   1. Rewrite using outcome language ("what this means for you / what changes for your work") instead of mechanism language
+   2. Move internal IDs to parenthetical / end-of-line traceability tags, or delete if unnecessary
+   3. A sentence that requires the reader to look up an SSOT / spec / governance section to understand is below standard — translate to plain language first
+
+   - Counter-example: 「§5l rule overstated empirical confirmed」/「BLUEPRINT_REGEN_MATRIX 4/5」/「mc_drift_check N/A」/「我哋要 update 個 architecture 確保 backward-compatibility」/「§3c canonical execution locus codified, R33-42..47 mirror parity verified」/「commit `54a9956` ff-merged origin/main」
+   - Positive example: 「Cowork plugin 上載嗰條 anti-UUID 規則寫到太絕對」/「dashboard 4 個 page 之中 4 個已 regen」/「Mission Control 對齊檢查機制因為 page 結構改咗,舊套對唔到位」/「v3.x.y 嘅 hotfix 喺 commit `abc1234` 上咗 main」/「我加咗一條規則:AI 用 local CLI 之前先查文檔」/「最後改動已經推上去」
+
+   **Violation handling.** When the user pushes back that a reply violates this rule (banned patterns acting as subjects):
+   1. Acknowledge violation directly — no excuses
+   2. Rewrite the offending sentences in plain language and re-ship
+   3. Record the violation in `dev/SESSION_LOG.md` for the session
+   4. Repeated violations within the same session → escalate by reporting to the user and proposing governance hardening (e.g. additional harness grep check, stricter self-check trigger)
 
 ### Reply format
 
