@@ -20,7 +20,15 @@ Execute the preflight defined in `§5a) Root Scope Guard for Bootstrap / Multi-F
 ---
 
 ## FILE 1: AGENTS.md
-Rule if exists: merge the governance sections into the existing file, preserving existing content.
+Rule if exists: AI must execute the **Section-Aware Merge Protocol** to prevent silent overwrite of user customizations. Steps:
+1. Parse the existing `AGENTS.md` file into sections by `^## ` headings; also parse this INIT.md FILE 1 block (everything below this Rule line until the next `## FILE` marker) into sections by the same heading rule.
+2. Compute three category lists by comparing section headings (exact `^## ` match):
+   - **REPLACE**: heading exists in BOTH the existing file AND INIT.md FILE 1 → new version content replaces old (governance update)
+   - **ADD**: heading in INIT.md FILE 1 only → new section added (e.g. §10b on first upgrade after §10b release)
+   - **KEEP**: heading in existing file only → user-customized or pre-existing section, kept unchanged (no silent loss)
+3. Print the three category lists to the user before writing — show every section heading by category so user can see exactly what will REPLACE / ADD / KEEP.
+4. Require explicit `INSTALL_MERGE_OK` confirmation from the user before writing the merged result.
+5. If user does not confirm (any other reply, or wants to override), abort the merge for FILE 1 only — do NOT proceed to silently overwrite; surface the disagreement and let the user decide manually.
 
 ```
 # AGENTS.md instructions for <PROJECT_ROOT>
@@ -564,7 +572,7 @@ Before any bootstrap / setup task creating or modifying multiple governance file
 2. If `pwd` and `git root` both exist and differ: hard stop before any write; print exactly two options (1) Use `pwd` (2) Use `git root`; require explicit user choice; AI must not auto-select in mismatch case
 3. After root is chosen, print chosen `<PROJECT_ROOT>` as absolute path
 4. Run and print root risk checks: shared workspace / runtime / tool-internal directory? parent / sibling directories contain governance files suggesting scope too high? target appears to be framework / tool runtime repo instead of user's intended project?
-5. Print dry-run install plan: `create` (newly created files); `merge` (merged / prepended); `skip` (left unchanged)
+5. Print dry-run install plan. Begin with an `Install mode:` line — `first-install` (no governance files detected), `upgrade` (at least `AGENTS.md` and `dev/SESSION_HANDOFF.md` both present), `partial` (some governance files present but not all — surfaces incomplete prior install). Follow with per-file action: `create` (newly created files); `merge` (merged / prepended); `skip` (left unchanged). The Install mode line is informational only — it does not change install behavior (per-file rules still apply per their own definitions), but gives the user visibility before the `INSTALL_ROOT_OK` confirmation gate.
 6. Require exact confirmation reply: `INSTALL_ROOT_OK: <absolute_path>`
 7. If the confirmation path does not exactly match the proposed absolute path, abort setup (no writes)
 8. After step 6 passes, require second confirmation reply before first write: `INSTALL_WRITE_OK`
@@ -871,7 +879,7 @@ Numerical calculations must follow:
 ---
 
 ## FILE 2: CLAUDE.md
-Rule if exists: prepend `@AGENTS.md` as the very first line, keep all existing content below it.
+Rule if exists: before prepending, scan the **first 10 lines of the existing file**. If `@AGENTS.md` appears anywhere in those 10 lines (the import bridge is already present from a prior install), skip prepend — file is already bridged. Otherwise, prepend `@AGENTS.md` as the very first line and keep all existing content below it.
 
 ```
 <!-- Governance SSOT: AGENTS.md — this file bridges Claude Code auto-discovery. -->
@@ -882,7 +890,7 @@ Rule if exists: prepend `@AGENTS.md` as the very first line, keep all existing c
 ---
 
 ## FILE 3: GEMINI.md
-Rule if exists: prepend `@./AGENTS.md` as the very first line, keep all existing content below it.
+Rule if exists: before prepending, scan the **first 10 lines of the existing file**. If `@./AGENTS.md` appears anywhere in those 10 lines (the import bridge is already present from a prior install), skip prepend — file is already bridged. Otherwise, prepend `@./AGENTS.md` as the very first line and keep all existing content below it.
 
 ```
 <!-- Governance SSOT: AGENTS.md — this file bridges Gemini CLI auto-discovery. -->

@@ -539,7 +539,7 @@ Before any bootstrap / setup task creating or modifying multiple governance file
 2. If `pwd` and `git root` both exist and differ: hard stop before any write; print exactly two options (1) Use `pwd` (2) Use `git root`; require explicit user choice; AI must not auto-select in mismatch case
 3. After root is chosen, print chosen `<PROJECT_ROOT>` as absolute path
 4. Run and print root risk checks: shared workspace / runtime / tool-internal directory? parent / sibling directories contain governance files suggesting scope too high? target appears to be framework / tool runtime repo instead of user's intended project?
-5. Print dry-run install plan: `create` (newly created files); `merge` (merged / prepended); `skip` (left unchanged)
+5. Print dry-run install plan. Begin with an `Install mode:` line — `first-install` (no governance files detected), `upgrade` (at least `AGENTS.md` and `dev/SESSION_HANDOFF.md` both present), `partial` (some governance files present but not all — surfaces incomplete prior install). Follow with per-file action: `create` (newly created files); `merge` (merged / prepended); `skip` (left unchanged). The Install mode line is informational only — it does not change install behavior (per-file rules still apply per their own definitions), but gives the user visibility before the `INSTALL_ROOT_OK` confirmation gate.
 6. Require exact confirmation reply: `INSTALL_ROOT_OK: <absolute_path>`
 7. If the confirmation path does not exactly match the proposed absolute path, abort setup (no writes)
 8. After step 6 passes, require second confirmation reply before first write: `INSTALL_WRITE_OK`
