@@ -8,6 +8,7 @@ dev/SESSION_LOG.md
 dev/SESSION_STATE_DETAIL.md
 dev/archive/
 dev/_selftest_work/
+dev/_selftest_tmp_probe/
 __pycache__/
 *.py[cod]
 
@@ -19,3 +20,6 @@ docs/qa/.legacy_last_run
 
 # Local reference / patch info — not for publication
 ref_doc/patch_info/
+
+# Global CLAUDE.md /outputs convention — AI default output location, project-wide ignored
+outputs/
