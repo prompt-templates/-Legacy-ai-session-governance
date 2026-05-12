@@ -191,6 +191,8 @@ Every task must follow this workflow and clearly label each phase in the respons
    - Search for other occurrences of the same term / rule / feature across the repo
    - Check whether a single source of truth already exists (SSOT / master spec / runbook / baseline definition)
    - Review the most recent `SESSION_LOG.md` entry related to the topic
+   - Do not assume internal repo structure or file contents from memory — files not Read in this session are treated as `UNVERIFIED` per §11a rule 4 until Read; this mirrors §0b's external-API rule, applied to internal context.
+   - Before creating a new file, verify no existing file can be modified to serve the same purpose. Three-step check: (a) list related directories; (b) grep same-concept keywords; (c) review recent `SESSION_LOG.md` entries for similar topics. Skip this check only when the new-file FPFR plan (§3.5) explicitly justifies why no existing file fits.
 
 3. CHANGE
    - Minimal necessary modifications, no unrelated refactoring
@@ -295,6 +297,8 @@ A Consolidation Pass: identify primary location → merge duplicates → retire 
 
 **Hard rule (anti-hardcoding):** Examples used in governance text must be generic — do not hardcode or bind to specific filenames, company names, dates, page numbers, URLs, person names, or single-task scenarios. Specific instances belong in `SESSION_LOG.md` history; rules belong in this document. Centralize numbers that vary by environment / platform / version (limits, quotas, safety ranges) into a named Preset block; cite the Preset name or key in prose, do not scatter raw numbers through the text.
 
+**File proliferation discipline (mandatory):** The §3.5 FPFR new-file trigger and the §3 READ Pre-action three-step check above apply jointly before any new file is created — neither alone is sufficient. Named anti-pattern — *Throwaway / orphan file*: a single-session workaround file kept in the repo with no recorded purpose; the next session treats it as unknown context; repeated occurrences accumulate as repo bloat. Forbidden in committed work: scratch / temporary / `_old` / `_tmp` / dated-session-suffix file names. Any file kept in the repo must have a stable purpose recorded in `dev/CODEBASE_CONTEXT.md` Directory Map or referenced in a `dev/SESSION_LOG.md` entry. §4 closeout enforces this via the stray-file scan.
+
 ---
 
 ## 3c) Release / Merge Gate (Mandatory when applicable)
@@ -374,6 +378,8 @@ Each closeout records at minimum: Date (UTC); Session ID; Completed items; Pendi
 **Next Session Handoff Prompt budget** (mandatory at every closeout): Section 2 fenced `text` block ≤24 lines (lines inside fence only); keep two required opening lines verbatim + required fields from §4 rule 5 in compact form; `Key files changed`: max 6 bullets (overflow → one bullet `- Additional files: see SESSION_LOG Changed`); `Known risks / blockers / cautions`: max 5 bullets; overflow → relocate to current `dev/SESSION_LOG.md` entry with short reference in prompt block.
 
 **Open Priorities regeneration** (mandatory at every closeout): regenerate `dev/SESSION_HANDOFF.md` Open Priorities — not copy-pasted forward. Remove items completed this session; scan recent `dev/SESSION_LOG.md` entries for new pending items; re-rank and overwrite previous list (replace, not append). Hard rule: do not copy-paste old priorities without re-checking current project state.
+
+**Closeout stray-file scan** (mandatory at every closeout): Before evaluating the smart-skip gate below, scan `dev/` and the repo root for files not listed in `dev/CODEBASE_CONTEXT.md` Directory Map and not matched by `.gitignore`. Skip-worktree files (`dev/SESSION_HANDOFF.md`, `dev/SESSION_LOG.md`) are exempt by design. For each stray finding, choose one disposition: (a) integrate into the Directory Map and record provenance in the current `dev/SESSION_LOG.md` entry; (b) prompt user to confirm deletion before this session ends; (c) record explicit rationale in `dev/SESSION_LOG.md` for keeping it without map integration (e.g. work-in-progress carry-over). Stray findings count as "files modified" for the smart-skip gate condition below.
 
 **Closeout smart-skip gate** (mandatory at every closeout):
 1. Before drafting closeout output, evaluate whether this session has meaningful deltas

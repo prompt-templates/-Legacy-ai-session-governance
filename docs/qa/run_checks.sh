@@ -268,7 +268,7 @@ check "R29-05" "docs/releases/${LATEST_STABLE_TAG}.md release notes file exists"
 check_gte "R29-06" "docs/qa/LATEST.md references latest stable tag" "1" "$(grep -c "$LATEST_STABLE_TAG" docs/qa/LATEST.md)"
 # index.html stat counter must reflect total checks (main + legacy);
 # value is hardcoded against current run total so any harness check change forces an update.
-EXPECTED_INDEX_COUNTER="358"
+EXPECTED_INDEX_COUNTER="366"
 check "R29-07" "docs/site/index.html stat counter = $EXPECTED_INDEX_COUNTER" "1" "$(grep -c "data-target=\"$EXPECTED_INDEX_COUNTER\"" docs/site/index.html)"
 check "R29-08" "DOC_SYNC_CHECKLIST has Release published row" "1" "$(grep -c 'Release published' dev/DOC_SYNC_CHECKLIST.md)"
 # README must mention latest stable tag in ≥2 places (version-table row + Snapshot/text body) — guards against
@@ -436,6 +436,16 @@ check_gte "R33-47" "§1+§3c skip-worktree convention reference (INIT mirror)" "
 # §0b local-tool / SDK / skill alignment principle (post-v3.0.10 governance extension)
 check_gte "R33-48" "§0b local-tool alignment principle (AGENTS)" "1" "$(grep -c 'Same alignment principle applies to local' $A)"
 check_gte "R33-49" "§0b local-tool alignment principle (INIT mirror)" "1" "$(grep -c 'Same alignment principle applies to local' $I)"
+
+# Task 2 — Pre-action discipline + File proliferation + Closeout stray-file scan (2026-05-12)
+check_gte "R33-50" "§3 READ memory-not-source clause (AGENTS)" "1" "$(grep -c 'files not Read in this session are treated as' $A)"
+check_gte "R33-51" "§3 READ memory-not-source clause (INIT mirror)" "1" "$(grep -c 'files not Read in this session are treated as' $I)"
+check_gte "R33-52" "§3 READ new-file three-step verify (AGENTS)" "1" "$(grep -c 'Before creating a new file, verify no existing file' $A)"
+check_gte "R33-53" "§3 READ new-file three-step verify (INIT mirror)" "1" "$(grep -c 'Before creating a new file, verify no existing file' $I)"
+check_gte "R33-54" "§3b File proliferation discipline (AGENTS)" "1" "$(grep -c 'File proliferation discipline' $A)"
+check_gte "R33-55" "§3b File proliferation discipline (INIT mirror)" "1" "$(grep -c 'File proliferation discipline' $I)"
+check_gte "R33-56" "§4 Closeout stray-file scan (AGENTS)" "1" "$(grep -c 'Closeout stray-file scan' $A)"
+check_gte "R33-57" "§4 Closeout stray-file scan (INIT mirror)" "1" "$(grep -c 'Closeout stray-file scan' $I)"
 
 # ============================================================
 # Category 15: Legacy Harness Health (staleness detection)
