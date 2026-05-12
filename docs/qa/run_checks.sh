@@ -410,8 +410,8 @@ check_gte "R33-27" "INIT.md install two-message split discipline ('two separate 
 # Reply-tone hard-rule patch (2026-05-07): plain-language strengthen + outcome-first option framing + backup list cleanup + startup inventory cleanup
 check_gte "R33-28" "§11a rule 5 inline-English-mixing ban (AGENTS)" "1" "$(grep -c 'do not weave English mid-sentence' $A)"
 check_gte "R33-29" "§11a rule 5 inline-English-mixing ban (INIT mirror)" "1" "$(grep -c 'do not weave English mid-sentence' $I)"
-check_gte "R33-30" "§11a rule 5 ground truth carve-out (AGENTS)" "1" "$(grep -c 'Ground truth identifiers (file path, git SHA' $A)"
-check_gte "R33-31" "§11a rule 5 ground truth carve-out (INIT mirror)" "1" "$(grep -c 'Ground truth identifiers (file path, git SHA' $I)"
+check_gte "R33-30" "§11a rule 5 ground truth carve-out (AGENTS)" "1" "$(grep -c 'Ground truth identifiers allowed inline' $A)"
+check_gte "R33-31" "§11a rule 5 ground truth carve-out (INIT mirror)" "1" "$(grep -c 'Ground truth identifiers allowed inline' $I)"
 check_gte "R33-32" "§11a rule 2 outcome-first option framing (AGENTS)" "1" "$(grep -c 'label must lead with impact / outcome' $A)"
 check_gte "R33-33" "§11a rule 2 outcome-first option framing (INIT mirror)" "1" "$(grep -c 'label must lead with impact / outcome' $I)"
 check_gte "R33-34" "§5a backup list includes dev/wizards/playbook.md (AGENTS)" "1" "$(grep -c 'dev/wizards/playbook.md' $A)"
