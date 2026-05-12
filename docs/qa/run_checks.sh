@@ -40,7 +40,7 @@ I="INIT.md"
 # ============================================================
 check "S01" "Fence count AGENTS.md = 16" "16" "$(grep -c '^```' $A)"
 check "S02" "Fence count INIT.md = 30" "30" "$(grep -c '^```' $I)"
-check "S03" "Section count AGENTS.md = 29" "29" "$(grep -c '^## ' $A)"
+check "S03" "Section count AGENTS.md = 30" "30" "$(grep -c '^## ' $A)"
 check "S04" "AGENTS.md fences even" "0" "$(( $(grep -c '^```' $A) % 2 ))"
 check "S05" "INIT.md fences even" "0" "$(( $(grep -c '^```' $I) % 2 ))"
 
@@ -268,7 +268,7 @@ check "R29-05" "docs/releases/${LATEST_STABLE_TAG}.md release notes file exists"
 check_gte "R29-06" "docs/qa/LATEST.md references latest stable tag" "1" "$(grep -c "$LATEST_STABLE_TAG" docs/qa/LATEST.md)"
 # index.html stat counter must reflect total checks (main + legacy);
 # value is hardcoded against current run total so any harness check change forces an update.
-EXPECTED_INDEX_COUNTER="378"
+EXPECTED_INDEX_COUNTER="396"
 check "R29-07" "docs/site/index.html stat counter = $EXPECTED_INDEX_COUNTER" "1" "$(grep -c "data-target=\"$EXPECTED_INDEX_COUNTER\"" docs/site/index.html)"
 check "R29-08" "DOC_SYNC_CHECKLIST has Release published row" "1" "$(grep -c 'Release published' dev/DOC_SYNC_CHECKLIST.md)"
 # README must mention latest stable tag in ≥2 places (version-table row + Snapshot/text body) — guards against
@@ -462,6 +462,26 @@ check_gte "R33-66" "§11a rule 5 register signals clause (AGENTS)" "1" "$(grep -
 check_gte "R33-67" "§11a rule 5 register signals clause (INIT mirror)" "1" "$(grep -c 'register signals from user' $I)"
 check_gte "R33-68" "§11a rule 5 User-AI register mismatch detection (AGENTS)" "1" "$(grep -c 'User-AI register mismatch detection' $A)"
 check_gte "R33-69" "§11a rule 5 User-AI register mismatch detection (INIT mirror)" "1" "$(grep -c 'User-AI register mismatch detection' $I)"
+
+# Task 3 — External Knowledge Surface governance §10b (2026-05-12)
+check_gte "R33-70" "§10b External Knowledge Surface heading (AGENTS)" "1" "$(grep -c 'External Knowledge Surface' $A)"
+check_gte "R33-71" "§10b External Knowledge Surface heading (INIT mirror)" "1" "$(grep -c 'External Knowledge Surface' $I)"
+check_gte "R33-72" "§10b Mirror mode + Bridge mode (AGENTS)" "1" "$(grep -c 'Mirror mode' $A)"
+check_gte "R33-73" "§10b Mirror mode + Bridge mode (INIT mirror)" "1" "$(grep -c 'Mirror mode' $I)"
+check_gte "R33-74" "§10b Cloud-side destructive op safety (AGENTS)" "1" "$(grep -c 'Cloud-side destructive op safety' $A)"
+check_gte "R33-75" "§10b Cloud-side destructive op safety (INIT mirror)" "1" "$(grep -c 'Cloud-side destructive op safety' $I)"
+check_gte "R33-76" "§10b Mode switch protocol (AGENTS)" "1" "$(grep -c 'Mode switch protocol' $A)"
+check_gte "R33-77" "§10b Mode switch protocol (INIT mirror)" "1" "$(grep -c 'Mode switch protocol' $I)"
+check_gte "R33-78" "§1 external knowledge surface pointer conditional read (AGENTS)" "1" "$(grep -c 'external knowledge surface pointer' $A)"
+check_gte "R33-79" "§1 external knowledge surface pointer conditional read (INIT mirror)" "1" "$(grep -c 'external knowledge surface pointer' $I)"
+check_gte "R33-80" "§2 External KB in source-of-truth priority (AGENTS)" "1" "$(grep -c 'External KB in source-of-truth priority' $A)"
+check_gte "R33-81" "§2 External KB in source-of-truth priority (INIT mirror)" "1" "$(grep -c 'External KB in source-of-truth priority' $I)"
+check_gte "R33-82" "§3 PERSIST external KB sync during PERSIST (AGENTS)" "1" "$(grep -c 'external KB sync during PERSIST' $A)"
+check_gte "R33-83" "§3 PERSIST external KB sync during PERSIST (INIT mirror)" "1" "$(grep -c 'external KB sync during PERSIST' $I)"
+check_gte "R33-84" "§4 closeout external KB sync check at closeout (AGENTS)" "1" "$(grep -c 'external KB sync check at closeout' $A)"
+check_gte "R33-85" "§4 closeout external KB sync check at closeout (INIT mirror)" "1" "$(grep -c 'external KB sync check at closeout' $I)"
+check_gte "R33-86" "§3.6 external KB wizard variant (AGENTS)" "1" "$(grep -c 'external KB wizard variant' $A)"
+check_gte "R33-87" "§3.6 external KB wizard variant (INIT mirror)" "1" "$(grep -c 'external KB wizard variant' $I)"
 
 # ============================================================
 # Category 15: Legacy Harness Health (staleness detection)

@@ -1,9 +1,10 @@
 # Wizard Playbook (behavior layer)
 
-This file defines **how** the AI conducts an onboarding wizard for non-trivial governance docs (`dev/PROJECT_MASTER_SPEC.md` / `dev/RUNBOOK.md`). The **content** for each doc lives in:
+This file defines **how** the AI conducts an onboarding wizard for non-trivial governance docs (`dev/PROJECT_MASTER_SPEC.md` / `dev/RUNBOOK.md` / `dev/EXTERNAL_KB.md`). The **content** for each doc lives in:
 
 - `dev/templates/spec_template.md` — field structure for `PROJECT_MASTER_SPEC.md`
 - `dev/templates/runbook_template.md` — field structure for `RUNBOOK.md`
+- `dev/templates/external_kb_template.md` — field structure for `dev/EXTERNAL_KB.md` external knowledge surface pointer (per AGENTS.md §10b); pairs with `docs/EXTERNAL_KB_COOKBOOK.md` tool-specific reference
 
 The behavior here is paradigm-aligned with modern Agentic AI collaboration: **user describes the project briefly (and optionally points to reference signals — local files / URLs / known decisions) → AI actively reads any provided sources before drafting → AI generates a one-shot full draft + numbered assumption list (each item labeled by source) → user spot-checks and corrects → AI iterates → AI proposes write**. This replaces a prior 5–7 step structured Q&A schema (retired 2026-05-03).
 
@@ -14,10 +15,19 @@ The behavior here is paradigm-aligned with modern Agentic AI collaboration: **us
 The wizard triggers from one of these paths:
 
 1. **AGENTS.md §3 PLAN onboarding readiness check** — at PLAN entry, if the relevant doc is missing AND the matching `wizard_disabled_*` flag in `dev/PROFILE.md` is not `true`, AI offers to draft. Flags suppress auto-prompts only; they never block explicit user requests.
-2. **INIT.md install POST-INSTALL Wizard Auto-Trigger** — fires once at first install for `PROJECT_MASTER_SPEC.md`.
-3. **Explicit user request** — phrases like "build master spec", "建 master spec", "build runbook", "建 runbook" run the wizard regardless of any disabled flag.
+2. **INIT.md install POST-INSTALL Optional Wizard** — fires once at first install for `PROJECT_MASTER_SPEC.md` and offers `RUNBOOK.md` / `EXTERNAL_KB.md` setup as additional opt-in prompts.
+3. **Explicit user request** — phrases like "build master spec", "建 master spec", "build runbook", "建 runbook", "set up external KB", "設 external KB" run the wizard regardless of any disabled flag.
 
-In all cases the offer must include a clear decline path (A run now / B defer / C never ask again) and must respect user choice. C-path persists by setting `wizard_disabled_spec: true` or `wizard_disabled_runbook: true` in `dev/PROFILE.md`.
+In all cases the offer must include a clear decline path (A run now / B defer / C never ask again) and must respect user choice. C-path persists by setting `wizard_disabled_spec: true` / `wizard_disabled_runbook: true` / `wizard_disabled_external_kb: true` in `dev/PROFILE.md`.
+
+### Variant — External KB wizard (per AGENTS.md §10b)
+
+The external KB wizard differs from spec / runbook wizards in **content** (the seed is tool + URL + mode, not project description) but reuses the same draft + iterate behavior loop below. Specifics:
+
+- **Main question** at Step 1: tool type + entry URL + access mode (Mirror / Bridge / Mixed). Supplements: AI access variant (Direct via MCP / API / sync-folder, or Paste-only), in-scope items (collections / vault paths / folder URLs), sync expectation (every PERSIST / per session / weekly batch / manual), notes.
+- **Source grounding** at Step 2a: if user provides the entry URL and AI has Direct access (MCP / API), AI reads the external schema to verify the structure exists and is accessible before drafting. If Paste-only, AI flags assumptions about external schema as `[my inference]` per Step 2c.
+- **Draft target**: `dev/EXTERNAL_KB.md` based on `dev/templates/external_kb_template.md`. Reference `docs/EXTERNAL_KB_COOKBOOK.md` for tool-specific patterns the AI may suggest (but not impose).
+- **Tool neutrality**: the AI must not push the user toward a specific tool. If the user names a tool, suggest patterns from the cookbook entry for that tool; if no specific tool is named, ask which tool before suggesting patterns.
 
 ---
 

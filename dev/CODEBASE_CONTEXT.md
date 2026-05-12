@@ -53,6 +53,16 @@
 - Test-verified: not executed in this session (network restricted)
 - Notes: Linked from all README variants as onboarding page.
 
+## External Knowledge Surface
+(per AGENTS.md §10b — populated only when the project uses an external knowledge tool like Notion / Obsidian / Google Drive. Setup via the external KB wizard creates `dev/EXTERNAL_KB.md` and may add an entry here.)
+
+- Configured: <yes | no — set to `yes` after `dev/EXTERNAL_KB.md` is created>
+- Tool(s): <comma-separated list, e.g. Notion, Obsidian>
+- Access mode summary: <Mirror | Bridge | Mixed — high-level summary>
+- AI access variant: <Direct | Paste-only | Mixed>
+- Detail file: `dev/EXTERNAL_KB.md` (per-scope detail; this section is summary only)
+- Last sync verified: <date + session ID — leave blank if not yet synced>
+
 ## Key Decisions
 - `AGENTS.md` is governance SSOT; `CLAUDE.md` / `GEMINI.md` are pointers.
 - Startup sequence is mandatory and includes `SESSION_HANDOFF -> SESSION_LOG -> CODEBASE_CONTEXT -> PROJECT_MASTER_SPEC`.

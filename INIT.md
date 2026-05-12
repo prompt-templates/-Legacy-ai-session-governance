@@ -80,6 +80,7 @@ At the start of every new session, the AI must read the following files in this 
 2. `dev/SESSION_LOG.md`
 3. `dev/CODEBASE_CONTEXT.md` (if it exists; provides tech stack, directory map, build commands, External Services, and Key Decisions)
 4. `dev/PROJECT_MASTER_SPEC.md` (if it exists; serves as the advanced authoritative specification)
+5. `dev/EXTERNAL_KB.md` (conditional read; this is the **external knowledge surface pointer** per §10b — if present, parse the recorded access mode and AI access variant to decide whether to fetch external content from Notion / Obsidian / Google Drive / similar tools during this session; if absent, no external KB is configured and this step is skipped)
 
 If `dev/SESSION_HANDOFF.md` or `dev/SESSION_LOG.md` is missing, the AI must create a minimal version before beginning development.
 
@@ -160,6 +161,7 @@ Supplementary rules:
 4. If current state is inconsistent with older specification, defer to handoff / log first; remediate specification drift during PERSIST
 5. Latest `Next Session Handoff Prompt (Verbatim)` block in SESSION_LOG = operational seed context, but does not override higher-priority current-state facts in SESSION_HANDOFF / latest log
 6. When a user instruction conflicts with a rule in this document: (a) state which rule is in conflict; (b) explain risk of overriding; (c) if user confirms override → comply and record override in `SESSION_LOG.md`
+7. **External KB in source-of-truth priority** (per §10b): if `dev/EXTERNAL_KB.md` declares Bridge mode for a given scope, the external content for that scope sits at the same priority level as `PROJECT_MASTER_SPEC.md` (rule 3 above); in Mirror mode, the external surface is a view only, and local files remain the source of truth at their declared priority. Conflicts within Bridge-mode scopes are resolved by content timestamp comparison plus user arbitration if needed.
 
 ---
 
@@ -184,7 +186,7 @@ Every task must follow this workflow and clearly label each phase in the respons
    - Risk level — HIGH or LOW (any one = HIGH): (a) likely affects ≥3 files; (b) user instruction lacks target files / behavior / end state; (c) involves deletion, rename, or irreversible operations; (d) involves external systems (API calls, deploy, publish); (e) modifies governance rules (AGENTS.md, INIT.md, or similar)
    - HIGH → present PLAN using §3.5 FPFR 5-section output format and wait for user non-veto (per §3.5 closing line) before READ; LOW → proceed to READ with the 3-field statement above
    - §3d trigger met → define test scenario matrix before READ
-   - Onboarding readiness check: at PLAN entry, read `dev/PROFILE.md` if exists (for `wizard_disabled_spec` / `wizard_disabled_runbook` flags). If `dev/PROJECT_MASTER_SPEC.md` is missing AND `wizard_disabled_spec` ≠ `true` → offer to draft via `dev/wizards/playbook.md` (using `dev/templates/spec_template.md` for field structure) before this task. If task description shows deploy / publish / release / pipeline / recurring-procedure intent (any language) AND `dev/RUNBOOK.md` is missing AND `wizard_disabled_runbook` ≠ `true` → offer to draft via `dev/wizards/playbook.md` (using `dev/templates/runbook_template.md`). Each wizard prompt offers 3 paths: A run now / B defer (re-offer next session) / C never ask again (sets `wizard_disabled_*: true` in `dev/PROFILE.md`). B persists for the current session only; C persists permanently. Explicit user request (e.g., "build master spec" / "build runbook") always runs the wizard regardless of flag. See §3.6 for wizard system details.
+   - Onboarding readiness check: at PLAN entry, read `dev/PROFILE.md` if exists (for `wizard_disabled_spec` / `wizard_disabled_runbook` / `wizard_disabled_external_kb` flags). If `dev/PROJECT_MASTER_SPEC.md` is missing AND `wizard_disabled_spec` ≠ `true` → offer to draft via `dev/wizards/playbook.md` (using `dev/templates/spec_template.md` for field structure) before this task. If task description shows deploy / publish / release / pipeline / recurring-procedure intent (any language) AND `dev/RUNBOOK.md` is missing AND `wizard_disabled_runbook` ≠ `true` → offer to draft via `dev/wizards/playbook.md` (using `dev/templates/runbook_template.md`). If task description references an external knowledge tool (Notion, Obsidian, Google Drive, Logseq, Roam, Anytype, Apple Notes, Dropbox Paper, or similar) AND `dev/EXTERNAL_KB.md` is missing AND `wizard_disabled_external_kb` ≠ `true` → offer to draft via `dev/wizards/playbook.md` (using `dev/templates/external_kb_template.md`, per §10b external knowledge surface governance). Each wizard prompt offers 3 paths: A run now / B defer (re-offer next session) / C never ask again (sets `wizard_disabled_*: true` in `dev/PROFILE.md`). B persists for the current session only; C persists permanently. Explicit user request (e.g., "build master spec" / "build runbook" / "set up external KB") always runs the wizard regardless of flag. See §3.6 for wizard system details.
 
 2. READ — minimum coverage before entering CHANGE:
    - Read the full context of the section to be modified in the target file
@@ -209,6 +211,7 @@ Every task must follow this workflow and clearly label each phase in the respons
    - Update `dev/SESSION_HANDOFF.md` and `dev/SESSION_LOG.md`
    - Apply the same cross-document sync conditions as §4 closeout: if tech stack, directory structure, build commands, external services, or Key Decisions changed in this task — update `dev/CODEBASE_CONTEXT.md` now, not at closeout
    - If `dev/PROJECT_MASTER_SPEC.md` exists and carries status for the completed work — update it in the same pass
+   - **External KB sync during PERSIST (conditional)**: if `dev/EXTERNAL_KB.md` exists and the current task's local changes fall within a recorded external KB scope (per §10b), sync those changes to the external surface. Direct-access AI executes the sync subject to §10b Cloud-side destructive op safety; paste-only access surfaces the changed content as a ready-to-paste block for the user. Record sync result (synced / pending user paste / skipped per scope rule) in current SESSION_LOG entry. In Mirror mode, this step only logs a reminder; in Bridge mode, sync is mandatory before PERSIST completes.
    - **DOC_SYNC Matrix Scan (mandatory visible output):** Before completing PERSIST, output a `### DOC_SYNC Matrix Scan` block: No file changes this task → `### DOC_SYNC Matrix Scan — SKIP (no file changes this task)`. Registry exists → list matched rows `Change Category | Required Doc Updates | Status` (`✓ Done` / `N/A` / `⚠ Skipped (reason)`); update all required docs; no matching row → add it first (`✓ Row added`). Registry absent → `### DOC_SYNC Matrix Scan — SKIP (registry not present)`. Absence of this block in the response = scan was skipped; user may immediately request the agent to complete it.
 
 ---
@@ -275,7 +278,9 @@ One sentence linking to the authoritative source (cite specific location, e.g., 
 
 **Profile awareness:** Wizards may use `dev/PROFILE.md` (set at INIT.md install) to tune draft assumptions. Profile influence is suggestion-only — user override always wins. Supported profile values: `general` / `research` / `coding` / `writing` / `agent-design` / `data-analysis`.
 
-**`dev/PROFILE.md` schema:** Carries fields: `profile` (one of the 6 supported values), `language` (auto-detected user language preference, used as wizard render fallback when current chat language is unclear; defaults to `en`), `created` (UTC date), and optional `wizard_disabled_spec` / `wizard_disabled_runbook` (each defaults to `false`). The disabled flags are set to `true` by wizard prompt's C-path ("never ask again") to permanently suppress §3 PLAN auto-prompts; explicit user-requested wizard runs ("build master spec" / "build runbook") always proceed regardless of flag. Wizard render-language precedence: latest user chat language → `dev/PROFILE.md` `language` field → `en` default.
+**`dev/PROFILE.md` schema:** Carries fields: `profile` (one of the 6 supported values), `language` (auto-detected user language preference, used as wizard render fallback when current chat language is unclear; defaults to `en`), `created` (UTC date), and optional `wizard_disabled_spec` / `wizard_disabled_runbook` / `wizard_disabled_external_kb` (each defaults to `false`). The disabled flags are set to `true` by wizard prompt's C-path ("never ask again") to permanently suppress §3 PLAN auto-prompts; explicit user-requested wizard runs ("build master spec" / "build runbook" / "set up external KB") always proceed regardless of flag. Wizard render-language precedence: latest user chat language → `dev/PROFILE.md` `language` field → `en` default.
+
+**External KB wizard variant (per §10b):** an `external KB wizard variant` exists in `dev/wizards/playbook.md` for authoring `dev/EXTERNAL_KB.md`. Trigger: §3 PLAN detects external knowledge tool reference (Notion / Obsidian / Google Drive / Logseq / Roam / Anytype / Apple Notes / Dropbox Paper / similar) AND pointer file missing AND `wizard_disabled_external_kb` ≠ `true`. Main question: tool type + entry URL + access mode (mirror / bridge / mixed). Supplements: AI access variant (MCP / API direct / paste-only), in-scope collections / vaults / folders, sync expectation (every PERSIST / per session / weekly batch / manual), optional notes. Output path fixed at `dev/EXTERNAL_KB.md`. See `docs/EXTERNAL_KB_COOKBOOK.md` for tool-specific reference patterns.
 
 **Output discipline:** Wizard output files must include a `Created: <date> (via guided wizard, AI-assisted)` line in their header so future sessions know the file's provenance. Output paths are fixed per template (`dev/PROJECT_MASTER_SPEC.md` / `dev/RUNBOOK.md`); no user override during wizard run.
 
@@ -380,6 +385,8 @@ Each closeout records at minimum: Date (UTC); Session ID; Completed items; Pendi
 **Open Priorities regeneration** (mandatory at every closeout): regenerate `dev/SESSION_HANDOFF.md` Open Priorities — not copy-pasted forward. Remove items completed this session; scan recent `dev/SESSION_LOG.md` entries for new pending items; re-rank and overwrite previous list (replace, not append). Hard rule: do not copy-paste old priorities without re-checking current project state.
 
 **Closeout stray-file scan** (mandatory at every closeout): Before evaluating the smart-skip gate below, scan `dev/` and the repo root for files not listed in `dev/CODEBASE_CONTEXT.md` Directory Map and not matched by `.gitignore`. Skip-worktree files (`dev/SESSION_HANDOFF.md`, `dev/SESSION_LOG.md`) are exempt by design. For each stray finding, choose one disposition: (a) integrate into the Directory Map and record provenance in the current `dev/SESSION_LOG.md` entry; (b) prompt user to confirm deletion before this session ends; (c) record explicit rationale in `dev/SESSION_LOG.md` for keeping it without map integration (e.g. work-in-progress carry-over). Stray findings count as "files modified" for the smart-skip gate condition below.
+
+**External KB sync check at closeout** (mandatory when `dev/EXTERNAL_KB.md` exists, per §10b): Before the smart-skip gate, verify that all this-session local changes within recorded external KB scopes have been synced to the external surface (per §3 PERSIST's external KB sync rule). For each un-synced item, choose one disposition: (a) direct-access AI executes the sync now subject to §10b Cloud-side destructive op safety; (b) paste-only access surfaces a ready-to-paste block to the user and waits for confirmation; (c) record explicit rationale (e.g. scope rule defers sync to weekly batch) in current SESSION_LOG entry. Closeout cannot complete with Bridge-mode scopes left un-synced unless the user explicitly defers.
 
 **Closeout smart-skip gate** (mandatory at every closeout):
 1. Before drafting closeout output, evaluate whether this session has meaningful deltas
@@ -550,7 +557,7 @@ Before any bootstrap / setup task creating or modifying multiple governance file
 6. Require exact confirmation reply: `INSTALL_ROOT_OK: <absolute_path>`
 7. If the confirmation path does not exactly match the proposed absolute path, abort setup (no writes)
 8. After step 6 passes, require second confirmation reply before first write: `INSTALL_WRITE_OK`
-9. After `INSTALL_WRITE_OK` and before first write, create a lightweight backup snapshot: directory `<PROJECT_ROOT>/dev/init_backup/<YYYYMMDD_HHMMSS_UTC>/`; copy only existing target files (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `dev/SESSION_HANDOFF.md`, `dev/SESSION_LOG.md`, `dev/CODEBASE_CONTEXT.md`, `dev/DOC_SYNC_CHECKLIST.md`, `dev/SESSION_STATE_DETAIL.md`, `dev/PROJECT_MASTER_SPEC.md`, `dev/PROFILE.md`, `dev/RUNBOOK.md`, `dev/wizards/playbook.md`, `dev/wizards/README.md`, `dev/templates/spec_template.md`, `dev/templates/runbook_template.md`, if present); preserve relative paths under `<PROJECT_ROOT>`; native filesystem copy (cross-platform), no git required
+9. After `INSTALL_WRITE_OK` and before first write, create a lightweight backup snapshot: directory `<PROJECT_ROOT>/dev/init_backup/<YYYYMMDD_HHMMSS_UTC>/`; copy only existing target files (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `dev/SESSION_HANDOFF.md`, `dev/SESSION_LOG.md`, `dev/CODEBASE_CONTEXT.md`, `dev/DOC_SYNC_CHECKLIST.md`, `dev/SESSION_STATE_DETAIL.md`, `dev/PROJECT_MASTER_SPEC.md`, `dev/PROFILE.md`, `dev/RUNBOOK.md`, `dev/EXTERNAL_KB.md`, `dev/wizards/playbook.md`, `dev/wizards/README.md`, `dev/templates/spec_template.md`, `dev/templates/runbook_template.md`, `dev/templates/external_kb_template.md`, `docs/EXTERNAL_KB_COOKBOOK.md`, if present); preserve relative paths under `<PROJECT_ROOT>`; native filesystem copy (cross-platform), no git required
 10. If high-risk markers are detected, default action is abort and ask user to specify a safer subdirectory explicitly
 
 ---
@@ -624,6 +631,53 @@ Active trigger (at PERSIST): if `dev/PROJECT_MASTER_SPEC.md` does not exist, sug
 Suggestion must state: which trigger applied, decisions ready to consolidate, and a ready-to-use creation prompt. Record under **Known Risks** (not Open Priorities — that section is regenerated and would lose the entry): `PROJECT_MASTER_SPEC suggestion issued: [session ID] [date].` Do not re-suggest unless new major decisions appear after that date.
 
 Filename enforcement: path must be exactly `dev/PROJECT_MASTER_SPEC.md`. Do not use alternative names such as `SPEC.md`, `MASTER_SPEC.md`, `ARCHITECTURE.md`, or `PROJECT_SPEC.md`.
+
+---
+
+## 10b) External Knowledge Surface (Conditional)
+Intent: when the user maintains knowledge / notes / specs / runbooks in an external tool (Notion, Obsidian, Logseq, Roam, Anytype, Apple Notes, Google Drive, Dropbox Paper, OneNote, or similar), the AI must integrate that external surface into the governance workflow so that startup reads, PERSIST writes, and closeout sync checks do not miss it. The governance below is tool-agnostic; specific tool best practice goes to `docs/EXTERNAL_KB_COOKBOOK.md` as reference (not mandate).
+
+### Trigger
+Apply §10b when any of the following is detected:
+1. User explicitly references an external knowledge tool in conversation (e.g., "my spec is in Notion", "I keep notes in Obsidian", "the runbook is in Google Drive").
+2. User pastes a link from a known external knowledge tool domain (notion.so, obsidian-published URL, drive.google.com, dropbox paper, etc.).
+3. `dev/EXTERNAL_KB.md` pointer file exists in the repo.
+
+### Two access modes (user chooses one or mixes)
+- **Mirror mode**: local repo is the source of truth; the external tool holds a view / consume copy. AI reads and writes local; the user keeps external in sync via their own automation (or accepts manual drift).
+- **Bridge mode**: the external tool is the source of truth; the local repo holds a thin pointer file (`dev/EXTERNAL_KB.md`) that records tool type, entry URL, scope, and access method. AI reads pointer first, then accesses external content (via MCP / API if available, otherwise via user paste).
+
+Mixed usage is permitted (e.g., Mirror mode for daily notes, Bridge mode for the master spec). The mode is recorded per scope in `dev/EXTERNAL_KB.md`.
+
+### Two AI access variants
+- **Direct access**: AI has MCP server, API token, or sync-folder access to the external tool. AI may read / write programmatically. Subject to Cloud-side destructive op safety below.
+- **Paste-only access**: AI has no programmatic access. AI relies on user to paste external content into the conversation when needed; AI cannot write back automatically and must hand off written content for the user to paste back to the external tool.
+
+The variant is recorded per tool in `dev/EXTERNAL_KB.md`.
+
+### Cloud-side destructive op safety
+Mirrors §5 File Safety Governance for the cloud surface:
+1. Any delete, overwrite, bulk-modify, or schema-change operation on external content must request explicit user confirmation before execution; AI must not auto-execute even if the user has approved similar operations earlier.
+2. Batch modifications (≥3 items in one operation) must be preceded by a dry-run preview (list of items to be changed, before / after snapshot) for user confirmation.
+3. Before writing into existing structured content (e.g., a Notion database row, an Obsidian linked note), AI must verify the target schema / structure first to avoid breaking user-established relations or properties.
+4. Permission scope: if the AI's access token has wider permission than the project scope (e.g., access to the entire workspace when the project only needs one database), AI must self-limit to the recorded scope in `dev/EXTERNAL_KB.md` and treat out-of-scope operations as forbidden.
+
+### Mode switch protocol
+When the user changes access mode (Mirror → Bridge, Bridge → Mirror, or scope adjustment):
+1. AI surfaces current state — what local mirrors exist, what thin pointers exist, what scopes are recorded.
+2. AI proposes a cleanup plan — close stale sync, remove obsolete mirrors, update or remove stale pointers.
+3. User confirms cleanup plan before execution.
+4. Updated mode and scope are written to `dev/EXTERNAL_KB.md` and `dev/CODEBASE_CONTEXT.md` External Knowledge Surface section.
+
+### Tool neutrality (hard rule)
+This section's wording stays tool-agnostic (uses "external knowledge surface", not specific product names) so the framework remains usable across tools. Specific tool best practices (Notion database patterns, Obsidian vault structures, Google Drive folder conventions, etc.) belong in `docs/EXTERNAL_KB_COOKBOOK.md` as reference — explicitly not mandates. Users adapt to their actual tool features.
+
+### Integration into existing governance phases
+- **§1 startup sequence**: if `dev/EXTERNAL_KB.md` exists, read it as the 5th file (after PROJECT_MASTER_SPEC); use the recorded mode and access variant to decide whether to fetch external content.
+- **§2 SoT priority**: in Bridge mode, the external content for a given scope sits at the same priority level as `PROJECT_MASTER_SPEC.md`; conflicts resolved by timestamp plus user arbitration.
+- **§3 PERSIST**: if a PERSIST-phase change falls within an external KB scope, AI must `external KB sync during PERSIST` — direct-access AI executes the sync (subject to Cloud-side safety); paste-only access surfaces the content as a ready-to-paste block for the user.
+- **§4 closeout**: closeout includes `external KB sync check at closeout` — final verification that all in-session local changes within external KB scopes have been synced to the external surface; un-synced items surfaced to user for confirmation before closeout completes.
+- **§3.6 wizard**: an `external KB wizard variant` exists in `dev/wizards/playbook.md` to author `dev/EXTERNAL_KB.md`; PROFILE.md flag `wizard_disabled_external_kb` suppresses auto-prompt.
 
 ---
 
@@ -970,6 +1024,7 @@ Rule if exists: preserve all existing rows; ensure the universal rows in the tem
 | Tooling format rules changed (§13 calc / JSON / Mermaid) | AGENTS.md §13.1 / §13.2 / §13.3; INIT.md FILE 1 mirror | grep parity check |
 | Wizard playbook or template added or changed (`dev/wizards/playbook.md`, `dev/templates/*.md`) | AGENTS.md §3.6 + INIT.md FILE 1 §3.6 mirror; affected file in `dev/wizards/` or `dev/templates/`; `dev/wizards/README.md` if list of templates / paradigm rules changed; harness R33 series — playbook + template existence checks | grep parity check |
 | Profile selector logic changed (INIT.md install flow / `dev/PROFILE.md` format / supported profile values) | INIT.md install Quick Start `POST-INSTALL: Profile Selection` step; AGENTS.md §3.6 supported profile enumeration; `dev/wizards/README.md` profile awareness section; AGENTS.md §5a backup list; INIT.md FILE 1 §5a mirror; harness R33 series | grep parity check |
+| External KB setup added / changed / removed (`dev/EXTERNAL_KB.md` or `dev/templates/external_kb_template.md` or `docs/EXTERNAL_KB_COOKBOOK.md`) | `dev/EXTERNAL_KB.md` itself if scope / mode / access variant changes; `dev/CODEBASE_CONTEXT.md` External Knowledge Surface section summary; AGENTS.md §10b if governance behavior changes; INIT.md FILE 1 §10b mirror; harness R33 series external KB parity checks; `dev/wizards/playbook.md` Variant — External KB wizard section if behavior changes; `docs/EXTERNAL_KB_COOKBOOK.md` if a new tool pattern is added | grep parity check |
 | _[Add project-specific rows below this line]_ | | |
 
 ## Anti-pattern: No Matching Row
@@ -1014,6 +1069,7 @@ language: <auto-detected from user's reply language; used as wizard render fallb
 created: <YYYY-MM-DD UTC>
 wizard_disabled_spec: false
 wizard_disabled_runbook: false
+wizard_disabled_external_kb: false
 ```
 
 POST-INSTALL: Setup Completion + Optional Wizard
@@ -1039,8 +1095,24 @@ After `dev/PROFILE.md` is created, AI MUST present setup completion and the opti
 > - **C. Skip — this is a one-off project, no spec needed (won't ask again)**"
 
 If user picks A → run the wizard per `dev/wizards/playbook.md` (read playbook + `dev/templates/spec_template.md` for field structure; follow playbook Step 1 main-question + optional supplements frame; draft + iterate; write `dev/PROJECT_MASTER_SPEC.md` per the template).
-If user picks B → proceed to Quick Start without running wizard. AGENTS.md §3 PLAN onboarding readiness check will re-offer the wizard at first task PLAN of the next session (because `wizard_disabled_spec` stays `false`).
-If user picks C → set `wizard_disabled_spec: true` in `dev/PROFILE.md`, then proceed to Quick Start. AGENTS.md §3 PLAN will not auto-prompt for the master spec wizard in any future session. User can still trigger the wizard manually by saying "build master spec" — explicit request bypasses the flag.
+If user picks B → proceed to Message 3 (external KB optional setup) without running spec wizard. AGENTS.md §3 PLAN onboarding readiness check will re-offer the spec wizard at first task PLAN of the next session (because `wizard_disabled_spec` stays `false`).
+If user picks C → set `wizard_disabled_spec: true` in `dev/PROFILE.md`, then proceed to Message 3. AGENTS.md §3 PLAN will not auto-prompt for the master spec wizard in any future session. User can still trigger the wizard manually by saying "build master spec" — explicit request bypasses the flag.
+
+**Message 3 — offer optional external KB setup** (skip entirely if `dev/EXTERNAL_KB.md` already exists; otherwise present as a third separate message after Message 2 outcome):
+
+> "💡 **Optional next step — set up an external knowledge surface pointer (`dev/EXTERNAL_KB.md`)?**
+>
+> If you maintain knowledge, notes, specs, or runbooks in an external tool — Notion, Obsidian, Google Drive, Logseq, Roam, Anytype, Apple Notes, Dropbox Paper, or similar — setting up a pointer file integrates that external surface into the governance workflow. AI will then read it at session startup, sync local changes back to it at PERSIST, and verify sync at closeout (per AGENTS.md §10b).
+>
+> The wizard asks you for tool type, entry URL, access mode (Mirror / Bridge / Mixed), AI access variant (Direct via MCP / API / sync-folder, or Paste-only), in-scope items, and sync expectation. Tool-specific best-practice reference: `docs/EXTERNAL_KB_COOKBOOK.md`.
+>
+> - **A. Run external KB wizard now**
+> - **B. Skip — say "set up external KB" anytime to run it later**
+> - **C. Skip — I don't use external knowledge tools for this project (won't ask again)**"
+
+If user picks A → run the wizard per `dev/wizards/playbook.md` Variant — External KB wizard section (read playbook + `dev/templates/external_kb_template.md` for field structure; reference `docs/EXTERNAL_KB_COOKBOOK.md` for tool-specific patterns; draft + iterate; write `dev/EXTERNAL_KB.md` per the template).
+If user picks B → proceed to Quick Start without running wizard. AGENTS.md §3 PLAN onboarding readiness check will re-offer the wizard at first task PLAN when the user references an external knowledge tool (because `wizard_disabled_external_kb` stays `false`).
+If user picks C → set `wizard_disabled_external_kb: true` in `dev/PROFILE.md`, then proceed to Quick Start. AGENTS.md §3 PLAN will not auto-prompt for the external KB wizard in any future session. User can still trigger it manually by saying "set up external KB" — explicit request bypasses the flag.
 
 Then say (Quick Start reference card — separate message):
 

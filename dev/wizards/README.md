@@ -7,6 +7,7 @@ This directory + the sibling `dev/templates/` directory implement the onboarding
 | `dev/wizards/playbook.md` | **Behavior layer** — how AI conducts the draft+iterate loop (when to engage / one-shot draft / assumption list / close-out / vague-input fallback). |
 | `dev/templates/spec_template.md` | **Content layer** — field structure for `dev/PROJECT_MASTER_SPEC.md`, with example fills. |
 | `dev/templates/runbook_template.md` | **Content layer** — field structure for `dev/RUNBOOK.md`, with example fills. |
+| `dev/templates/external_kb_template.md` | **Content layer** — field structure for `dev/EXTERNAL_KB.md` external knowledge surface pointer (per AGENTS.md §10b); pairs with `docs/EXTERNAL_KB_COOKBOOK.md` tool-specific best-practice reference. |
 
 ## Paradigm
 
@@ -30,8 +31,9 @@ Created by INIT.md install POST-INSTALL: Profile Selection step. Fields:
 profile: <one of: general / research / coding / writing / agent-design / data-analysis>
 language: <auto-detected user language; wizard render fallback when chat language unclear; defaults to en>
 created: <YYYY-MM-DD UTC>
-wizard_disabled_spec: <true|false>     # default false; set true by wizard prompt C-path ("never ask again")
-wizard_disabled_runbook: <true|false>  # default false; same mechanism for runbook
+wizard_disabled_spec: <true|false>         # default false; set true by wizard prompt C-path ("never ask again")
+wizard_disabled_runbook: <true|false>      # default false; same mechanism for runbook
+wizard_disabled_external_kb: <true|false>  # default false; same mechanism for external KB pointer (per AGENTS.md §10b)
 ```
 
 **Decline persistence:** wizard offers 3 paths — A (run now) / B (defer, allow re-prompt next session) / C (never ask again, sets the corresponding `wizard_disabled_*` flag to `true`). AGENTS.md §3 PLAN reads these flags before surfacing a wizard prompt; `true` suppresses auto-prompt permanently.
