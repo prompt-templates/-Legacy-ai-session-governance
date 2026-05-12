@@ -13,7 +13,7 @@
 
 | Change Category | Required Doc Updates | Verification Method |
 |---|---|---|
-| Governance rule change (AGENTS.md) | INIT.md FILE 1 mirror; README if behavior is user-facing | grep parity check |
+| Governance rule change (AGENTS.md) | INIT.md FILE 1 mirror; README if behavior is user-facing; landing page / user-facing artefact audit if such artefacts exist (per §3 PERSIST conditional sub-rule — feature lists, scenarios, FAQs, quick start sections, safeguards, pain-point sections, comparison sections — concrete list adapts per project) | grep parity check |
 | Tech stack / build / dependency change | CODEBASE_CONTEXT.md Stack or Build section | manual review |
 | External API / service change | CODEBASE_CONTEXT.md External Services block | block format check |
 | New governance file added to install | §5a backup list in AGENTS.md; INIT.md ROOT SAFETY CHECK backup list; INIT.md FILE 1 §5a | grep check |

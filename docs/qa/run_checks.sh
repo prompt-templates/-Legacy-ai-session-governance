@@ -268,7 +268,7 @@ check "R29-05" "docs/releases/${LATEST_STABLE_TAG}.md release notes file exists"
 check_gte "R29-06" "docs/qa/LATEST.md references latest stable tag" "1" "$(grep -c "$LATEST_STABLE_TAG" docs/qa/LATEST.md)"
 # index.html stat counter must reflect total checks (main + legacy);
 # value is hardcoded against current run total so any harness check change forces an update.
-EXPECTED_INDEX_COUNTER="407"
+EXPECTED_INDEX_COUNTER="411"
 check "R29-07" "docs/site/index.html stat counter = $EXPECTED_INDEX_COUNTER" "1" "$(grep -c "data-target=\"$EXPECTED_INDEX_COUNTER\"" docs/site/index.html)"
 check "R29-08" "DOC_SYNC_CHECKLIST has Release published row" "1" "$(grep -c 'Release published' dev/DOC_SYNC_CHECKLIST.md)"
 # README must mention latest stable tag in ≥2 places (version-table row + Snapshot/text body) — guards against
@@ -499,6 +499,12 @@ check_gte "R33-95" "§5a step 5 Install mode line (INIT mirror)" "1" "$(grep -c 
 check_gte "R33-96" "INIT.md FILE 1 Section-Aware Merge Protocol + INSTALL_MERGE_OK gate" "1" "$(grep -c 'INSTALL_MERGE_OK' INIT.md)"
 check_gte "R33-97" "INIT.md FILE 2 CLAUDE.md 10-line dup guard" "1" "$(grep -c 'first 10 lines of the existing file' INIT.md)"
 check_gte "R33-98" "INIT.md FILE 1 Section-Aware Merge Protocol header" "1" "$(grep -c 'Section-Aware Merge Protocol' INIT.md)"
+
+# Option C + Closeout fix (2026-05-12)
+check_gte "R33-99" "§3 PERSIST user-facing artefact audit conditional sub-rule (AGENTS)" "1" "$(grep -c 'user-facing artefacts' $A)"
+check_gte "R33-100" "§3 PERSIST user-facing artefact audit conditional sub-rule (INIT mirror)" "1" "$(grep -c 'user-facing artefacts' $I)"
+check_gte "R33-101" "§4 closeout intent-detection multilingual trigger (AGENTS + INIT mirror)" "2" "$(grep -c 'detect by intent, not strict keyword match' $A $I | awk -F: '{s+=$2} END {print s}')"
+check_gte "R33-102" "§4 closeout triple-backtick markdown code block explicit (AGENTS + INIT mirror)" "2" "$(grep -c 'triple-backtick markdown code block' $A $I | awk -F: '{s+=$2} END {print s}')"
 
 # ============================================================
 # Category 15: Legacy Harness Health (staleness detection)

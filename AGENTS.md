@@ -198,6 +198,7 @@ Every task must follow this workflow and clearly label each phase in the respons
    - Apply the same cross-document sync conditions as §4 closeout: if tech stack, directory structure, build commands, external services, or Key Decisions changed in this task — update `dev/CODEBASE_CONTEXT.md` now, not at closeout
    - If `dev/PROJECT_MASTER_SPEC.md` exists and carries status for the completed work — update it in the same pass
    - **External KB sync during PERSIST (conditional)**: if `dev/EXTERNAL_KB.md` exists and the current task's local changes fall within a recorded external KB scope (per §10b), sync those changes to the external surface. Direct-access AI executes the sync subject to §10b Cloud-side destructive op safety; paste-only access surfaces the changed content as a ready-to-paste block for the user. Record sync result (synced / pending user paste / skipped per scope rule) in current SESSION_LOG entry. In Mirror mode, this step only logs a reminder; in Bridge mode, sync is mandatory before PERSIST completes.
+   - **User-facing artefact audit (conditional, on user-facing governance change)**: if the project has user-facing artefacts (landing page, marketing site, README user guide sections, public docs site) AND the current task affects user-visible behavior (e.g. new feature, changed user-visible flow, new wizard variant, new external integration, new reply discipline), audit those artefacts for content alignment with the governance change. Common surfaces to check (illustrative, not exhaustive — concrete list adapts per project's actual user-facing artefact structure): feature / capability lists, use-case scenarios, FAQs, quick start sections, safeguard lists, pain-point sections, comparison sections. Audit result (updated / no change needed / deferred with reason) recorded in current SESSION_LOG entry. Skip this step if the project has no user-facing artefacts beyond READMEs — README sync is already covered by the existing `Governance rule change (AGENTS.md)` DOC_SYNC row.
    - **DOC_SYNC Matrix Scan (mandatory visible output):** Before completing PERSIST, output a `### DOC_SYNC Matrix Scan` block: No file changes this task → `### DOC_SYNC Matrix Scan — SKIP (no file changes this task)`. Registry exists → list matched rows `Change Category | Required Doc Updates | Status` (`✓ Done` / `N/A` / `⚠ Skipped (reason)`); update all required docs; no matching row → add it first (`✓ Row added`). Registry absent → `### DOC_SYNC Matrix Scan — SKIP (registry not present)`. Absence of this block in the response = scan was skipped; user may immediately request the agent to complete it.
 
 ---
@@ -348,7 +349,7 @@ Result values: PASS, PASS with notes (minor gaps but does not block), or FAIL.
 ---
 
 ## 4) Session Close Rules (Mandatory)
-On end-of-session intent ("wrap up" / "handover" / "close session" / "that's it for today" / similar), perform closeout automatically without item-by-item confirmation. If ambiguous (task vs session end), confirm session-end intent first.
+On end-of-session intent — **detect by intent, not strict keyword match** — in any natural language. Illustrative examples (not exhaustive): English ("wrap up", "handover", "close session", "that's it for today", "let's wrap", "done for today", "let's close out"); Chinese (「收工」, 「收尾」, 「打烊」, 「結束今日」, 「埋單」, 「交班」, 「下班」, 「收場」); Japanese (「終了」, 「終わり」, 「お疲れ様」, 「セッション終わり」); or similar end-of-session intent in any other language. Perform closeout automatically without item-by-item confirmation. If ambiguous (task vs session end), confirm session-end intent first.
 
 At closeout, update minimum: `dev/SESSION_HANDOFF.md`, `dev/SESSION_LOG.md`. If session changed tech stack / directory / build commands / external services / Key Decisions, also update `dev/CODEBASE_CONTEXT.md` (append `AI Maintenance Log` entry with session ID + summary).
 
@@ -398,7 +399,7 @@ Supplementary rules:
    - Key files changed in this session
    - Known risks / blockers / cautions
    - Validation status + `Post-startup first action:` (executed only after §1 startup complete, not before)
-3. Closeout response = exactly 3 sections in order: Section 1 `SESSION CLOSEOUT SUMMARY`; Section 2 `NEXT SESSION OPENING MESSAGE` as single fenced `text` block (paste as your next session's first message); Section 3 `CLOSEOUT VISUAL CUE` (one random style from set below). The Section 2 heading was renamed from `NEXT SESSION HANDOFF PROMPT (COPY/PASTE)` (v3.0.3 and earlier) to `NEXT SESSION OPENING MESSAGE` (v3.0.4+) to make the use-site explicit.
+3. Closeout response = exactly 3 sections in order: Section 1 `SESSION CLOSEOUT SUMMARY`; Section 2 `NEXT SESSION OPENING MESSAGE` as a **triple-backtick markdown code block with `text` language tag** — opened with three backticks followed by `text` on its own line (i.e. ```` ```text ````) and closed with three backticks on its own line — so the entire block is selectable and copy-pasteable as a single unit into the next AI session as its first message. Do not use prose text wrapped in quotes, dash separators, or any other non-code-fence formatting. Section 3 `CLOSEOUT VISUAL CUE` (one random style from set below). The Section 2 heading was renamed from `NEXT SESSION HANDOFF PROMPT (COPY/PASTE)` (v3.0.3 and earlier) to `NEXT SESSION OPENING MESSAGE` (v3.0.4+) to make the use-site explicit.
 4. Randomization rule: within a single session, the Closeout Visual Cue must differ from the Boot Visual Cue displayed earlier in the same session. Across sessions, randomize uniformly — previous session's style is not tracked.
 5. Use separator lines between sections:
     - Major separator: `========================================`
@@ -414,7 +415,7 @@ SESSION CLOSEOUT SUMMARY
 NEXT SESSION OPENING MESSAGE
 (paste as your next session's first message)
 ----------------------------------------
-<single fenced text block>
+<triple-backtick markdown code block with text language tag, copy-pasteable>
 
 ----------------------------------------
 CLOSEOUT VISUAL CUE
