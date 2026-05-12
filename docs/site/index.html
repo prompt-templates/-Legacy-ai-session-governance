@@ -155,7 +155,7 @@
   <a href="#start" class="hero-cta">⚡ <span data-i18n="hero_cta"></span></a>
   <div class="stat-row">
     <div class="stat-item reveal">
-      <div class="stat-num" data-target="396">0</div>
+      <div class="stat-num" data-target="400">0</div>
       <div class="stat-label" data-i18n="stat_tests"></div>
     </div>
     <div class="stat-item reveal reveal-delay-1">
@@ -342,6 +342,8 @@
     <div class="feature-card reveal"><div class="f-icon">🎯</div><h3 data-i18n="f10_t"></h3><p data-i18n="f10_d"></p></div>
     <div class="feature-card reveal reveal-delay-1"><div class="f-icon">📐</div><h3 data-i18n="f11_t"></h3><p data-i18n="f11_d"></p></div>
     <div class="feature-card reveal reveal-delay-2"><div class="f-icon">🪄</div><h3 data-i18n="f12_t"></h3><p data-i18n="f12_d"></p></div>
+    <div class="feature-card reveal"><div class="f-icon">🌐</div><h3 data-i18n="f13_t"></h3><p data-i18n="f13_d"></p></div>
+    <div class="feature-card reveal reveal-delay-1"><div class="f-icon">🗣️</div><h3 data-i18n="f14_t"></h3><p data-i18n="f14_d"></p></div>
   </div>
 </section>
 
@@ -356,10 +358,12 @@
       <button class="scenario-tab active" data-tab="s1" data-i18n="sc_tab1"></button>
       <button class="scenario-tab" data-tab="s2" data-i18n="sc_tab2"></button>
       <button class="scenario-tab" data-tab="s3" data-i18n="sc_tab3"></button>
+      <button class="scenario-tab" data-tab="s4" data-i18n="sc_tab4"></button>
     </div>
     <div class="scenario-panel active reveal" id="s1"><h3 data-i18n="sc1_t"></h3><p data-i18n="sc1_d"></p><div class="scenario-highlight" data-i18n="sc1_h"></div></div>
     <div class="scenario-panel" id="s2"><h3 data-i18n="sc2_t"></h3><p data-i18n="sc2_d"></p><div class="scenario-highlight" data-i18n="sc2_h"></div></div>
     <div class="scenario-panel" id="s3"><h3 data-i18n="sc3_t"></h3><p data-i18n="sc3_d"></p><div class="scenario-highlight" data-i18n="sc3_h"></div></div>
+    <div class="scenario-panel" id="s4"><h3 data-i18n="sc4_t"></h3><p data-i18n="sc4_d"></p><div class="scenario-highlight" data-i18n="sc4_h"></div></div>
   </div>
 </section>
 <section id="start">
@@ -445,18 +449,21 @@ f2_t:"整合優先紀律",f2_d:"遇到問題不是無腦加新規則，而是先
 f3_t:"文件同步登錄表",f3_d:"改完之後？登錄表告訴 AI 還要同步哪些文件。不猜、不漏，查表就好。",
 f4_t:"測試計畫治理",f4_d:"每個功能改動都要有「測試矩陣」：正常路徑、邊界條件、錯誤路徑、回歸。不是改完就算交差。",
 f5_t:"日誌自動歸檔",f5_d:"工作日誌超過 400 行自動搬到 archive，保持 AI 啟動時讀取的資料精簡。不刪除，只搬移。",
-f6_t:"檔案安全治理",f6_d:"AI 不准執行危險操作（如 rm -rf、git reset --hard）。權限不夠？列出「手動操作清單」讓你自己決定。",
+f6_t:"檔案安全治理",f6_d:"AI 不准執行危險操作（如 rm -rf、git reset --hard）。新建檔案前要三步驗證有沒有既有檔案可改;會話收尾時掃 repo 找出不在目錄地圖的 stray file，逐個納入、刪除或記錄。權限不夠？列出「手動操作清單」讓你自己決定。",
 f7_t:"回覆結構化、可掃讀",f7_d:"AI 回覆先用 ≤3 條重點 bullet，再列交付清單，再說正文。選擇題用一致 A/B/C 格式 + 推薦理由。一眼看到結論，不必再追問。",
 f8_t:"多檔工作 — 全圖優先 (Full-Picture First)",f8_d:"涉及多檔 / 治理 / 多階段的工作，AI 必須先用 5 個固定區段呈交完整計劃：終態 / 交付 / 指標 / 驗收 / 目標連結。一眼 veto 或修改整個 plan，不必逐項批准。",
 f9_t:"改動以補丁交付",f9_d:"代碼 / 設定 / spec 改動格式：精準錨點（在 code block 外）+ BEFORE / AFTER 兩個 code block 各放可直貼的原文與新文 + Changelog 列出新增 / 刪除 / 改名 / 移動。易審易 rollback。",
 f10_t:"規則衝突有明文優先序",f10_d:"兩條規則衝突時 AI 跟明文優先序：事實可驗收 ＞ 穩定性 ＞ 根因治理 ＞ 完整性交付 ＞ 最小改動。前 4 項永遠 override 第 5 項。AI 不再為「diff 較小」犧牲事實可驗收。",
 f11_t:"計算 / JSON / Mermaid 有硬規則",f11_d:"計算必須展示四步（逐位 + 判正負 + 中間步驟 + 代回驗算）。JSON 先定 schema、缺值用 null、非 JSON 缺值用 NA。Mermaid 用 flowchart TB 加引號 text label。",
 f12_t:"AI 草擬 spec / runbook",f12_d:"不知道 PROJECT_MASTER_SPEC.md 或 RUNBOOK.md 應該寫什麼？只需給 AI 一句項目描述，AI 即可一次性生成完整草稿，並列出所有假設清單供你逐項檢查。你可用編號或自然語言修改幾條，AI 重新草擬，待你確認後才提議寫入文件。專為長期項目願景模糊、不適合冷冰冰問題清單的情況設計。",
+f13_t:"外部知識庫整合",f13_d:"筆記放在 Notion、Obsidian、Google Drive 或同類工具？設定一次指向檔案，AI 啟動時讀取、PERSIST 時將本地改動同步回外部、會話收尾時驗證同步狀態。橋接模式（外部為真源）與鏡像模式（本地為真源）都支援。雲端的刪除、覆寫、批量修改都先請你確認。",
+f14_t:"語體紀律",f14_d:"AI 回覆對齊你實際書寫的語體——日常書面語，不是口語或中英混雜。三層分離：對話用日常書面語；治理檔案內部可用技術錨點；結構標題依用戶語言或保留英文 schema（跨 AI 代理互操作必要）。任何自然語言都通用——中文、英文、日文、韓文、西班牙文皆然。",
 sc_label:"應用情境",sc_title:"誰適合用？",sc_desc:"不管你是一個人做事還是團隊協作，只要用 AI 做跨 session 嘅工作就會遇到這些狀況。",
-sc_tab1:"配額切換",sc_tab2:"多工具協作",sc_tab3:"長期專案",
+sc_tab1:"配額切換",sc_tab2:"多工具協作",sc_tab3:"長期專案",sc_tab4:"外部知識庫",
 sc1_t:"配額用完，換工具繼續",sc1_d:"Claude 用完換 Gemini、Gemini 用完換 Codex——交接記錄令下一個 AI 直接接續,不論你做緊研究、寫作、分析定係開發功能。",sc1_h:"💡 實測：從 Claude 切到 Gemini，透過 SESSION_HANDOFF 可大幅減少重複說明的時間。",
 sc2_t:"一個項目，多個 AI 分工",sc2_d:"一個 AI 起草、另一個審視結構、第三個核對資料。研究項目（資料來源 / 分析 / 撰寫）、軟件項目（功能 / 文件 / 基礎設施）、agent 設計（規格 / playbook / 例子）——共用交接紀錄令各工具狀態保持一致。",sc2_h:"💡 共享 SESSION_LOG 讓不同工具看到一致的歷史記錄。",
 sc3_t:"半年後記錄開始打架",sc3_d:"項目的筆記、規格、記錄越積越多互相矛盾——研究、寫作、分析、軟件項目都同樣。「先整合、後新增」的紀律幫你控制複雜度。",sc3_h:"💡 整合紀律要求新增前先檢查有無重疊——從源頭防止衝突。",
+sc4_t:"筆記放在 Notion 或 Obsidian",sc4_d:"規格、runbook、日常筆記其實放在 Notion、Obsidian、Google Drive、Apple Notes 或同類工具。AI 把外部工具納入治理流程——啟動時讀取、本地改動時同步回外部、會話收尾時雙重檢查。本地 repo 同外部工具之間不再有靜默漂移。",sc4_h:"💡 一次性透過 external KB wizard 設定；AI 自動處理同步方向與雲端安全。",
 qs_label:"快速開始",qs_title:"30 秒搞定",qs_desc:"不需要手動複製檔案。用 INIT.md 一鍵安裝，AI 會自動處理合併。",
 qs1:"開啟 <a href='https://github.com/prompt-templates/ai-session-governance/blob/main/INIT.md' target='_blank' style='color:var(--accent)'>INIT.md</a>，點 <strong>Raw</strong>，全選複製，貼到你的 AI 命令列工具。",
 qs2:"AI 會顯示路徑與計劃，輸入以下確認：",
@@ -465,7 +472,7 @@ qs3:"安裝完成後，每次新 session 開始時輸入：",qs3_cmd:"請依 AGE
 qs4:"工作結束時，輸入：",qs4_cmd:"請為本次工作階段完成收尾與完整交接。",qs4_note:"AI 會更新 HANDOFF 和 LOG，並輸出交接區塊供下一個工具使用。",
 qs5:"下次換工具時，直接貼上上一輪輸出的交接區塊：",qs5_c1:"# 貼上 NEXT SESSION HANDOFF PROMPT",qs5_c2:"# (整段原文不改)",qs5_note:"這就是完整的使用循環：<strong>啟動 → 工作 → 收尾交接 → 下一個工具接續</strong>。",
 faq_label:"常見問題",faq_title:"FAQ",
-faqs:[{q:"這只適合大型專案嗎？",a:"不是。小型專案馬上就有效果，大型專案時間拉長效益更明顯。"},{q:"第一天就需要 PROJECT_MASTER_SPEC.md 嗎？",a:"不用。先用 AGENTS.md + SESSION_HANDOFF.md + SESSION_LOG.md 就夠了，日後需要再加。"},{q:"這只適合 coding 工作嗎？",a:"不是。它規範 AI 怎麼讀、改、驗證、交接——適用於任何跨 session、跨 AI 工具的項目。研究筆記、寫作草稿、數據分析、agent 設計、軟件開發——只要需要 multi-session 連續性。"},{q:"這會拖慢 AI 嗎？",a:"開始時有一小段讀取時間，通常比重複交代情況和修正錯誤省時得多。"},{q:"能跟我現有的 README 和內部規則共存嗎？",a:"可以。安裝時會跟你現有檔案合併，不會覆蓋掉你的內容。"}],
+faqs:[{q:"這只適合大型專案嗎？",a:"不是。小型專案馬上就有效果，大型專案時間拉長效益更明顯。"},{q:"第一天就需要 PROJECT_MASTER_SPEC.md 嗎？",a:"不用。先用 AGENTS.md + SESSION_HANDOFF.md + SESSION_LOG.md 就夠了，日後需要再加。"},{q:"這只適合 coding 工作嗎？",a:"不是。它規範 AI 怎麼讀、改、驗證、交接——適用於任何跨 session、跨 AI 工具的項目。研究筆記、寫作草稿、數據分析、agent 設計、軟件開發——只要需要 multi-session 連續性。"},{q:"這會拖慢 AI 嗎？",a:"開始時有一小段讀取時間，通常比重複交代情況和修正錯誤省時得多。"},{q:"能跟我現有的 README 和內部規則共存嗎？",a:"可以。安裝時會跟你現有檔案合併，不會覆蓋掉你的內容。"},{q:"AI 點處理我喺 Notion / Obsidian / Google Drive 的筆記？",a:"執行一次 external KB wizard（輸入「set up external KB」）。它會記錄工具類型、入口 URL、接入模式（鏡像或橋接）、AI access 變種（透過 MCP 直接或用戶 paste）。設定完之後 AI 啟動時讀指向檔案、PERSIST 時將本地改動同步回外部、會話收尾時驗證同步狀態。工具特定 best practice 放在 docs/EXTERNAL_KB_COOKBOOK.md 作參考（不屬 mandate）。"}],
 cta_title:"準備好讓 AI 交接<br>不再從零開始了嗎？",cta_desc:"開源、免費、30 秒安裝。讓你的每一次 AI 工作階段都建立在上一次的基礎上。",cta_btn:"前往 GitHub 開始使用",cta_readme:"📖 閱讀完整 README →",
 footer_by:"由",footer_tagline:"Vibe Coding 的時代，人人都能打造屬於自己的 AI 世界。",
 arch_label:"架構",arch_title:"完整流程一目了然",arch_desc:"由任何 AI 工具，到治理規則、交接檔案、自動防護——全部串起來。",
@@ -512,18 +519,21 @@ f2_t:"Consolidation Discipline",f2_d:"When problems arise, don\'t blindly add ne
 f3_t:"Doc-Sync Registry",f3_d:"Made a change? The registry tells AI which docs need updating. No guessing, no forgetting — just look it up.",
 f4_t:"Test Plan Governance",f4_d:"Every change needs a test matrix: happy path, edge cases, error paths, regression. No shipping without verification.",
 f5_t:"Auto-Archive Logs",f5_d:"Session logs over 400 lines auto-move to archive. Keeps AI startup reads lean. Nothing deleted, only relocated.",
-f6_t:"File Safety Governance",f6_d:"AI cannot execute dangerous operations (rm -rf, git reset --hard). Insufficient permissions? It lists a manual action checklist for you to decide.",
+f6_t:"File Safety Governance",f6_d:"AI cannot execute dangerous operations (rm -rf, git reset --hard). Before creating a new file, three-step verify if an existing file can serve the purpose. At session close, scan repo for stray files not in the directory map — integrate, delete, or document each. Insufficient permissions? It lists a manual action checklist for you to decide.",
 f7_t:"Replies Have Structure",f7_d:"AI replies open with ≤3 highlight bullets, then a deliverables checklist, then explanation. Choice prompts come with consistent A/B/C format + a recommendation. Conclusion visible at a glance — no follow-up Q&A needed.",
 f8_t:"Multi-File Work — Full-Picture First",f8_d:"When a change spans multiple files, governance, or multi-phase work, AI presents a complete plan in 5 fixed sections: end-state / deliverables / metrics / acceptance / goal link. Veto or modify the entire plan in one read — no item-by-item approval rounds.",
 f9_t:"Patch-Style Change Delivery",f9_d:"Code / config / spec changes arrive as: precise anchor (outside code blocks) + BEFORE / AFTER blocks each containing only paste-replaceable text + Changelog listing added / removed / renamed / moved. Review-friendly, rollback-friendly.",
 f10_t:"Explicit Conflict Priority Order",f10_d:"When two rules conflict, AI follows an explicit priority order: verifiable correctness > stability > root-cause > completeness > minimal modification. Items 1-4 always override item 5. AI no longer trades verifiability for \"smaller diff\".",
 f11_t:"Hard Rules for Calc / JSON / Mermaid",f11_d:"Calculations show all 4 steps (digit-by-digit + sign-check + intermediate + substitute-back). JSON defines schema first; required missing values use `null`; non-JSON missing values use `NA`. Mermaid uses `flowchart TB` with quoted labels.",
 f12_t:"AI-Drafted Spec / Runbook",f12_d:"Don\'t know what to put in PROJECT_MASTER_SPEC.md or RUNBOOK.md? Give AI a 1-sentence project description. AI generates a full draft + a numbered list of every assumption made for you to spot-check. Correct items by index or natural language, AI re-drafts, then proposes writing the file. Designed for vague long-term project visions — no cold question forms required.",
+f13_t:"External Knowledge Surface",f13_d:"Keep notes in Notion, Obsidian, Google Drive, or similar tools? Set up a pointer file once. AI reads it at startup, syncs your local changes back to the external tool at PERSIST, and verifies sync at session close. Bridge mode (external is source of truth) or Mirror mode (local is source of truth) — both supported. Cloud-side deletes / overwrites / bulk modifies always need your confirmation first.",
+f14_t:"Language Register Discipline",f14_d:"AI replies match the register you actually write in — formal-written, not colloquial-oral or foreign-language-mixed. Three-layer separation: chat reply uses your everyday written register; governance file internals can use technical anchors; structural headings follow user-facing locale or stay in English schema (per cross-AI agent interoperability). Works for any natural language — Chinese, English, Japanese, Korean, Spanish, and others.",
 sc_label:"SCENARIOS",sc_title:"Who Is This For?",sc_desc:"Whether you work solo or in a team, if you use AI across sessions for any kind of work, you\'ll hit these situations.",
-sc_tab1:"Quota Switch",sc_tab2:"Multi-Tool Collab",sc_tab3:"Long-Term Projects",
+sc_tab1:"Quota Switch",sc_tab2:"Multi-Tool Collab",sc_tab3:"Long-Term Projects",sc_tab4:"External Tools",
 sc1_t:"Quota Exhausted, Switch and Continue",sc1_d:"Claude runs out, switch to Gemini. Gemini runs out, switch to Codex — handoff records let the next AI pick up directly, whether you\'re mid-research, mid-draft, mid-analysis, or mid-feature.",sc1_h:"💡 Real test: Switching from Claude to Gemini via SESSION_HANDOFF drastically reduced re-explanation time.",
 sc2_t:"One Project, Multiple AI Agents",sc2_d:"One AI drafts, another reviews the structure, a third checks the data. Whether it's a research project (sources / analysis / write-up), a software project (feature / docs / infra), or an agent design (spec / playbook / examples) — shared handoff records keep all tools aligned.",sc2_h:"💡 Shared SESSION_LOG gives different tools a consistent history view.",
 sc3_t:"Six Months Later, Records Start Contradicting",sc3_d:"Project notes, specs, records pile up and contradict each other — same drift in research, writing, analysis, or codebases. The consolidate-before-adding discipline helps you control complexity.",sc3_h:"💡 Consolidation discipline requires checking for overlap before adding anything new — preventing conflicts at the source.",
+sc4_t:"Notes Live in Notion or Obsidian",sc4_d:"Your spec, runbook, or daily notes already live in Notion, Obsidian, Google Drive, Apple Notes, or similar. AI integrates that external surface into the governance loop — reads it at startup, syncs back when you change anything locally, double-checks at session close. No more silent drift between local repo and external tools.",sc4_h:"💡 Set up once via the external KB wizard; AI handles sync direction and cloud-side safety automatically.",
 qs_label:"QUICK START",qs_title:"Done in 30 Seconds",qs_desc:"No manual file copying needed. Use INIT.md for one-click install — AI handles merging automatically.",
 qs1:"Open <a href=\'https://github.com/prompt-templates/ai-session-governance/blob/main/INIT.md\' target=\'_blank\' style=\'color:var(--accent)\'>INIT.md</a>, click <strong>Raw</strong>, select all, copy, and paste into your AI CLI.",
 qs2:"AI will show paths and plan. Enter these confirmations:",
@@ -532,7 +542,7 @@ qs3:"After install, start each new session with:",qs3_cmd:"Follow AGENTS.md",qs3
 qs4:"When done working, enter:",qs4_cmd:"Wrap up this session with full closeout and handover.",qs4_note:"AI updates HANDOFF and LOG, outputs a handoff block for the next tool.",
 qs5:"Next time you switch tools, paste the handoff block from last session:",qs5_c1:"# Paste NEXT SESSION HANDOFF PROMPT",qs5_c2:"# (keep the entire block unchanged)",qs5_note:"That\'s the complete cycle: <strong>Start → Work → Closeout Handoff → Next Tool Continues</strong>.",
 faq_label:"FAQ",faq_title:"Frequently Asked Questions",
-faqs:[{q:"Is this only for large projects?",a:"No. Small projects benefit immediately; larger ones see more gain over time."},{q:"Do I need PROJECT_MASTER_SPEC.md on day one?",a:"No. Start with AGENTS.md + SESSION_HANDOFF.md + SESSION_LOG.md. Add more later as needed."},{q:"Is this only for coding?",a:"No. It governs how AI reads, changes, verifies, and hands over work — for any project that crosses sessions or AI tools. Research notes, writing drafts, data analysis, agent design, software development — anywhere multi-session continuity matters."},{q:"Will this slow sessions down?",a:"There\'s a short read at startup. Usually less overhead than re-explaining context and redoing mistakes."},{q:"Can I keep my existing docs and internal rules?",a:"Yes. It merges with what you already have — it doesn\'t overwrite."}],
+faqs:[{q:"Is this only for large projects?",a:"No. Small projects benefit immediately; larger ones see more gain over time."},{q:"Do I need PROJECT_MASTER_SPEC.md on day one?",a:"No. Start with AGENTS.md + SESSION_HANDOFF.md + SESSION_LOG.md. Add more later as needed."},{q:"Is this only for coding?",a:"No. It governs how AI reads, changes, verifies, and hands over work — for any project that crosses sessions or AI tools. Research notes, writing drafts, data analysis, agent design, software development — anywhere multi-session continuity matters."},{q:"Will this slow sessions down?",a:"There\'s a short read at startup. Usually less overhead than re-explaining context and redoing mistakes."},{q:"Can I keep my existing docs and internal rules?",a:"Yes. It merges with what you already have — it doesn\'t overwrite."},{q:"How does AI handle my notes in Notion / Obsidian / Google Drive?",a:"Run the external KB wizard once (\\\"set up external KB\\\"). It records the tool, entry URL, access mode (Mirror or Bridge), and AI access variant (Direct via MCP or Paste-only). After setup AI reads the pointer at session startup, syncs your local changes back at PERSIST, and verifies sync at closeout. Tool-specific best practices live in docs/EXTERNAL_KB_COOKBOOK.md as reference (not mandate)."}],
 cta_title:"Ready to Stop AI Sessions<br>From Starting at Zero?",cta_desc:"Open source, free, 30-second install. Make every AI session build on the last one.",cta_btn:"Get Started on GitHub",cta_readme:"📖 Read the Full README →",
 footer_by:"By",footer_tagline:"In the Vibe Coding era, everyone can build their own AI-powered world.",
 arch_label:"ARCHITECTURE",arch_title:"How It All Connects",arch_desc:"From any AI tool down to handoff files, with auto safeguards built in.",
@@ -579,18 +589,21 @@ f2_t:"整合优先纪律",f2_d:"遇到问题不是无脑加新规则，而是先
 f3_t:"文档同步注册表",f3_d:"改完之后？注册表告诉 AI 还要同步哪些文档。不猜、不漏，查表就好。",
 f4_t:"测试计划治理",f4_d:"每个功能改动都要有「测试矩阵」：正常路径、边界条件、错误路径、回归。不是改完就算交差。",
 f5_t:"日志自动归档",f5_d:"工作日志超过 400 行自动搬到 archive，保持 AI 启动时读取的数据精简。不删除，只搬移。",
-f6_t:"文件安全治理",f6_d:"AI 不准执行危险操作（如 rm -rf、git reset --hard）。权限不够？列出「手动操作清单」让你自己决定。",
+f6_t:"文件安全治理",f6_d:"AI 不准执行危险操作（如 rm -rf、git reset --hard）。新建文件前要三步验证有没有既有文件可改;会话收尾时扫 repo 找出不在目录地图的 stray file，逐个纳入、删除或记录。权限不够？列出「手动操作清单」让你自己决定。",
 f7_t:"回复结构化、可扫读",f7_d:"AI 回复先用 ≤3 条重点 bullet，再列交付清单，再讲正文。选择题用一致 A/B/C 格式 + 推荐理由。一眼看到结论，不用再追问。",
 f8_t:"多档工作 — 全图优先 (Full-Picture First)",f8_d:"涉及多档 / 治理 / 多阶段的工作，AI 必须先用 5 个固定区段呈交完整计划：终态 / 交付 / 指标 / 验收 / 目标连结。一眼 veto 或修改整个 plan，不必逐项批准。",
 f9_t:"改动以补丁交付",f9_d:"代码 / 配置 / spec 改动格式：精准锚点（在 code block 外）+ BEFORE / AFTER 两个 code block 各放可直贴的原文与新文 + Changelog 列出新增 / 删除 / 改名 / 移动。易审易 rollback。",
 f10_t:"规则冲突有明文优先序",f10_d:"两条规则冲突时 AI 跟明文优先序：事实可验收 ＞ 稳定性 ＞ 根因治理 ＞ 完整性交付 ＞ 最小改动。前 4 项永远 override 第 5 项。AI 不再为「diff 较小」牺牲事实可验收。",
 f11_t:"计算 / JSON / Mermaid 有硬规则",f11_d:"计算必须展示四步（逐位 + 判正负 + 中间步骤 + 代回验算）。JSON 先定 schema、缺值用 null、非 JSON 缺值用 NA。Mermaid 用 flowchart TB 加引号 text label。",
 f12_t:"AI 草拟 spec / runbook",f12_d:"不知道 PROJECT_MASTER_SPEC.md 或 RUNBOOK.md 应该写什么？给 AI 一句项目描述，AI 一次性 draft 全份 + 列出所有假设清单供你挑错。你用编号或自然语言改几条，AI 重 draft，满意后再 propose 写入。专为长期项目愿景模糊的情况设计，无需回答冷冰冰的问题清单。",
+f13_t:"外部知识库集成",f13_d:"笔记放在 Notion、Obsidian、Google Drive 或同类工具？设定一次指向文件，AI 启动时读取、PERSIST 时把本地改动同步回外部、会话收尾时验证同步状态。桥接模式（外部为真源）与镜像模式（本地为真源）都支持。云端的删除、覆盖、批量修改都先请你确认。",
+f14_t:"语体纪律",f14_d:"AI 回复对齐你实际书写的语体——日常书面语，不是口语或中英混杂。三层分离：对话用日常书面语；治理文件内部可用技术锚点；结构标题依用户语言或保留英文 schema（跨 AI 代理互操作必要）。任何自然语言都通用——中文、英文、日文、韩文、西班牙文皆然。",
 sc_label:"应用场景",sc_title:"谁适合用？",sc_desc:"不管你是一个人做事还是团队协作，只要用 AI 做跨 session 的工作就会遇到这些状况。",
-sc_tab1:"配额切换",sc_tab2:"多工具协作",sc_tab3:"长期项目",
+sc_tab1:"配额切换",sc_tab2:"多工具协作",sc_tab3:"长期项目",sc_tab4:"外部知识库",
 sc1_t:"配额用完，换工具继续",sc1_d:"Claude 用完换 Gemini、Gemini 用完换 Codex——交接记录让下一个 AI 直接接续，不论你在做研究、写作、分析或开发功能。",sc1_h:"💡 实测：从 Claude 切到 Gemini，通过 SESSION_HANDOFF 可大幅减少重复说明的时间。",
 sc2_t:"一个项目，多个 AI 分工",sc2_d:"一个 AI 起草、另一个审视结构、第三个核对资料。研究项目（资料来源 / 分析 / 撰写）、软件项目（功能 / 文档 / 基础设施）、agent 设计（规格 / playbook / 例子）——共用交接记录让各工具状态保持一致。",sc2_h:"💡 共享 SESSION_LOG 让不同工具看到一致的历史记录。",
 sc3_t:"半年后记录开始打架",sc3_d:"项目的笔记、规格、记录越积越多互相矛盾——研究、写作、分析、软件项目都一样。「先整合、后新增」的纪律帮你控制复杂度。",sc3_h:"💡 整合纪律要求新增前先检查有无重叠——从源头防止冲突。",
+sc4_t:"笔记放在 Notion 或 Obsidian",sc4_d:"规格、runbook、日常笔记其实放在 Notion、Obsidian、Google Drive、Apple Notes 或同类工具。AI 把外部工具纳入治理流程——启动时读取、本地改动时同步回外部、会话收尾时双重检查。本地 repo 与外部工具之间不再有沉默漂移。",sc4_h:"💡 一次性通过 external KB wizard 设定；AI 自动处理同步方向与云端安全。",
 qs_label:"快速开始",qs_title:"30 秒搞定",qs_desc:"不需要手动复制文件。用 INIT.md 一键安装，AI 会自动处理合并。",
 qs1:"打开 <a href=\'https://github.com/prompt-templates/ai-session-governance/blob/main/INIT.md\' target=\'_blank\' style=\'color:var(--accent)\'>INIT.md</a>，点 <strong>Raw</strong>，全选复制，粘贴到你的 AI 命令行工具。",
 qs2:"AI 会显示路径与计划，输入以下确认：",
@@ -599,7 +612,7 @@ qs3:"安装完成后，每次新 session 开始时输入：",qs3_cmd:"请按 AGE
 qs4:"工作结束时，输入：",qs4_cmd:"请为本次工作阶段完成收尾与完整交接。",qs4_note:"AI 会更新 HANDOFF 和 LOG，并输出交接区块供下一个工具使用。",
 qs5:"下次换工具时，直接粘贴上一轮输出的交接区块：",qs5_c1:"# 粘贴 NEXT SESSION HANDOFF PROMPT",qs5_c2:"# (整段原文不改)",qs5_note:"这就是完整的使用循环：<strong>启动 → 工作 → 收尾交接 → 下一个工具接续</strong>。",
 faq_label:"常见问题",faq_title:"FAQ",
-faqs:[{q:"这只适合大型项目吗？",a:"不是。小型项目马上就有效果，大型项目时间拉长效益更明显。"},{q:"第一天就需要 PROJECT_MASTER_SPEC.md 吗？",a:"不用。先用 AGENTS.md + SESSION_HANDOFF.md + SESSION_LOG.md 就够了，日后需要再加。"},{q:"这只适合 coding 工作吗？",a:"不是。它规范 AI 怎么读、改、验证、交接——适用于任何跨 session、跨 AI 工具的项目。研究笔记、写作草稿、数据分析、agent 设计、软件开发——只要需要 multi-session 连续性。"},{q:"这会拖慢 AI 吗？",a:"开始时有一小段读取时间，通常比重复交代情况和修正错误省时得多。"},{q:"能跟我现有的 README 和内部规则共存吗？",a:"可以。安装时会跟你现有文件合并，不会覆盖掉你的内容。"}],
+faqs:[{q:"这只适合大型项目吗？",a:"不是。小型项目马上就有效果，大型项目时间拉长效益更明显。"},{q:"第一天就需要 PROJECT_MASTER_SPEC.md 吗？",a:"不用。先用 AGENTS.md + SESSION_HANDOFF.md + SESSION_LOG.md 就够了，日后需要再加。"},{q:"这只适合 coding 工作吗？",a:"不是。它规范 AI 怎么读、改、验证、交接——适用于任何跨 session、跨 AI 工具的项目。研究笔记、写作草稿、数据分析、agent 设计、软件开发——只要需要 multi-session 连续性。"},{q:"这会拖慢 AI 吗？",a:"开始时有一小段读取时间，通常比重复交代情况和修正错误省时得多。"},{q:"能跟我现有的 README 和内部规则共存吗？",a:"可以。安装时会跟你现有文件合并，不会覆盖掉你的内容。"},{q:"AI 怎么处理我在 Notion / Obsidian / Google Drive 的笔记？",a:"执行一次 external KB wizard（输入「set up external KB」）。它会记录工具类型、入口 URL、接入模式（镜像或桥接）、AI access 变种（通过 MCP 直接或用户 paste）。设定完之后 AI 启动时读指向文件、PERSIST 时把本地改动同步回外部、会话收尾时验证同步状态。工具特定 best practice 放在 docs/EXTERNAL_KB_COOKBOOK.md 作参考（不属 mandate）。"}],
 cta_title:"准备好让 AI 交接<br>不再从零开始了吗？",cta_desc:"开源、免费、30 秒安装。让你的每一次 AI 工作阶段都建立在上一次的基础上。",cta_btn:"前往 GitHub 开始使用",cta_readme:"📖 阅读完整 README →",
 footer_by:"由",footer_tagline:"Vibe Coding 的时代，人人都能打造属于自己的 AI 世界。",
 arch_label:"架构",arch_title:"完整流程一览",arch_desc:"从任何 AI 工具，到治理规则、交接文件、自动防护——全部串起来。",
@@ -646,18 +659,21 @@ f2_t:"統合優先規律",f2_d:"問題が起きたら新ルール追加ではな
 f3_t:"文書同期レジストリ",f3_d:"変更を加えた？レジストリがAIにどの文書を更新すべきか教えます。推測も漏れもなし。",
 f4_t:"テスト計画ガバナンス",f4_d:"すべての変更にテストマトリックスが必要：正常パス、エッジケース、エラーパス、回帰。検証なしで完了とは言えない。",
 f5_t:"ログ自動アーカイブ",f5_d:"セッションログが400行を超えたら自動でアーカイブへ移動。AI起動時の読み込みを軽量に保つ。削除はしない、移動のみ。",
-f6_t:"ファイル安全ガバナンス",f6_d:"AIは危険な操作（rm -rf、git reset --hard等）を実行できません。権限不足の場合は「手動操作チェックリスト」を提示。",
+f6_t:"ファイル安全ガバナンス",f6_d:"AIは危険な操作（rm -rf、git reset --hard等）を実行できません。新規ファイル作成前に既存ファイルで代替できないか 3 ステップ検証;セッション終了時にディレクトリマップに無い stray file を repo 内でスキャンし、統合・削除・記録を個別判断。権限不足の場合は「手動操作チェックリスト」を提示。",
 f7_t:"構造化された応答",f7_d:"AI 応答はまず ≤3 行のハイライト bullet、次に配信チェックリスト、最後に本文の順序。選択肢プロンプトは一貫した A/B/C 形式 + 推薦理由付き。結論が一目でわかり、追加の質疑応答が不要。",
 f8_t:"複数ファイル作業 — 全体像が先 (Full-Picture First)",f8_d:"変更が複数ファイル / ガバナンス / 多段階作業に及ぶ場合、AI は 5 つの固定セクション（エンドステート / 配信 / 指標 / 受入 / 目標リンク）で完全プランを先に提示。一読で全プランを veto / 修正可能、項目別承認は不要。",
 f9_t:"パッチ形式の変更配信",f9_d:"コード / 設定 / spec 変更の配信形式：精密アンカー（コードブロック外）+ BEFORE / AFTER ブロック（貼り付け可能なテキストのみ）+ added / removed / renamed / moved を列挙する Changelog。レビューしやすく、ロールバックしやすい。",
 f10_t:"明文化された優先順位",f10_d:"2 つのルールが衝突した時、AI は明文化された優先順位に従う：検証可能な正確性 > 安定性 > 根本原因 > 完整性 > 最小変更。項目 1-4 は常に項目 5 を上書き。AI はもう「diff を小さくするため」に検証可能性を犠牲にしない。",
 f11_t:"計算 / JSON / Mermaid に硬ルール",f11_d:"計算は 4 ステップ全て表示（桁ごと + 符号判定 + 中間ステップ + 代入検証）。JSON はスキーマ優先、必須欠損は `null`、非 JSON 欠損は `NA`。Mermaid は `flowchart TB` で引用符付きラベル。",
 f12_t:"AI が spec / runbook を起草",f12_d:"PROJECT_MASTER_SPEC.md や RUNBOOK.md に何を書くべきか分からない？プロジェクトを 1 文で AI に伝えると、AI が完全な草稿 + すべての想定の番号付きリストを生成。番号や自然言語で気になる点を指摘し、AI が再 draft、満足したら書き込みを提案。長期プロジェクトのビジョンが曖昧でも、冷たい質問リストに答える必要なし。",
+f13_t:"外部ナレッジサーフェス統合",f13_d:"Notion、Obsidian、Google Drive など外部ツールにノートを置いていますか？ポインタファイルを一度設定すれば、AI は起動時に読み取り、PERSIST 時にローカルの変更を外部へ同期し、セッション終了時に同期状態を検証します。ブリッジモード（外部が真源）とミラーモード（ローカルが真源）の両方をサポート。クラウド側の削除・上書き・一括変更は必ず事前にユーザーの確認を求めます。",
+f14_t:"言語レジスター規律",f14_d:"AI 応答はユーザーが実際に書いているレジスター（日常書き言葉、口語・外国語混じりは禁止）に揃えます。三層分離：チャット応答は日常書き言葉；ガバナンスファイル内部では技術的アンカーを許容；構造的見出しはユーザーの locale または英語 schema を維持（クロス AI エージェント相互運用性のため）。中国語、英語、日本語、韓国語、スペイン語など、すべての自然言語に共通適用。",
 sc_label:"利用シナリオ",sc_title:"誰のため？",sc_desc:"個人作業でもチーム協業でも、AIをセッション越しに使うならどんな作業でもこれらの状況に遭遇します。",
-sc_tab1:"配分切替",sc_tab2:"マルチツール協業",sc_tab3:"長期プロジェクト",
+sc_tab1:"配分切替",sc_tab2:"マルチツール協業",sc_tab3:"長期プロジェクト",sc_tab4:"外部ツール",
 sc1_t:"配分切れ、ツールを切り替えて続行",sc1_d:"Claude使い切ってGemini、Gemini使い切ってCodex——引き継ぎ記録で次のAIが直接続行、リサーチ・ドラフト・分析・機能開発のいずれの作業中でも。",sc1_h:"💡 実測：ClaudeからGeminiへの切り替え時、SESSION_HANDOFFにより再説明時間を大幅に削減。",
 sc2_t:"1つのプロジェクト、複数のAIエージェント",sc2_d:"1つのAIが草案を作り、別のAIが構成を見直し、3つ目のAIがデータを確認。研究プロジェクト（情報源 / 分析 / 執筆）、ソフトウェアプロジェクト（機能 / 文書 / 基盤）、agent デザイン（仕様 / playbook / 事例）——共有引き継ぎ記録で全ツールの状態を揃えます。",sc2_h:"💡 共有SESSION_LOGが異なるツールに一貫した履歴ビューを提供。",
 sc3_t:"半年後、記録が矛盾し始める",sc3_d:"プロジェクトのメモ・仕様・記録が積み重なり矛盾し合う——リサーチ、ライティング、分析、ソフトウェアプロジェクト、いずれも同じ。「追加前に統合」の規律で複雑さをコントロール。",sc3_h:"💡 統合規律は追加前に重複チェックを要求——ソースで矛盾を防止。",
+sc4_t:"ノートが Notion や Obsidian に存在",sc4_d:"仕様・runbook・日常メモが Notion、Obsidian、Google Drive、Apple Notes などの外部ツールにあります。AI は外部サーフェスをガバナンスループに統合 — 起動時に読み取り、ローカル変更時に外部へ同期、セッション終了時に二重チェック。ローカル repo と外部ツール間の暗黙のドリフトはもう発生しません。",sc4_h:"💡 external KB wizard で一度設定すれば、AI が同期方向とクラウド側安全を自動処理。",
 qs_label:"クイックスタート",qs_title:"30秒で完了",qs_desc:"手動でファイルをコピーする必要はありません。INIT.mdでワンクリックインストール、AIが自動でマージ処理。",
 qs1:"<a href=\'https://github.com/prompt-templates/ai-session-governance/blob/main/INIT.md\' target=\'_blank\' style=\'color:var(--accent)\'>INIT.md</a> を開き、<strong>Raw</strong> をクリック、全選択してコピー、AIコマンドラインツールに貼り付けます。",
 qs2:"AIがパスと計画を表示します。以下の確認を入力：",
@@ -666,7 +682,7 @@ qs3:"インストール後、新しいセッション開始時に入力：",qs3_
 qs4:"作業終了時に入力：",qs4_cmd:"このセッションを収束し、完全な引き継ぎまで実行してください。",qs4_note:"AIがHANDOFFとLOGを更新し、次のツール用の引き継ぎブロックを出力します。",
 qs5:"次にツールを切り替える時、前回出力の引き継ぎブロックをそのまま貼り付け：",qs5_c1:"# NEXT SESSION HANDOFF PROMPTを貼り付け",qs5_c2:"# (ブロック全体をそのまま)",qs5_note:"これが完全なサイクルです：<strong>開始 → 作業 → 収束引き継ぎ → 次のツールが続行</strong>。",
 faq_label:"FAQ",faq_title:"よくある質問",
-faqs:[{q:"大規模プロジェクト向けですか？",a:"違います。小規模でもすぐ効果があり、長期運用では規模が大きいほど差が出ます。"},{q:"初日からPROJECT_MASTER_SPEC.mdは必要？",a:"不要です。まずAGENTS.md + SESSION_HANDOFF.md + SESSION_LOG.mdだけで始められます。"},{q:"コーディング専用ですか？",a:"違います。AIがどう読み・変更し・検証し・引き継ぐかを決めるもので、セッションをまたぐ、AIツールをまたぐあらゆるプロジェクトに適用。リサーチノート、ライティング草稿、データ分析、agent デザイン、ソフトウェア開発——マルチセッションの継続性が必要なところで効きます。"},{q:"セッションは遅くなりますか？",a:"開始時に少し読み込みが増えます。再説明や修正のやり直しより通常は短いです。"},{q:"既存のREADMEや内部規則は残せますか？",a:"残せます。既存のものに合わせてマージします。上書きはしません。"}],
+faqs:[{q:"大規模プロジェクト向けですか？",a:"違います。小規模でもすぐ効果があり、長期運用では規模が大きいほど差が出ます。"},{q:"初日からPROJECT_MASTER_SPEC.mdは必要？",a:"不要です。まずAGENTS.md + SESSION_HANDOFF.md + SESSION_LOG.mdだけで始められます。"},{q:"コーディング専用ですか？",a:"違います。AIがどう読み・変更し・検証し・引き継ぐかを決めるもので、セッションをまたぐ、AIツールをまたぐあらゆるプロジェクトに適用。リサーチノート、ライティング草稿、データ分析、agent デザイン、ソフトウェア開発——マルチセッションの継続性が必要なところで効きます。"},{q:"セッションは遅くなりますか？",a:"開始時に少し読み込みが増えます。再説明や修正のやり直しより通常は短いです。"},{q:"既存のREADMEや内部規則は残せますか？",a:"残せます。既存のものに合わせてマージします。上書きはしません。"},{q:"AI は Notion / Obsidian / Google Drive のノートをどう扱う？",a:"external KB wizard を一度実行（「set up external KB」と入力）。ツール種別、エントリ URL、アクセスモード（ミラーまたはブリッジ）、AI access バリアント（MCP 経由の直接アクセスまたはユーザー paste のみ）を記録します。設定完了後 AI はセッション起動時にポインタを読み、PERSIST 時にローカル変更を外部へ同期し、セッション終了時に同期状態を検証します。ツール固有のベストプラクティスは docs/EXTERNAL_KB_COOKBOOK.md に参考として記載（mandate ではなく reference）。"}],
 cta_title:"AIセッションをゼロから<br>始めるのをやめる準備はできましたか？",cta_desc:"オープンソース、無料、30秒インストール。すべてのAIセッションを前回の続きから始めましょう。",cta_btn:"GitHubで始める",cta_readme:"📖 完全なREADMEを読む →",
 footer_by:"デザイン：",footer_tagline:"Vibe Codingの時代、誰もが自分だけのAI世界をつくれる。",
 arch_label:"アーキテクチャ",arch_title:"全体の流れを一目で",arch_desc:"あらゆるAIツールから引き継ぎファイルへ、自動セーフガードも一緒に。",

@@ -268,7 +268,7 @@ check "R29-05" "docs/releases/${LATEST_STABLE_TAG}.md release notes file exists"
 check_gte "R29-06" "docs/qa/LATEST.md references latest stable tag" "1" "$(grep -c "$LATEST_STABLE_TAG" docs/qa/LATEST.md)"
 # index.html stat counter must reflect total checks (main + legacy);
 # value is hardcoded against current run total so any harness check change forces an update.
-EXPECTED_INDEX_COUNTER="396"
+EXPECTED_INDEX_COUNTER="400"
 check "R29-07" "docs/site/index.html stat counter = $EXPECTED_INDEX_COUNTER" "1" "$(grep -c "data-target=\"$EXPECTED_INDEX_COUNTER\"" docs/site/index.html)"
 check "R29-08" "DOC_SYNC_CHECKLIST has Release published row" "1" "$(grep -c 'Release published' dev/DOC_SYNC_CHECKLIST.md)"
 # README must mention latest stable tag in ≥2 places (version-table row + Snapshot/text body) — guards against
@@ -482,6 +482,12 @@ check_gte "R33-84" "§4 closeout external KB sync check at closeout (AGENTS)" "1
 check_gte "R33-85" "§4 closeout external KB sync check at closeout (INIT mirror)" "1" "$(grep -c 'external KB sync check at closeout' $I)"
 check_gte "R33-86" "§3.6 external KB wizard variant (AGENTS)" "1" "$(grep -c 'external KB wizard variant' $A)"
 check_gte "R33-87" "§3.6 external KB wizard variant (INIT mirror)" "1" "$(grep -c 'external KB wizard variant' $I)"
+
+# Landing page Task 1 / Task 2 / Task 3 reflection (2026-05-12)
+check_gte "R33-88" "Landing page f13 External Knowledge Surface card present" "1" "$(grep -c 'data-i18n="f13_t"' docs/site/index.html)"
+check_gte "R33-89" "Landing page f14 Language Register Discipline card present" "1" "$(grep -c 'data-i18n="f14_t"' docs/site/index.html)"
+check "R33-90" "Landing page f13_t in 4 locales" "4" "$(grep -c 'f13_t:' docs/site/index.html)"
+check "R33-91" "Landing page sc4_t in 4 locales" "4" "$(grep -c 'sc4_t:' docs/site/index.html)"
 
 # ============================================================
 # Category 15: Legacy Harness Health (staleness detection)
