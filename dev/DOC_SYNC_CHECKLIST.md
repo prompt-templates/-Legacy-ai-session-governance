@@ -13,7 +13,7 @@
 
 | Change Category | Required Doc Updates | Verification Method |
 |---|---|---|
-| Governance rule change (AGENTS.md) | INIT.md FILE 1 mirror; README if behavior is user-facing; landing page / user-facing artefact audit if such artefacts exist (per §3 PERSIST conditional sub-rule — feature lists, scenarios, FAQs, quick start sections, safeguards, pain-point sections, comparison sections — concrete list adapts per project) | grep parity check |
+| Governance rule change (AGENTS.md) | INIT.md FILE 1 mirror; README if behavior is user-facing; landing page / user-facing artefact audit if such artefacts exist (per §3 PERSIST conditional sub-rule — feature lists, scenarios, FAQs, quick start sections, safeguards, pain-point sections, comparison sections — concrete list adapts per project); if rule is closeout-relevant (§4 stray-file scan / §4 compactness budget / §4 closeout output skeleton / §4a archive / §3 PERSIST DOC_SYNC) the closeout response must include `### Stray-file Disposition` + `### Compactness Budget Check` + `### Same-Session Rule Audit` mandatory visible output blocks per §4 | grep parity check |
 | Tech stack / build / dependency change | CODEBASE_CONTEXT.md Stack or Build section | manual review |
 | External API / service change | CODEBASE_CONTEXT.md External Services block | block format check |
 | New governance file added to install | §5a backup list in AGENTS.md; INIT.md ROOT SAFETY CHECK backup list; INIT.md FILE 1 §5a | grep check |

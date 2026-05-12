@@ -388,6 +388,32 @@ Each closeout records at minimum: Date (UTC); Session ID; Completed items; Pendi
    - Output `### DOC_SYNC Matrix Scan — SKIP (no file edits in this session)`
 4. If any condition above is false: run the full closeout flow
 
+**Closeout stray-file disposition (mandatory visible output):** Output a `### Stray-file Disposition` block in the closeout response listing every stray surfaced by the §4 closeout stray-file scan and its disposition. Zero strays → `### Stray-file Disposition — N/A (0 strays detected)`. Format:
+```
+### Stray-file Disposition
+| Stray path | Disposition | Rationale |
+|---|---|---|
+| <path> | (a) integrate / (b) delete / (c) keep with rationale | <reason> |
+```
+**Open Priority recording does NOT count as stray disposition** — each stray must receive exactly one of (a)/(b)/(c) within this closeout; deferring to next session via Open Priorities is not a valid disposition. Named anti-pattern: *Stray-as-Open-Priority* — disguising disposition deferral as future-priority tracking. Absence of this block in the closeout response = stray-file scan was skipped; user may immediately request the agent to complete it.
+
+**Closeout compactness budget check (mandatory visible output):** Output a `### Compactness Budget Check` block verifying the `dev/SESSION_HANDOFF.md` budget caps defined above. Format:
+```
+### Compactness Budget Check
+- Current Baseline: <X>/6 lines — ✓ within / ⚠ over
+- Open Priorities: <X>/5 items — ✓ within / ⚠ over
+- Known Risks: <X>/7 items — ✓ within / ⚠ over
+- Remediation (if any ⚠): <action taken this closeout>
+```
+Absence of this block in the closeout response = budget check was skipped; user may immediately request the agent to complete it.
+
+**Same-session rule self-audit (mandatory):** If this session added or modified any closeout-relevant mandatory rule (§4 stray-file scan / §4 compactness budget / §4 closeout output skeleton / §4a archive trigger / §3 PERSIST DOC_SYNC Matrix Scan), the closeout response must output a `### Same-Session Rule Audit` block demonstrating the new rule was followed in this same closeout. Format:
+```
+### Same-Session Rule Audit
+- <rule landed this session>: ✓ applied in this closeout via <evidence>
+```
+When no closeout-relevant rule landed this session: `### Same-Session Rule Audit — N/A (no closeout-relevant rule changed this session)`. Named anti-pattern: *Author-then-Violate* — authoring a closeout-relevant rule and silently failing to apply it in the same session's closeout (per §8b rule 1 + rule 6 promoted to permanent governance). Absence of this block in the closeout response = same-session rule audit was skipped; user may immediately request the agent to complete it.
+
 Supplementary rules:
 1. Update session record even if no code changes (research / analysis / discussion / decisions count). After closeout, response lists files updated + what changed; includes copy-paste-ready "Next Session Handoff Prompt" generated from actual project state (no hardcoded sentences).
 2. The "Next Session Handoff Prompt" must include at minimum:

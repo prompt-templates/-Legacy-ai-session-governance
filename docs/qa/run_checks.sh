@@ -38,8 +38,8 @@ I="INIT.md"
 # ============================================================
 # Category 1: Fence Counts & File Structure
 # ============================================================
-check "S01" "Fence count AGENTS.md = 16" "16" "$(grep -c '^```' $A)"
-check "S02" "Fence count INIT.md = 30" "30" "$(grep -c '^```' $I)"
+check "S01" "Fence count AGENTS.md = 22" "22" "$(grep -c '^```' $A)"
+check "S02" "Fence count INIT.md = 36" "36" "$(grep -c '^```' $I)"
 check "S03" "Section count AGENTS.md = 30" "30" "$(grep -c '^## ' $A)"
 check "S04" "AGENTS.md fences even" "0" "$(( $(grep -c '^```' $A) % 2 ))"
 check "S05" "INIT.md fences even" "0" "$(( $(grep -c '^```' $I) % 2 ))"
@@ -170,8 +170,8 @@ check "114" "does not substitute AGENTS.md" "2" "$(grep -c 'does not substitute'
 check "115" "does not substitute INIT.md" "2" "$(grep -c 'does not substitute' $I)"
 check "116" "DOC_SYNC Matrix Scan mandatory AGENTS" "1" "$(grep -c 'DOC_SYNC Matrix Scan.*mandatory' $A)"
 check "117" "DOC_SYNC Matrix Scan mandatory INIT" "1" "$(grep -c 'DOC_SYNC Matrix Scan.*mandatory' $I)"
-check "118" "scan was skipped AGENTS" "1" "$(grep -c 'scan was skipped' $A)"
-check "119" "scan was skipped INIT" "1" "$(grep -c 'scan was skipped' $I)"
+check_gte "118" "scan was skipped AGENTS" "1" "$(grep -c 'scan was skipped' $A)"
+check_gte "119" "scan was skipped INIT" "1" "$(grep -c 'scan was skipped' $I)"
 check "120" "no file changes AGENTS" "1" "$(grep -c 'no file changes this task' $A)"
 check "121" "no file changes INIT" "1" "$(grep -c 'no file changes this task' $I)"
 check "124" "Post-startup first action AGENTS" "1" "$(grep -c 'Post-startup first action' $A)"
@@ -268,7 +268,7 @@ check "R29-05" "docs/releases/${LATEST_STABLE_TAG}.md release notes file exists"
 check_gte "R29-06" "docs/qa/LATEST.md references latest stable tag" "1" "$(grep -c "$LATEST_STABLE_TAG" docs/qa/LATEST.md)"
 # index.html stat counter must reflect total checks (main + legacy);
 # value is hardcoded against current run total so any harness check change forces an update.
-EXPECTED_INDEX_COUNTER="411"
+EXPECTED_INDEX_COUNTER="417"
 check "R29-07" "docs/site/index.html stat counter = $EXPECTED_INDEX_COUNTER" "1" "$(grep -c "data-target=\"$EXPECTED_INDEX_COUNTER\"" docs/site/index.html)"
 check "R29-08" "DOC_SYNC_CHECKLIST has Release published row" "1" "$(grep -c 'Release published' dev/DOC_SYNC_CHECKLIST.md)"
 # README must mention latest stable tag in ≥2 places (version-table row + Snapshot/text body) — guards against
@@ -505,6 +505,14 @@ check_gte "R33-99" "§3 PERSIST user-facing artefact audit conditional sub-rule 
 check_gte "R33-100" "§3 PERSIST user-facing artefact audit conditional sub-rule (INIT mirror)" "1" "$(grep -c 'user-facing artefacts' $I)"
 check_gte "R33-101" "§4 closeout intent-detection multilingual trigger (AGENTS + INIT mirror)" "2" "$(grep -c 'detect by intent, not strict keyword match' $A $I | awk -F: '{s+=$2} END {print s}')"
 check_gte "R33-102" "§4 closeout triple-backtick markdown code block explicit (AGENTS + INIT mirror)" "2" "$(grep -c 'triple-backtick markdown code block' $A $I | awk -F: '{s+=$2} END {print s}')"
+
+# Root-fix Option 4: closeout author-then-violate root cause treatment (2026-05-12)
+check_gte "R33-103" "§4 Stray-file Disposition mandatory visible output (AGENTS)" "1" "$(grep -c 'Closeout stray-file disposition (mandatory visible output)' $A)"
+check_gte "R33-104" "§4 Stray-file Disposition mandatory visible output (INIT mirror)" "1" "$(grep -c 'Closeout stray-file disposition (mandatory visible output)' $I)"
+check_gte "R33-105" "§4 Compactness Budget Check mandatory visible output (AGENTS)" "1" "$(grep -c 'Closeout compactness budget check (mandatory visible output)' $A)"
+check_gte "R33-106" "§4 Compactness Budget Check mandatory visible output (INIT mirror)" "1" "$(grep -c 'Closeout compactness budget check (mandatory visible output)' $I)"
+check_gte "R33-107" "§4 Same-session rule self-audit + Author-then-Violate anti-pattern (AGENTS)" "1" "$(grep -c 'Same-session rule self-audit (mandatory)' $A)"
+check_gte "R33-108" "§4 Same-session rule self-audit + Author-then-Violate anti-pattern (INIT mirror)" "1" "$(grep -c 'Same-session rule self-audit (mandatory)' $I)"
 
 # ============================================================
 # Category 15: Legacy Harness Health (staleness detection)
