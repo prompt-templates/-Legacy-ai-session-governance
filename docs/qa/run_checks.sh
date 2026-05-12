@@ -268,7 +268,7 @@ check "R29-05" "docs/releases/${LATEST_STABLE_TAG}.md release notes file exists"
 check_gte "R29-06" "docs/qa/LATEST.md references latest stable tag" "1" "$(grep -c "$LATEST_STABLE_TAG" docs/qa/LATEST.md)"
 # index.html stat counter must reflect total checks (main + legacy);
 # value is hardcoded against current run total so any harness check change forces an update.
-EXPECTED_INDEX_COUNTER="400"
+EXPECTED_INDEX_COUNTER="402"
 check "R29-07" "docs/site/index.html stat counter = $EXPECTED_INDEX_COUNTER" "1" "$(grep -c "data-target=\"$EXPECTED_INDEX_COUNTER\"" docs/site/index.html)"
 check "R29-08" "DOC_SYNC_CHECKLIST has Release published row" "1" "$(grep -c 'Release published' dev/DOC_SYNC_CHECKLIST.md)"
 # README must mention latest stable tag in ≥2 places (version-table row + Snapshot/text body) — guards against
@@ -403,7 +403,7 @@ check_gte "R33-21" "§3.6 Source-grounding discipline present (AGENTS)" "1" "$(g
 check_gte "R33-22" "§3.6 Source-grounding discipline present (INIT mirror)" "1" "$(grep -c 'Source-grounding discipline' $I)"
 check_gte "R33-23" "Labeled assumption tag [from your input] present (playbook)" "1" "$(grep -c '\[from your input\]' dev/wizards/playbook.md)"
 check_gte "R33-24" "Labeled assumption tag [my inference] present (playbook)" "1" "$(grep -c '\[my inference\]' dev/wizards/playbook.md)"
-check "R33-25" "INIT.md install POST-INSTALL: Setup Completion + Optional Wizard section present" "1" "$(grep -c 'POST-INSTALL: Setup Completion + Optional Wizard' $I)"
+check_gte "R33-25" "INIT.md install POST-INSTALL: Setup Completion + Optional Wizard section present" "1" "$(grep -c 'POST-INSTALL: Setup Completion + Optional Wizard' $I)"
 check_gte "R33-26" "INIT.md install Message 1 'Governance framework ready' present" "1" "$(grep -c 'Governance framework ready' $I)"
 check_gte "R33-27" "INIT.md install two-message split discipline ('two separate messages') present" "1" "$(grep -c 'two separate messages' $I)"
 
@@ -488,6 +488,10 @@ check_gte "R33-88" "Landing page f13 External Knowledge Surface card present" "1
 check_gte "R33-89" "Landing page f14 Language Register Discipline card present" "1" "$(grep -c 'data-i18n="f14_t"' docs/site/index.html)"
 check "R33-90" "Landing page f13_t in 4 locales" "4" "$(grep -c 'f13_t:' docs/site/index.html)"
 check "R33-91" "Landing page sc4_t in 4 locales" "4" "$(grep -c 'sc4_t:' docs/site/index.html)"
+
+# INIT.md install flow transition discipline (2026-05-12 dry-run fix)
+check_gte "R33-92" "INIT.md install flow continuity grand statement" "1" "$(grep -c 'Install flow is a continuous pipeline' INIT.md)"
+check_gte "R33-93" "INIT.md Message 1 to Message 2 back-to-back transition" "1" "$(grep -c 'back-to-back without waiting for user reply' INIT.md)"
 
 # ============================================================
 # Category 15: Legacy Harness Health (staleness detection)

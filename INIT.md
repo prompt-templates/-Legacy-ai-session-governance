@@ -3,8 +3,19 @@ You are an AI coding agent. Execute this setup in the current project directory.
 Create each file below exactly as shown. If a file already exists, follow the rule for that file. Create the `dev/` directory if it does not exist.
 Do not create, modify, merge, prepend, or overwrite any file until the Root Safety Check below is completed and explicitly confirmed by the user.
 
+INSTALL FLOW CONTINUITY (MANDATORY — READ BEFORE STARTING)
+**Install flow is a continuous pipeline.** Once it begins, AI traverses the full pipeline in this order without arbitrary pauses:
+
+1. Root Safety Check (§5a 10-step preflight, including two confirmation gates and backup snapshot)
+2. FILE 1 deploy → FILE 2 deploy → ... → final FILE deploy (no user input between FILE blocks)
+3. POST-INSTALL: Profile Selection (skip if `dev/PROFILE.md` exists)
+4. POST-INSTALL: Setup Completion + Optional Wizard (Message 1 → Message 2 → optional spec wizard → Message 3 → optional external KB wizard)
+5. Quick Start reference card
+
+**Pause only when user input is explicitly required:** Root Safety confirmation gates (`INSTALL_ROOT_OK` / `INSTALL_WRITE_OK`), profile letter choice (A-F), wizard A/B/C choice, wizard content responses. **Do not pause between FILE blocks. Do not pause after creating `dev/PROFILE.md`. Do not pause between Message 1 and Message 2. Do not pause after a wizard completes to ask whether to continue — continue automatically to the next pipeline step.**
+
 ROOT SAFETY CHECK (MANDATORY BEFORE ANY FILE WRITE)
-Execute the preflight defined in `§5a) Root Scope Guard for Bootstrap / Multi-File Setup` inside FILE 1 below before creating or modifying any file. All 10 steps, both confirmation gates (`INSTALL_ROOT_OK`, `INSTALL_WRITE_OK`), and the backup-snapshot requirement apply exactly as written in §5a. §5a is the single source of truth for bootstrap root safety — do not re-implement, paraphrase, or vary from it.
+Execute the preflight defined in `§5a) Root Scope Guard for Bootstrap / Multi-File Setup` inside FILE 1 below before creating or modifying any file. All 10 steps, both confirmation gates (`INSTALL_ROOT_OK`, `INSTALL_WRITE_OK`), and the backup-snapshot requirement apply exactly as written in §5a. §5a is the single source of truth for bootstrap root safety — do not re-implement, paraphrase, or vary from it. After §5a completes (final step or confirmation passed), immediately proceed to FILE 1 deploy without additional user input.
 
 ---
 
@@ -1072,6 +1083,8 @@ wizard_disabled_runbook: false
 wizard_disabled_external_kb: false
 ```
 
+**After writing `dev/PROFILE.md`, do not pause and do not wait for additional user input — immediately continue to the POST-INSTALL: Setup Completion + Optional Wizard section below. The install flow is not complete until Quick Start has been sent.**
+
 POST-INSTALL: Setup Completion + Optional Wizard
 
 After `dev/PROFILE.md` is created, AI MUST present setup completion and the optional wizard prompt as **two separate messages** — never combined into one. The first message declares governance setup complete and is final for the install flow; the second message offers an optional next step. Combining them confuses the user about whether the wizard reply is required to finish setup.
@@ -1082,7 +1095,9 @@ After `dev/PROFILE.md` is created, AI MUST present setup completion and the opti
 >
 > Profile saved to `dev/PROFILE.md`. AGENTS.md / dev/SESSION_HANDOFF.md / dev/SESSION_LOG.md are in place. AI will follow the AGENTS.md §1 startup sequence at every new session."
 
-**Message 2 — offer optional wizard** (skip Message 2 entirely if `dev/PROJECT_MASTER_SPEC.md` already exists; proceed directly to Quick Start):
+**Send Message 1 and Message 2 back-to-back without waiting for user reply between them — Message 1 is informational only, no user response required. Immediately after sending Message 1, send Message 2 (or skip Message 2 per its skip condition below, and proceed to Message 3).**
+
+**Message 2 — offer optional spec wizard** (skip Message 2 only if `dev/PROJECT_MASTER_SPEC.md` already exists; proceed to Message 3 not directly to Quick Start — Message 3 still applies independently):
 
 > "💡 **Optional next step — build a starter `dev/PROJECT_MASTER_SPEC.md`?**
 >
@@ -1094,11 +1109,11 @@ After `dev/PROFILE.md` is created, AI MUST present setup completion and the opti
 > - **B. Skip — say "build master spec" anytime to run it later**
 > - **C. Skip — this is a one-off project, no spec needed (won't ask again)**"
 
-If user picks A → run the wizard per `dev/wizards/playbook.md` (read playbook + `dev/templates/spec_template.md` for field structure; follow playbook Step 1 main-question + optional supplements frame; draft + iterate; write `dev/PROJECT_MASTER_SPEC.md` per the template).
+If user picks A → run the wizard per `dev/wizards/playbook.md` (read playbook + `dev/templates/spec_template.md` for field structure; follow playbook Step 1 main-question + optional supplements frame; draft + iterate; write `dev/PROJECT_MASTER_SPEC.md` per the template). **After the spec wizard completes (file written and user confirms), immediately proceed to Message 3 without pausing — do not wait for the user to ask what's next.**
 If user picks B → proceed to Message 3 (external KB optional setup) without running spec wizard. AGENTS.md §3 PLAN onboarding readiness check will re-offer the spec wizard at first task PLAN of the next session (because `wizard_disabled_spec` stays `false`).
 If user picks C → set `wizard_disabled_spec: true` in `dev/PROFILE.md`, then proceed to Message 3. AGENTS.md §3 PLAN will not auto-prompt for the master spec wizard in any future session. User can still trigger the wizard manually by saying "build master spec" — explicit request bypasses the flag.
 
-**Message 3 — offer optional external KB setup** (skip entirely if `dev/EXTERNAL_KB.md` already exists; otherwise present as a third separate message after Message 2 outcome):
+**Message 3 — offer optional external KB setup** (skip Message 3 only if `dev/EXTERNAL_KB.md` already exists; otherwise present after Message 2 — whether Message 2 was sent and answered with A/B/C, or Message 2 was skipped because `dev/PROJECT_MASTER_SPEC.md` already existed, Message 3 still applies independently):
 
 > "💡 **Optional next step — set up an external knowledge surface pointer (`dev/EXTERNAL_KB.md`)?**
 >
@@ -1110,7 +1125,7 @@ If user picks C → set `wizard_disabled_spec: true` in `dev/PROFILE.md`, then p
 > - **B. Skip — say "set up external KB" anytime to run it later**
 > - **C. Skip — I don't use external knowledge tools for this project (won't ask again)**"
 
-If user picks A → run the wizard per `dev/wizards/playbook.md` Variant — External KB wizard section (read playbook + `dev/templates/external_kb_template.md` for field structure; reference `docs/EXTERNAL_KB_COOKBOOK.md` for tool-specific patterns; draft + iterate; write `dev/EXTERNAL_KB.md` per the template).
+If user picks A → run the wizard per `dev/wizards/playbook.md` Variant — External KB wizard section (read playbook + `dev/templates/external_kb_template.md` for field structure; reference `docs/EXTERNAL_KB_COOKBOOK.md` for tool-specific patterns; draft + iterate; write `dev/EXTERNAL_KB.md` per the template). **After the external KB wizard completes (file written and user confirms), immediately proceed to Quick Start without pausing — do not wait for the user to ask what's next.**
 If user picks B → proceed to Quick Start without running wizard. AGENTS.md §3 PLAN onboarding readiness check will re-offer the wizard at first task PLAN when the user references an external knowledge tool (because `wizard_disabled_external_kb` stays `false`).
 If user picks C → set `wizard_disabled_external_kb: true` in `dev/PROFILE.md`, then proceed to Quick Start. AGENTS.md §3 PLAN will not auto-prompt for the external KB wizard in any future session. User can still trigger it manually by saying "set up external KB" — explicit request bypasses the flag.
 
