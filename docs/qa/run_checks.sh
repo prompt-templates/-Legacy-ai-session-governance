@@ -268,7 +268,7 @@ check "R29-05" "docs/releases/${LATEST_STABLE_TAG}.md release notes file exists"
 check_gte "R29-06" "docs/qa/LATEST.md references latest stable tag" "1" "$(grep -c "$LATEST_STABLE_TAG" docs/qa/LATEST.md)"
 # index.html stat counter must reflect total checks (main + legacy);
 # value is hardcoded against current run total so any harness check change forces an update.
-EXPECTED_INDEX_COUNTER="366"
+EXPECTED_INDEX_COUNTER="374"
 check "R29-07" "docs/site/index.html stat counter = $EXPECTED_INDEX_COUNTER" "1" "$(grep -c "data-target=\"$EXPECTED_INDEX_COUNTER\"" docs/site/index.html)"
 check "R29-08" "DOC_SYNC_CHECKLIST has Release published row" "1" "$(grep -c 'Release published' dev/DOC_SYNC_CHECKLIST.md)"
 # README must mention latest stable tag in ≥2 places (version-table row + Snapshot/text body) — guards against
@@ -446,6 +446,16 @@ check_gte "R33-54" "§3b File proliferation discipline (AGENTS)" "1" "$(grep -c 
 check_gte "R33-55" "§3b File proliferation discipline (INIT mirror)" "1" "$(grep -c 'File proliferation discipline' $I)"
 check_gte "R33-56" "§4 Closeout stray-file scan (AGENTS)" "1" "$(grep -c 'Closeout stray-file scan' $A)"
 check_gte "R33-57" "§4 Closeout stray-file scan (INIT mirror)" "1" "$(grep -c 'Closeout stray-file scan' $I)"
+
+# Task 1 — Language layer separation framework (2026-05-12, second Task 1 batch)
+check_gte "R33-58" "§11a rule 5 non-developer default (AGENTS)" "1" "$(grep -c 'Assume the user may not be a software developer' $A)"
+check_gte "R33-59" "§11a rule 5 non-developer default (INIT mirror)" "1" "$(grep -c 'Assume the user may not be a software developer' $I)"
+check_gte "R33-60" "§11a rule 5 Language layer separation framework (AGENTS)" "1" "$(grep -c 'Language layer separation' $A)"
+check_gte "R33-61" "§11a rule 5 Language layer separation framework (INIT mirror)" "1" "$(grep -c 'Language layer separation' $I)"
+check_gte "R33-62" "§11a rule 5 Layer 3 governance schema carve-out (AGENTS)" "1" "$(grep -c 'Governance internal schema files' $A)"
+check_gte "R33-63" "§11a rule 5 Layer 3 governance schema carve-out (INIT mirror)" "1" "$(grep -c 'Governance internal schema files' $I)"
+check_gte "R33-64" "§11a rule 5 multilingual universality declaration (AGENTS)" "1" "$(grep -c 'applies to any natural language' $A)"
+check_gte "R33-65" "§11a rule 5 multilingual universality declaration (INIT mirror)" "1" "$(grep -c 'applies to any natural language' $I)"
 
 # ============================================================
 # Category 15: Legacy Harness Health (staleness detection)

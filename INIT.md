@@ -661,7 +661,11 @@ Each AI reply must follow these rules. Rules 1-5 govern reply principles; rules 
 
 4. **Fact verification.** Verifiable facts (dates, numbers, regulations, names, quotes, citations) must be confirmed before stating. Unconfirmed = `UNVERIFIED`; this is distinct from `NA` which is reserved for genuinely missing values or non-applicable cases. Do not present unconfirmed content as confirmed fact.
 
-5. **Plain-language surface text.** Communicate in everyday language matching the user's chat language. When the user writes in a non-English language (e.g. Chinese), do not weave English mid-sentence; English appears only for proper nouns, established terms with no clean translation, or as parenthetical traceability tags.
+5. **Plain-language surface text — Language layer separation framework.** Assume the user may not be a software developer. The conversation, choice prompts, summaries, explanations, conclusions, and next-step suggestions must use everyday language matching the user's chat language. This framework applies to any natural language — examples shown in English / Chinese / Japanese are illustrative; the rule applies equally to ko / es / fr / ar / hi / vi / th / etc.
+
+   The framework separates three layers; the three layers must not cross-contaminate.
+
+   **Layer 1 — User-facing surface (chat reply scope only).** Conversation, choice prompts, summaries, explanations, conclusions, next-step suggestions — everything the user reads in the chat reply. Commit messages, code comments, and governance file internal text are Layer 2 governance internal channels, not Layer 1; technical framing remains permitted there. When the user writes in a non-English language (e.g. Chinese / Japanese / Korean), do not weave English mid-sentence; English appears only for proper nouns, established terms with no clean translation, or as parenthetical traceability tags. Governance rule references in Layer 1 use everyday phrasing; section / rule numbers go inside parentheses as small traceability tags at most.
 
    **Banned-as-sentence-subject patterns** (do not carry the sentence's meaning; only allowed as parenthetical / end-of-line citation tags):
    - § codes (`§0b` / `§3.6` / `§11a`)
@@ -680,14 +684,25 @@ Each AI reply must follow these rules. Rules 1-5 govern reply principles; rules 
    2. Move internal IDs to parenthetical / end-of-line traceability tags, or delete if unnecessary
    3. A sentence that requires the reader to look up an SSOT / spec / governance section to understand is below standard — translate to plain language first
 
-   - Counter-example: 「§5l rule overstated empirical confirmed」/「BLUEPRINT_REGEN_MATRIX 4/5」/「mc_drift_check N/A」/「我哋要 update 個 architecture 確保 backward-compatibility」/「§3c canonical execution locus codified, R33-42..47 mirror parity verified」/「commit `54a9956` ff-merged origin/main」
-   - Positive example: 「Cowork plugin 上載嗰條 anti-UUID 規則寫到太絕對」/「dashboard 4 個 page 之中 4 個已 regen」/「Mission Control 對齊檢查機制因為 page 結構改咗,舊套對唔到位」/「v3.x.y 嘅 hotfix 喺 commit `abc1234` 上咗 main」/「我加咗一條規則:AI 用 local CLI 之前先查文檔」/「最後改動已經推上去」
+   - Counter-example: 「§5l rule overstated empirical confirmed」/「BLUEPRINT_REGEN_MATRIX 4/5」/「mc_drift_check N/A」/「我哋要 update 個 architecture 確保 backward-compatibility」/「§3c canonical execution locus codified, R33-42..47 mirror parity verified」/「commit `54a9956` ff-merged origin/main」/(ja) 「§3c の canonical execution locus が codify された」
+   - Positive example: 「Cowork plugin 上載嗰條 anti-UUID 規則寫到太絕對」/「dashboard 4 個 page 之中 4 個已 regen」/「Mission Control 對齊檢查機制因為 page 結構改咗,舊套對唔到位」/「v3.x.y 嘅 hotfix 喺 commit `abc1234` 上咗 main」/「我加咗一條規則:AI 用 local CLI 之前先查文檔」/「最後改動已經推上去」/(ja) 「最後の修正は main に push 済み」
 
    **Violation handling.** When the user pushes back that a reply violates this rule (banned patterns acting as subjects):
    1. Acknowledge violation directly — no excuses
    2. Rewrite the offending sentences in plain language and re-ship
    3. Record the violation in `dev/SESSION_LOG.md` for the session
    4. Repeated violations within the same session → escalate by reporting to the user and proposing governance hardening (e.g. additional harness grep check, stricter self-check trigger)
+
+   **Layer 2 — Governance internal naming (anchor reference).** Governance internal files — `AGENTS.md`, `INIT.md`, files under `dev/` (session state, codebase context, doc-sync checklist, wizards, templates), files under `docs/qa/`, and internal-only docs under `docs/releases/` — may use English anchors (`§` codes / `FPFR` / `SSOT` / `Patch-only` / similar) for internal cross-reference. The readers of these files are AI agents and project maintainers, not end users. When a Layer 2 anchor surfaces in Layer 1 (chat reply), translate it to plain language; the original anchor may stay at most as a parenthetical small note.
+
+   **Layer 2 / Layer 3 link.** Governance internal files are simultaneously the home of Layer 2 anchor reference and Layer 3 English schema headings; the two carve-outs are jointly justified by cross-AI agent interoperability and harness automation grep-pattern necessity.
+
+   **Layer 3 — Structural headings & labels.** Two carve-outs plus one exemption:
+   - User-facing surface files (README and its localized variants, landing page, public-facing release notes, public docs) follow the user's locale — headings, labels, table column names translated to the local language.
+   - **Governance internal schema files** (`dev/SESSION_HANDOFF.md` / `dev/SESSION_LOG.md` / `dev/CODEBASE_CONTEXT.md` / `dev/PROJECT_MASTER_SPEC.md` and similar AI-agent-handoff schema) must keep English schema headings — required by cross-AI agent interoperability and harness automation grep patterns.
+   - Harness anchor / automation grep pattern technical tokens are exempt from layer rules entirely (technical anchors, not natural-language text).
+
+   **Cross-reference**: for user-supplied schema verbatim alignment see Rule 9; for register consistency within a single reply see Rule 10.
 
 ### Reply format
 
