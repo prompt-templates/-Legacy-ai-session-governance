@@ -39,7 +39,7 @@ I="INIT.md"
 # Category 1: Fence Counts & File Structure
 # ============================================================
 check "S01" "Fence count AGENTS.md = 24" "24" "$(grep -c '^```' $A)"
-check "S02" "Fence count INIT.md = 38" "38" "$(grep -c '^```' $I)"
+check "S02" "Fence count INIT.md = 36" "36" "$(grep -c '^```' $I)"
 check "S03" "Section count AGENTS.md = 30" "30" "$(grep -c '^## ' $A)"
 check "S04" "AGENTS.md fences even" "0" "$(( $(grep -c '^```' $A) % 2 ))"
 check "S05" "INIT.md fences even" "0" "$(( $(grep -c '^```' $I) % 2 ))"
@@ -514,16 +514,17 @@ check_gte "R33-106" "§4 Compactness Budget Check mandatory visible output (INIT
 check_gte "R33-107" "§4 Same-session rule self-audit + Author-then-Violate anti-pattern (AGENTS)" "1" "$(grep -c 'Same-session rule self-audit (mandatory)' $A)"
 check_gte "R33-108" "§4 Same-session rule self-audit + Author-then-Violate anti-pattern (INIT mirror)" "1" "$(grep -c 'Same-session rule self-audit (mandatory)' $I)"
 
-# Worktree governance / lifecycle rules — root-cause treatment for cross-tree violation 4-occurrence pattern (§8b rule 1 + rule 6 promotion)
-check_gte "R34-01" "§3 CHANGE Pre-Edit/Write tree-discipline self-check (AGENTS)" "1" "$(grep -c 'Pre-Edit/Write tree-discipline self-check (mandatory)' $A)"
-check_gte "R34-02" "§3 CHANGE Pre-Edit/Write tree-discipline self-check (INIT mirror)" "1" "$(grep -c 'Pre-Edit/Write tree-discipline self-check (mandatory)' $I)"
-check_gte "R34-03" "§5 Hard rule 10 Worktree-aware Edit/Write absolute path discipline (AGENTS)" "1" "$(grep -c 'Worktree-aware Edit/Write absolute path discipline' $A)"
-check_gte "R34-04" "§5 Hard rule 10 Worktree-aware Edit/Write absolute path discipline (INIT mirror)" "1" "$(grep -c 'Worktree-aware Edit/Write absolute path discipline' $I)"
-check_gte "R34-05" "§1 startup Active worktree audit (AGENTS)" "1" "$(grep -c 'Active worktree audit at startup (mandatory)' $A)"
-check_gte "R34-06" "§1 startup Active worktree audit (INIT mirror)" "1" "$(grep -c 'Active worktree audit at startup (mandatory)' $I)"
-check_gte "R34-07" "§4 closeout Active Worktree Audit (AGENTS)" "1" "$(grep -c 'Active Worktree Audit at closeout (mandatory visible output)' $A)"
-check_gte "R34-08" "§4 closeout Active Worktree Audit (INIT mirror)" "1" "$(grep -c 'Active Worktree Audit at closeout (mandatory visible output)' $I)"
-check_gte "R34-09" "§4 Worktree-Backlog-Accumulation anti-pattern named (AGENTS + INIT mirror)" "2" "$(grep -c 'Worktree-Backlog-Accumulation' $A $I | awk -F: '{s+=$2} END {print s}')"
+# Worktree governance / lifecycle rules (AGENTS single-side; deliberately not mirrored to INIT per §0a Hard rule 1-3 layer separation — dev-environment discipline for projects using Claude Code isolation: worktree mode, not product feature for downstream installs)
+check_gte "R34-01" "§3 CHANGE Pre-Edit/Write tree-discipline self-check (AGENTS dev-only)" "1" "$(grep -c 'Pre-Edit/Write tree-discipline self-check (mandatory; dev-only)' $A)"
+check_gte "R34-02" "§5 Hard rule 10 Worktree-aware Edit/Write absolute path discipline (AGENTS dev-only)" "1" "$(grep -c 'Worktree-aware Edit/Write absolute path discipline (dev-only)' $A)"
+check_gte "R34-03" "§1 startup Active worktree audit (AGENTS dev-only)" "1" "$(grep -c 'Active worktree audit at startup (mandatory; dev-only)' $A)"
+check_gte "R34-04" "§4 closeout Active Worktree Audit (AGENTS dev-only)" "1" "$(grep -c 'Active Worktree Audit at closeout (mandatory visible output; dev-only)' $A)"
+check_gte "R34-05" "§4 Worktree-Backlog-Accumulation anti-pattern named (AGENTS)" "1" "$(grep -c 'Worktree-Backlog-Accumulation' $A)"
+# Layer separation 反 mirror — verify INIT does NOT carry these dev-only anchors (prevents future Part 12-style layer pollution regression)
+check "R34-06" "§3 CHANGE Pre-Edit/Write tree-discipline NOT in INIT (layer separation)" "0" "$(grep -c 'Pre-Edit/Write tree-discipline self-check' $I)"
+check "R34-07" "§5 Worktree-aware Edit/Write NOT in INIT (layer separation)" "0" "$(grep -c 'Worktree-aware Edit/Write absolute path discipline' $I)"
+check "R34-08" "§1 Active worktree audit NOT in INIT (layer separation)" "0" "$(grep -c 'Active worktree audit at startup' $I)"
+check "R34-09" "§4 Active Worktree Audit NOT in INIT (layer separation)" "0" "$(grep -c 'Active Worktree Audit at closeout' $I)"
 
 # ============================================================
 # Category 15: Legacy Harness Health (staleness detection)
