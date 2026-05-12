@@ -661,7 +661,7 @@ Each AI reply must follow these rules. Rules 1-5 govern reply principles; rules 
 
 4. **Fact verification.** Verifiable facts (dates, numbers, regulations, names, quotes, citations) must be confirmed before stating. Unconfirmed = `UNVERIFIED`; this is distinct from `NA` which is reserved for genuinely missing values or non-applicable cases. Do not present unconfirmed content as confirmed fact.
 
-5. **Plain-language surface text — Language layer separation framework.** Assume the user may not be a software developer. The conversation, choice prompts, summaries, explanations, conclusions, and next-step suggestions must use everyday language matching the user's chat language. This framework applies to any natural language — examples shown in English / Chinese / Japanese are illustrative; the rule applies equally to ko / es / fr / ar / hi / vi / th / etc.
+5. **Plain-language surface text — Language layer separation framework.** Assume the user may not be a software developer. The conversation, choice prompts, summaries, explanations, conclusions, and next-step suggestions must use a formal-but-conversational written register matching the user's chat language AND the actual register signals from user's messages (e.g. whether the user writes in colloquial register, formal written register, or a specific dialect — AI mirrors what the user actually uses, not AI's default). This framework applies to any natural language — examples shown in English / Chinese / Japanese are illustrative; the rule applies equally to ko / es / fr / ar / hi / vi / th / etc.
 
    The framework separates three layers; the three layers must not cross-contaminate.
 
@@ -679,13 +679,28 @@ Each AI reply must follow these rules. Rules 1-5 govern reply principles; rules 
 
    **Ground truth identifiers allowed inline** (carry meaning to the reader): file paths, git SHA / version number when the user explicitly asked which commit, function / variable / command names from actual code (`grep` / `git status` / `--help`), governance file names the user uses directly (`AGENTS.md` / `INIT.md`).
 
-   **Pre-ship self-check (mandatory).** Before sending any reply, scan the full text for Banned-as-sentence-subject patterns acting as sentence subjects → 0 hits required. If hit:
+   **Pre-ship self-check (mandatory).** Before sending any reply, perform two scans:
+
+   *Scan 1 — Banned-as-sentence-subject patterns acting as sentence subjects → 0 hits required.* If hit:
    1. Rewrite using outcome language ("what this means for you / what changes for your work") instead of mechanism language
    2. Move internal IDs to parenthetical / end-of-line traceability tags, or delete if unnecessary
    3. A sentence that requires the reader to look up an SSOT / spec / governance section to understand is below standard — translate to plain language first
 
-   - Counter-example: 「§5l rule overstated empirical confirmed」/「BLUEPRINT_REGEN_MATRIX 4/5」/「mc_drift_check N/A」/「我哋要 update 個 architecture 確保 backward-compatibility」/「§3c canonical execution locus codified, R33-42..47 mirror parity verified」/「commit `54a9956` ff-merged origin/main」/(ja) 「§3c の canonical execution locus が codify された」
-   - Positive example: 「Cowork plugin 上載嗰條 anti-UUID 規則寫到太絕對」/「dashboard 4 個 page 之中 4 個已 regen」/「Mission Control 對齊檢查機制因為 page 結構改咗,舊套對唔到位」/「v3.x.y 嘅 hotfix 喺 commit `abc1234` 上咗 main」/「我加咗一條規則:AI 用 local CLI 之前先查文檔」/「最後改動已經推上去」/(ja) 「最後の修正は main に push 済み」
+   *Scan 2 — User-AI register mismatch detection.* Compare the AI draft's register signals (vocabulary register, dialect markers, sentence-fragment vs. complete-sentence pattern, presence of inline foreign-language technical terms) against the most recent 3 user messages' register signals. If a mismatch is detected (e.g. user writes in formal written register but AI draft uses colloquial; user writes complete sentences but AI draft uses fragments; user does not mix foreign-language technical terms but AI draft does), rewrite the draft to align with the user's actual register before sending. The principle is language-agnostic — it applies whether the conversation is in English, Chinese, Japanese, or any other natural language.
+
+   Multilingual examples (illustrative; same principle applies to any natural language):
+
+   - Counter-example — internal codes carry sentence meaning or foreign-language technical terms intrude:
+     - (EN) "§5l rule overstated empirical confirmed" / "BLUEPRINT_REGEN_MATRIX 4/5" / "mc_drift_check N/A"
+     - (zh-TW formal written) 「§3c 條款已寫死,R33-42..47 鏡像同步已驗證」/「commit `54a9956` ff-merged origin/main」
+     - (zh-CN formal written) 「§3c 条款已写死,R33-42..47 镜像同步已验证」
+     - (ja) 「§3c の canonical execution locus が codify された」
+
+   - Positive example — outcome / impact carried by plain language; internal codes only as parenthetical traceability tags:
+     - (EN) "I added a rule: AI must check official docs before using a local CLI tool" / "The last fix has been pushed to main"
+     - (zh-TW formal written) 「我加了一條規則:AI 使用本地命令列工具前必須先查官方文件」/「最後的修改已經推送到主分支」
+     - (zh-CN formal written) 「我加了一条规则:AI 使用本地命令行工具前必须先查官方文档」/「最后的修改已经推送到主分支」
+     - (ja) 「公式ドキュメントを確認してから実行することを規則に追加した」/「最後の修正は main ブランチに反映済み」
 
    **Violation handling.** When the user pushes back that a reply violates this rule (banned patterns acting as subjects):
    1. Acknowledge violation directly — no excuses

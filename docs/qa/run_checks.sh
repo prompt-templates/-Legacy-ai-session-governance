@@ -268,7 +268,7 @@ check "R29-05" "docs/releases/${LATEST_STABLE_TAG}.md release notes file exists"
 check_gte "R29-06" "docs/qa/LATEST.md references latest stable tag" "1" "$(grep -c "$LATEST_STABLE_TAG" docs/qa/LATEST.md)"
 # index.html stat counter must reflect total checks (main + legacy);
 # value is hardcoded against current run total so any harness check change forces an update.
-EXPECTED_INDEX_COUNTER="374"
+EXPECTED_INDEX_COUNTER="378"
 check "R29-07" "docs/site/index.html stat counter = $EXPECTED_INDEX_COUNTER" "1" "$(grep -c "data-target=\"$EXPECTED_INDEX_COUNTER\"" docs/site/index.html)"
 check "R29-08" "DOC_SYNC_CHECKLIST has Release published row" "1" "$(grep -c 'Release published' dev/DOC_SYNC_CHECKLIST.md)"
 # README must mention latest stable tag in ≥2 places (version-table row + Snapshot/text body) — guards against
@@ -456,6 +456,12 @@ check_gte "R33-62" "§11a rule 5 Layer 3 governance schema carve-out (AGENTS)" "
 check_gte "R33-63" "§11a rule 5 Layer 3 governance schema carve-out (INIT mirror)" "1" "$(grep -c 'Governance internal schema files' $I)"
 check_gte "R33-64" "§11a rule 5 multilingual universality declaration (AGENTS)" "1" "$(grep -c 'applies to any natural language' $A)"
 check_gte "R33-65" "§11a rule 5 multilingual universality declaration (INIT mirror)" "1" "$(grep -c 'applies to any natural language' $I)"
+
+# Task 1 second batch — Register signals disambiguation + User-AI register mismatch detection (2026-05-12)
+check_gte "R33-66" "§11a rule 5 register signals clause (AGENTS)" "1" "$(grep -c 'register signals from user' $A)"
+check_gte "R33-67" "§11a rule 5 register signals clause (INIT mirror)" "1" "$(grep -c 'register signals from user' $I)"
+check_gte "R33-68" "§11a rule 5 User-AI register mismatch detection (AGENTS)" "1" "$(grep -c 'User-AI register mismatch detection' $A)"
+check_gte "R33-69" "§11a rule 5 User-AI register mismatch detection (INIT mirror)" "1" "$(grep -c 'User-AI register mismatch detection' $I)"
 
 # ============================================================
 # Category 15: Legacy Harness Health (staleness detection)
