@@ -38,8 +38,8 @@ I="INIT.md"
 # ============================================================
 # Category 1: Fence Counts & File Structure
 # ============================================================
-check "S01" "Fence count AGENTS.md = 22" "22" "$(grep -c '^```' $A)"
-check "S02" "Fence count INIT.md = 36" "36" "$(grep -c '^```' $I)"
+check "S01" "Fence count AGENTS.md = 24" "24" "$(grep -c '^```' $A)"
+check "S02" "Fence count INIT.md = 38" "38" "$(grep -c '^```' $I)"
 check "S03" "Section count AGENTS.md = 30" "30" "$(grep -c '^## ' $A)"
 check "S04" "AGENTS.md fences even" "0" "$(( $(grep -c '^```' $A) % 2 ))"
 check "S05" "INIT.md fences even" "0" "$(( $(grep -c '^```' $I) % 2 ))"
@@ -268,7 +268,7 @@ check "R29-05" "docs/releases/${LATEST_STABLE_TAG}.md release notes file exists"
 check_gte "R29-06" "docs/qa/LATEST.md references latest stable tag" "1" "$(grep -c "$LATEST_STABLE_TAG" docs/qa/LATEST.md)"
 # index.html stat counter must reflect total checks (main + legacy);
 # value is hardcoded against current run total so any harness check change forces an update.
-EXPECTED_INDEX_COUNTER="417"
+EXPECTED_INDEX_COUNTER="426"
 check "R29-07" "docs/site/index.html stat counter = $EXPECTED_INDEX_COUNTER" "1" "$(grep -c "data-target=\"$EXPECTED_INDEX_COUNTER\"" docs/site/index.html)"
 check "R29-08" "DOC_SYNC_CHECKLIST has Release published row" "1" "$(grep -c 'Release published' dev/DOC_SYNC_CHECKLIST.md)"
 # README must mention latest stable tag in ≥2 places (version-table row + Snapshot/text body) — guards against
@@ -513,6 +513,17 @@ check_gte "R33-105" "§4 Compactness Budget Check mandatory visible output (AGEN
 check_gte "R33-106" "§4 Compactness Budget Check mandatory visible output (INIT mirror)" "1" "$(grep -c 'Closeout compactness budget check (mandatory visible output)' $I)"
 check_gte "R33-107" "§4 Same-session rule self-audit + Author-then-Violate anti-pattern (AGENTS)" "1" "$(grep -c 'Same-session rule self-audit (mandatory)' $A)"
 check_gte "R33-108" "§4 Same-session rule self-audit + Author-then-Violate anti-pattern (INIT mirror)" "1" "$(grep -c 'Same-session rule self-audit (mandatory)' $I)"
+
+# Worktree governance / lifecycle rules — root-cause treatment for cross-tree violation 4-occurrence pattern (§8b rule 1 + rule 6 promotion)
+check_gte "R34-01" "§3 CHANGE Pre-Edit/Write tree-discipline self-check (AGENTS)" "1" "$(grep -c 'Pre-Edit/Write tree-discipline self-check (mandatory)' $A)"
+check_gte "R34-02" "§3 CHANGE Pre-Edit/Write tree-discipline self-check (INIT mirror)" "1" "$(grep -c 'Pre-Edit/Write tree-discipline self-check (mandatory)' $I)"
+check_gte "R34-03" "§5 Hard rule 10 Worktree-aware Edit/Write absolute path discipline (AGENTS)" "1" "$(grep -c 'Worktree-aware Edit/Write absolute path discipline' $A)"
+check_gte "R34-04" "§5 Hard rule 10 Worktree-aware Edit/Write absolute path discipline (INIT mirror)" "1" "$(grep -c 'Worktree-aware Edit/Write absolute path discipline' $I)"
+check_gte "R34-05" "§1 startup Active worktree audit (AGENTS)" "1" "$(grep -c 'Active worktree audit at startup (mandatory)' $A)"
+check_gte "R34-06" "§1 startup Active worktree audit (INIT mirror)" "1" "$(grep -c 'Active worktree audit at startup (mandatory)' $I)"
+check_gte "R34-07" "§4 closeout Active Worktree Audit (AGENTS)" "1" "$(grep -c 'Active Worktree Audit at closeout (mandatory visible output)' $A)"
+check_gte "R34-08" "§4 closeout Active Worktree Audit (INIT mirror)" "1" "$(grep -c 'Active Worktree Audit at closeout (mandatory visible output)' $I)"
+check_gte "R34-09" "§4 Worktree-Backlog-Accumulation anti-pattern named (AGENTS + INIT mirror)" "2" "$(grep -c 'Worktree-Backlog-Accumulation' $A $I | awk -F: '{s+=$2} END {print s}')"
 
 # ============================================================
 # Category 15: Legacy Harness Health (staleness detection)

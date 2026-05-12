@@ -5,8 +5,8 @@ Scope: **2026-05-12 Root-fix Option 4 — Author-then-Violate root cause treatme
 
 ## Summary
 
-- Total checks: 417 — 328 main (`docs/qa/run_checks.sh`) + 89 legacy auto-chain (`docs/qa/legacy_checks.sh`)
-- Pass: 417
+- Total checks: 426 — 337 main (`docs/qa/run_checks.sh`) + 89 legacy auto-chain (`docs/qa/legacy_checks.sh`)
+- Pass: 426
 - Fail: 0
 - Per-entry size scan: SESSION_LOG entries ≤110 cap maintained
 - New R32 series (34 checks): §0c priority order parity (R32-01..04), §3.5 FPFR section + 5 headings + closing line + §3 PLAN cross-ref (R32-05..12), §3b anti-hardcoding (R32-13..14), §5 rule 9 preserve-original (R32-15..16), §11a rules 6-10 — reply skeleton / emoji vocab / output-only / SSOT verbatim / register (R32-17..26), §11b Patch-only (R32-27..28), §11c Deep-Fix (R32-29..30), §13 Tooling Format Rules with 3 subsections (R32-31..34)

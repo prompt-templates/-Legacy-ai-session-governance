@@ -14,6 +14,7 @@
 - QA tooling: `docs/qa/run_checks.sh` (main+legacy regression harness), `docs/qa/legacy_checks.sh` (auto-chained legacy harness), `docs/qa/session_log_maintenance.py` (optional dev utility — self-test + manual archive simulation only; NOT the runtime archive gate), `docs/qa/*.md` (baselines + reports)
 - Design/implementation plans: `docs/plans/*.md`
 - Reference assets: `ref_doc/*.png` and related media
+- AI session worktrees: `.claude/worktrees/<branch-name>/` — per-session isolated git worktree dirs created by Claude Code `isolation: worktree` mode (one per active session); cleanup governed by AGENTS.md §4 Active Worktree Audit at closeout; disk-leftover (Windows file-lock residue) retry handled by §1 startup worktree audit + §4 closeout disk-leftover sub-section
 
 ## Key Entry Points
 - Primary SSOT for governance behavior: `AGENTS.md`

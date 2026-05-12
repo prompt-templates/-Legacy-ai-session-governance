@@ -125,6 +125,8 @@ Selection rule: randomize across styles uniformly. Cross-session memory of the p
 - `Seed context: paste + SESSION_LOG fallback (consistent)` — both present and content matches.
 - `Seed context: paste + SESSION_LOG fallback (diverged — used paste)` — both present but content differs; AI uses paste as primary per §2 rule 5; surface the divergence in the first reply for user confirmation.
 
+**Active worktree audit at startup (mandatory):** Immediately after the Seed Context line, print exactly one line stating active worktree count in the form `Active worktrees: <N> (excluding current)`. Resolve N via `git worktree list` row count minus 2 (main repo + current session entry). If N ≥ 2, append ` ⚠️ defer cleanup at closeout` to the line; if N = 0 or 1, the line stands alone. Disk-leftover sub-check: compare `ls .claude/worktrees/` against `git worktree list` and count disk dirs not tracked by git (typically Windows file-lock residue from prior `git worktree remove`); if any exist, append ` · disk-leftover: <M>` to the same line. Purpose: surface worktree accumulation at session start so it does not grow silently across sessions. The §1 line is awareness only — actual cleanup runs at §4 Active Worktree Audit. If the project is not inside a git repository or `.claude/worktrees/` does not exist, print `Active worktrees: N/A (not a worktree-using project)` and skip the disk-leftover sub-check.
+
 Boot Visual Cue - Style A
 ```text
               ✧
@@ -219,6 +221,7 @@ Every task must follow this workflow and clearly label each phase in the respons
    - Minimal necessary modifications, no unrelated refactoring
    - If execution diverges from PLAN (unexpected state, wrong assumptions, scope change needed): stop, report the divergence to the user, and wait for direction rather than attempting self-correction
    - After receiving user direction following a deviation stop: if scope or objective changed, restart from PLAN; if only approach changed, restart from CHANGE with updated context; in either case, state which phase is being re-entered and why
+   - **Pre-Edit/Write tree-discipline self-check (mandatory)**: before every `Edit` / `Write` / file-system-mutation tool call, verify the target absolute path matches the working tree declared at PLAN. Resolve current tree via `git rev-parse --show-toplevel` and check the target path prefix against it. If mismatch: stop, report the divergence, and ask user direction — do not auto-redirect, do not silently fall through to whichever tree the tool defaulted to. Inside a git worktree, this catches the recurring "declared worktree target but Edit absolute path defaulted to main repo" pattern that the §11a rule 5 Pre-ship self-check (reply-layer only) does not cover. The check applies equally to all `Edit` / `Write` / `MultiEdit` invocations, not just multi-file batches. Exception: files under skip-worktree convention (`dev/SESSION_HANDOFF.md` / `dev/SESSION_LOG.md` per §1 Worktree fallback) must be edited at the main repo path even from inside a worktree, because the worktree filters them out — for these files the "mismatch" is by design and the check passes when the target is the main repo root.
 
 4. QC
    - Run tests / checks, list results (test/check commands and key outcomes)
@@ -447,6 +450,18 @@ Absence of this block in the closeout response = budget check was skipped; user 
 ```
 When no closeout-relevant rule landed this session: `### Same-Session Rule Audit — N/A (no closeout-relevant rule changed this session)`. Named anti-pattern: *Author-then-Violate* — authoring a closeout-relevant rule and silently failing to apply it in the same session's closeout (per §8b rule 1 + rule 6 promoted to permanent governance). Absence of this block in the closeout response = same-session rule audit was skipped; user may immediately request the agent to complete it.
 
+**Active Worktree Audit at closeout (mandatory visible output):** Before the smart-skip gate evaluation, scan active worktrees via `git worktree list` and disk dirs via `ls .claude/worktrees/`. For each non-current worktree, determine merge status via `git log <branch> --not main --oneline` (empty result = fully merged into main; non-empty = unmerged commits exist) and pick exactly one disposition: (a) remove now — execute `git worktree remove <path> --force` + `git branch -D <branch>` from main repo path; (b) keep with rationale — record reason in current SESSION_LOG entry; (c) unmerged commits — surface the commits list to the user and ask before proceeding. Output a `### Active Worktree Audit` block in the closeout response. Disk-leftover sub-section: list disk dirs in `.claude/worktrees/` not matched by `git worktree list`, attempt `rm -rf` for each, record outcome (cleaned / locked — retry next session). Self-removing the current session's own worktree is not possible while cwd resides inside it; record the cleanup command in the closeout response for the next session to execute from main repo path. Format:
+```
+### Active Worktree Audit
+| Worktree | Branch | Merge status | Disposition |
+|---|---|---|---|
+| <path> | <branch> | fully merged / <N> unmerged commits | (a) removed / (b) kept — <reason> / (c) unmerged — awaiting user |
+
+Disk leftover (dirs in `.claude/worktrees/` not in `git worktree list`):
+- <dir> — cleaned / locked — retry next session
+```
+Zero non-current worktrees + zero disk leftover → `### Active Worktree Audit — N/A (only current session worktree present)`. **Open Priority recording does NOT count as worktree disposition** — each non-current worktree must receive exactly one of (a)/(b)/(c) within this closeout; deferring to next session via Open Priorities is not a valid disposition (mirrors *Stray-as-Open-Priority* anti-pattern). Named anti-pattern: *Worktree-Backlog-Accumulation* — letting closed-work worktrees and branches accumulate session after session without disposition, masking single-session cleanup failures as "future cleanup task". Absence of this block in the closeout response = active worktree audit was skipped; user may immediately request the agent to complete it.
+
 Supplementary rules:
 1. Update session record even if no code changes (research / analysis / discussion / decisions count). After closeout, response lists files updated + what changed; includes copy-paste-ready "Next Session Handoff Prompt" generated from actual project state (no hardcoded sentences).
 2. The "Next Session Handoff Prompt" must include at minimum:
@@ -591,6 +606,7 @@ The AI is prohibited from executing high-risk destructive operations, including 
 7. Strictly prohibited from invoking external shells (e.g. `cmd /c`, `sh -c`, `bash -c`, `powershell -Command`) to perform file system modification operations (create, delete, overwrite, move, rename); must use the current environment's native commands with direct arguments
 8. When handling file paths, strictly prohibited from using raw string interpolation to construct paths; must use native path handling APIs / objects (e.g. `Join-Path`, `path.join`, `Path.Combine`, etc.)
 9. Default to preserving original user-supplied files (images, documents, data) — output renamed copies rather than overwriting in-place. Do not silently mutate source artifacts. Exception: explicit user instruction to overwrite the original.
+10. **Worktree-aware Edit/Write absolute path discipline**: when the current session executes inside a git worktree (detect via `git rev-parse --git-common-dir` returning a path different from `.git`, or current pwd matching `.claude/worktrees/`), all `Edit` / `Write` / file-system-mutation tool calls must use absolute paths that begin with the current working tree root — not the main repo root. Exception: files under skip-worktree convention (`dev/SESSION_HANDOFF.md` / `dev/SESSION_LOG.md` per §1 Worktree fallback) must be edited at the main repo path because the worktree filters them out. Plan-time declaration of working-tree target without execution-time path alignment is a known recurring failure pattern (cross-tree path violation); the §11a rule 5 Pre-ship self-check is reply-layer only and does not cover tool path layer. The §3 CHANGE Pre-Edit/Write tree-discipline self-check is the enforcement step for this rule.
 
 ## 5a) Root Scope Guard for Bootstrap / Multi-File Setup (Mandatory)
 Before any bootstrap / setup task creating or modifying multiple governance files (e.g. executing `INIT.md`), complete this preflight; do not write any file before explicit user confirmation:
