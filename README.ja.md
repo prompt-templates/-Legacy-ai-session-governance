@@ -1,3 +1,5 @@
+# 🔴 [完全新規独立版 : https://github.com/Adamchanadam/agent-handoff-kit] ； 新旧バージョン間のデータ変換には互換性がありません。新版の AGENT Handoff Kit のご利用をお勧めします。
+
 [English](README.md) | [繁體中文](README.zh-TW.md) | [简体中文](README.zh-CN.md) | 日本語
 
 # :rocket: AIツール間の引き継ぎを支える開発ガバナンステンプレート
