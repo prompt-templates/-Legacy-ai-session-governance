@@ -1,3 +1,5 @@
+** [全新獨立版本 : https://github.com/Adamchanadam/agent-handoff-kit] ； 新舊版本不兼容數據轉換，建議使用 AGENT Handoff Kit 新版**
+
 [English](README.md) | 繁體中文 | [简体中文](README.zh-CN.md) | [日本語](README.ja.md)
 
 # :rocket: 支援跨 AI 工具交接的開發治理範本
