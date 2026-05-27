@@ -1,4 +1,4 @@
-** [New Standalone Version: https://github.com/Adamchanadam/agent-handoff-kit] ; Data conversion between the old and new versions is incompatible. It is recommended to use the new version of AGENT Handoff Kit. **
+# 🔴  [New Standalone Version: https://github.com/Adamchanadam/agent-handoff-kit] ; Data conversion between the old and new versions is incompatible. It is recommended to use the new version of AGENT Handoff Kit. 
 
 English | [繁體中文](README.zh-TW.md) | [简体中文](README.zh-CN.md) | [日本語](README.ja.md)
 
