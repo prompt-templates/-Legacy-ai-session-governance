@@ -1,3 +1,5 @@
+** [Separate NEW version can be found : https://github.com/Adamchanadam/agent-handoff-kit] , no data migration , separate project**
+
 English | [繁體中文](README.zh-TW.md) | [简体中文](README.zh-CN.md) | [日本語](README.ja.md)
 
 # :rocket: Governance Template for Cross-AI Handoff Workflows
